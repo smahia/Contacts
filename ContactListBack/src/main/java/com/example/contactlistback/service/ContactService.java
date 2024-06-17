@@ -1,19 +1,25 @@
 package com.example.contactlistback.service;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.entity.Contact;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+/**
+ * Class that implements the header methods to handle CRUD operations to manage contact data.
+ */
 @Service
 public interface ContactService {
 
-    ResponseEntity<?> getAllContacts();
+    List<Contact> getAllContacts();
 
-    ResponseEntity<?> getContact(int id);
+    Contact getContact(int id);
 
-    ResponseEntity<?> addContact(ContactDto newContactDto);
+    Contact addContact(ContactDto newContactDto);
 
-    ResponseEntity<?> editContact(ContactDto contactDtoToEdit, int id);
+    Contact editContact(ContactDto contactDtoToEdit, int id);
 
     ResponseEntity<?> deleteContact(int id);
 

@@ -1,59 +1,87 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.service.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/contacts")
+@Tag(name = "ContactController", description = "Contact management API")
 public class ContactController {
 
     private final ContactService contactService;
+    private final ContactDtoConverter contactDtoConverter;
 
     /**
-     * Method for getting all contacts
+     * Convert the ArrayList of Contact returned by the service into an ArrayList of ContactDto
+     * @return ResponseEntity<List<ContactDto>>
      */
-    @Operation(summary = "Get contacts")
+    @Operation(summary = "Get contacts", responses = {
+            @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ContactDto.class)))
+    })
     @GetMapping(path = "/")
-    public ResponseEntity<?> getAllContacts() {
+    public ResponseEntity<List<ContactDto>> getAllContacts() {
 
-        return contactService.getAllContacts();
+        return new ResponseEntity<>(contactDtoConverter.convertToDtoList(contactService.getAllContacts()
+        ), HttpStatus.OK);
     }
 
     /**
      * Method for getting a contact
+     * Convert the Contact returned by the service into a ContactDto
+     * @param id The id of the contact to find
+     * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Get contact by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Contact.class))),
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getContact(@PathVariable int id) {
+    public ResponseEntity<ContactDto> getContact(@PathVariable int id) {
 
-        return contactService.getContact(id);
+        ContactDto contactDto = contactDtoConverter.convertToDto(contactService.getContact(id));
+
+        return new ResponseEntity<>(contactDto, HttpStatus.OK);
     }
 
     /**
      * Method for adding a new contact
+     * Convert the Contact returned by the service to a ContactDto
+     * @param newContactDto The object containing the data entered by the user
+     * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Add a new contact")
     @PostMapping(path = "/add")
-    public ResponseEntity<?> addContact(@RequestBody ContactDto newContactDto) {
+    public ResponseEntity<ContactDto> addContact(@RequestBody ContactDto newContactDto) {
 
-        return contactService.addContact(newContactDto);
+        Contact contact = contactService.addContact(newContactDto);
+
+        return new ResponseEntity<>(contactDtoConverter.convertToDto(contact), HttpStatus.CREATED);
+
     }
 
     /**
      * Method for editing an existing contact
+     * @param contactDtoToEdit The ContactDto object containing the data entered by the user
+     * @param id The id of the Contact to edit
+     * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Edit a contact by ID", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
@@ -61,9 +89,10 @@ public class ContactController {
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<?> editContact(@RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
+    public ResponseEntity<ContactDto> editContact(@RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
 
-        return contactService.editContact(contactDtoToEdit, id);
+        return new ResponseEntity<>(contactDtoConverter.convertToDto(contactService.editContact(contactDtoToEdit, id)),
+                HttpStatus.OK);
 
     }
 
@@ -72,7 +101,7 @@ public class ContactController {
      */
     @Operation(summary = "Delete a contact by ID", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Contact.class))),
+                    schema = @Schema(implementation = ContactDto.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @DeleteMapping(path = "/delete/{id}")

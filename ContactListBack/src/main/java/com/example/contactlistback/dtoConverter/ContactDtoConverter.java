@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class that implements the logic so that a ContactDto can be mapped to a Contact object and vice versa, manually or
+ * using Model Mapper.
+ */
 @Component
 @RequiredArgsConstructor
 public class ContactDtoConverter {
@@ -19,7 +23,9 @@ public class ContactDtoConverter {
     private final TelephoneDtoConverter telephoneDtoConverter;
 
     /**
-     * Converts a list of Contact to a list of ContactsDto
+     * Converts a list of Contact to a list of ContactsDto using Model Mapper
+     * @param contacts An ArrayList with the contacts to be converted to an ArrayList of ContactDto
+     * @return List<Contact>
      */
     public List<ContactDto> convertToDtoList(List<Contact> contacts) {
 
@@ -30,7 +36,9 @@ public class ContactDtoConverter {
     }
 
     /**
-     * Converts a Contact to a Contact Dto
+     * Converts a Contact to a Contact Dto using Model Mapper
+     * @param contact The contact to be converted to DTO
+     * @return ContactDto
      */
     public ContactDto convertToDto(Contact contact) {
 
@@ -39,7 +47,9 @@ public class ContactDtoConverter {
     }
 
     /**
-     * Converts a ContactDto to a Contact
+     * Converts a ContactDto to a Contact using Model Mapper
+     * @param contactDto The ContactDto to be converted to Contact
+     * @return Contact
      */
     public Contact fromDtoToEntity(ContactDto contactDto) {
 
@@ -48,6 +58,8 @@ public class ContactDtoConverter {
 
     /**
      * Converts a ContactDto to a new Contact without the modelMapper
+     * @param newContactDto The new ContactDto to be converted to a Contact manually
+     * @return Contact
      */
     public Contact dtoToNewEntity(ContactDto newContactDto) {
 
@@ -71,6 +83,9 @@ public class ContactDtoConverter {
 
     /**
      * Converts an edited ContactDto to an existent Contact without the modelMapper
+     * @param contactDtoToEdit The ContactDto which contains the input data from the user
+     * @param existentContact The current contact that exists in the database
+     * @return Contact
      */
     public Contact dtoToEntity(ContactDto contactDtoToEdit, Contact existentContact) {
 
@@ -81,7 +96,8 @@ public class ContactDtoConverter {
 
         existentContact.getTelephoneList().clear();
 
-        List<Telephone> telephonesListUpdated = contactDtoToEdit.getTelephoneList().stream().map(dto -> telephoneDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
+        List<Telephone> telephonesListUpdated = contactDtoToEdit.getTelephoneList().stream()
+                .map(dto -> telephoneDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
         existentContact.getTelephoneList().addAll(telephonesListUpdated);
 

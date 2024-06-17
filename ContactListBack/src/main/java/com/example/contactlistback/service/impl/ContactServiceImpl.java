@@ -3,6 +3,7 @@ package com.example.contactlistback.service.impl;
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
+import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.ContactRepository;
 import com.example.contactlistback.service.ContactService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class that implements ContactService
+ */
 @Service
 @AllArgsConstructor
 public class ContactServiceImpl implements ContactService {
@@ -19,62 +23,61 @@ public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
     private final ContactDtoConverter contactDtoConverter;
 
+    /**
+     * Method that returns all the contacts in the database
+     * @return List<Contact>
+     */
     @Override
-    public ResponseEntity<?> getAllContacts() {
+    public List<Contact> getAllContacts() {
 
-        List<Contact> contacts = contactRepository.findAll();
-
-        if (contacts.isEmpty()) {
-            return ResponseEntity.notFound().build();
-
-        } else {
-            List<ContactDto> contactDtoList = contactDtoConverter.convertToDtoList(contacts);
-
-            return ResponseEntity.ok(contactDtoList);
-        }
+        return contactRepository.findAll();
     }
 
+    /**
+     * Method that implements the logic for getting a contact by id
+     * @param id The id of the Contact to find
+     * @return Contact
+     * @throws NotFoundException If the Contact cannot be found in the database
+     */
     @Override
-    public ResponseEntity<?> getContact(int id) {
+    public Contact getContact(int id) {
 
-        Contact contact = contactRepository.findById(id).orElse(null);
-
-        if (contact == null) {
-            return ResponseEntity.notFound().build();
-
-        } else {
-            ContactDto contactDto = contactDtoConverter.convertToDto(contact);
-            return ResponseEntity.ok(contactDto);
-        }
+        return contactRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Contact not found", id));
     }
 
+    /**
+     * Method that implements the logic for adding a new contact to the databasee
+     * @param newContactDto The object containing the data entered by the user
+     * @return Contact
+     */
     @Override
-    public ResponseEntity<?> addContact(ContactDto newContactDto) {
+    public Contact addContact(ContactDto newContactDto) {
 
         Contact contact = contactDtoConverter.dtoToNewEntity(newContactDto);
 
         contactRepository.save(contact);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(contactDtoConverter.convertToDto(contact));
+        return contact;
     }
 
+    /**
+     *
+     * @param contactDtoToEdit The object containing the data entered by the user
+     * @param id The ID of the Contact being edited
+     * @return Contact with its data already edited
+     */
     @Override
-    public ResponseEntity<?> editContact(ContactDto contactDtoToEdit, int id) {
+    public Contact editContact(ContactDto contactDtoToEdit, int id) {
 
-        Contact existentContact = contactRepository.findById(id).orElse(null);
+        Contact existentContact = contactRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Contact not found", id));
 
-        if (existentContact != null) {
+        Contact editedContact = contactDtoConverter.dtoToEntity(contactDtoToEdit, existentContact);
 
-            Contact editedContact = contactDtoConverter.dtoToEntity(contactDtoToEdit, existentContact);
+        contactRepository.save(editedContact);
 
-            contactRepository.save(editedContact);
-
-            return ResponseEntity.status(HttpStatus.OK).body(contactDtoConverter.convertToDto(editedContact));
-
-        } else {
-
-            return ResponseEntity.notFound().build();
-        }
+        return editedContact;
 
     }
 

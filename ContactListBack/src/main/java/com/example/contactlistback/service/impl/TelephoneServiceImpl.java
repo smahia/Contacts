@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * Class that implements TelephoneService
+ */
 @Service
 @AllArgsConstructor
 public class TelephoneServiceImpl implements TelephoneService {
