@@ -1,7 +1,7 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.TelephoneDto;
-import com.example.contactlistback.entity.Contact;
+import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Telephone;
 import com.example.contactlistback.service.TelephoneService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,21 +21,34 @@ import org.springframework.web.bind.annotation.*;
 public class TelephoneController {
 
     private final TelephoneService telephoneService;
+    private final TelephoneDtoConverter telephoneDtoConverter;
 
     /**
      * Method for adding a new Telephone
+     * @param telephoneDto The TelephoneDTO object containing the data entered by the user
+     * @param idContact The id of the Contact to which the phone will be assigned
+     * @return ResponseEntity<TelephoneDto>
      */
-    @Operation(summary = "Add a new telephone")
+    @Operation(summary = "Add a new Telephone", responses = {
+            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = TelephoneDto.class)))
+    })
     @PostMapping(path = "{idContact}/add")
-    public ResponseEntity<?> addTelephone(@PathVariable int idContact,
+    public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
             @RequestBody TelephoneDto telephoneDto) {
 
-        return telephoneService.addTelephone(telephoneDto, idContact);
+        Telephone telephone = telephoneService.addTelephone(telephoneDto, idContact);
+
+        return new ResponseEntity<>(telephoneDtoConverter.convertToDto(telephone), HttpStatus.CREATED);
     }
 
 
     /**
-     * Method for editing a Telephone
+     * Method for editing a Telephone by id
+     * @param telephoneDtoToEdit The TelephoneDto existent in the database and that contains the new data
+     * entered by the user
+     * @param idTelephone The id of the Telephone to be edited
+     * @return ResponseEntity<TelephoneDto>
      */
     @Operation(summary = "Edit a telephone by ID", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
@@ -42,24 +56,31 @@ public class TelephoneController {
             @ApiResponse(responseCode = "404", description = "Telephone not found")
     })
     @PutMapping(path = "edit/{idTelephone}")
-    public ResponseEntity<?> editTelephone(@RequestBody TelephoneDto telephoneDtoToEdit,
+    public ResponseEntity<TelephoneDto> editTelephone(@RequestBody TelephoneDto telephoneDtoToEdit,
                                            @PathVariable int idTelephone) {
 
-        return telephoneService.editTelephone(telephoneDtoToEdit, idTelephone);
+        Telephone telephone = telephoneService.editTelephone(telephoneDtoToEdit, idTelephone);
+
+        return new ResponseEntity<>(telephoneDtoConverter.convertToDto(telephone), HttpStatus.OK);
+
     }
 
     /**
-     * Method for deleting a Telephone
+     * Method for deleting a Telephone by id
+     * @param idTelephone The id of the telephone to be deleted
+     * @return ResponseEntity<?> No content
      */
     @Operation(summary = "Delete a telephone by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Telephone.class))),
+            @ApiResponse(responseCode = "204", description = "No content", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = TelephoneDto.class))),
             @ApiResponse(responseCode = "404", description = "Telephone not found")
     })
     @DeleteMapping(path = "delete/{idTelephone}")
     public ResponseEntity<?> deleteTelephone(@PathVariable int idTelephone) {
 
-        return telephoneService.deleteTelephone(idTelephone);
+        telephoneService.deleteTelephone(idTelephone);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

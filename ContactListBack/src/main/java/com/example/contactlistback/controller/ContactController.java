@@ -67,7 +67,10 @@ public class ContactController {
      * @param newContactDto The object containing the data entered by the user
      * @return ResponseEntity<ContactDto>
      */
-    @Operation(summary = "Add a new contact")
+    @Operation(summary = "Add a new Contact", responses = {
+            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class)))
+    })
     @PostMapping(path = "/add")
     public ResponseEntity<ContactDto> addContact(@RequestBody ContactDto newContactDto) {
 
@@ -84,8 +87,8 @@ public class ContactController {
      * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Edit a contact by ID", responses = {
-            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Contact.class))),
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @PutMapping(path = "/edit/{id}")
@@ -97,17 +100,21 @@ public class ContactController {
     }
 
     /**
-     * Method for deleting a contact
+     * Method for deleting a contact by id
+     * @param id The id of the contact to be deleted
+     * @return ResponseEntity<?> No content
      */
     @Operation(summary = "Delete a contact by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "204", description = "No content", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ContactDto.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteContact(@PathVariable int id) {
 
-        return contactService.deleteContact(id);
+        contactService.deleteContact(id);
+
+        return ResponseEntity.noContent().build();
 
     }
 }

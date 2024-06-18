@@ -1,6 +1,7 @@
 package com.example.contactlistback.service;
 
 import com.example.contactlistback.dto.TelephoneDto;
+import com.example.contactlistback.entity.Telephone;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TelephoneService {
 
-    ResponseEntity<?> addTelephone(TelephoneDto telephoneDto, int idContact);
+    Telephone addTelephone(TelephoneDto telephoneDto, int idContact);
 
-    ResponseEntity<?> editTelephone(TelephoneDto telephoneDtoToEdit, int idTelephone);
+    Telephone editTelephone(TelephoneDto telephoneDtoToEdit, int idTelephone);
 
-    ResponseEntity<?> deleteTelephone(int id);
+    void deleteTelephone(int id);
 
 }

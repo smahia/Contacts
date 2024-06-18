@@ -21,6 +21,6 @@ public interface ContactService {
 
     Contact editContact(ContactDto contactDtoToEdit, int id);
 
-    ResponseEntity<?> deleteContact(int id);
+    void deleteContact(int id);
 
 }

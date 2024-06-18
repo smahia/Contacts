@@ -62,7 +62,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     *
+     * Method that updates an existent contact by id
      * @param contactDtoToEdit The object containing the data entered by the user
      * @param id The ID of the Contact being edited
      * @return Contact with its data already edited
@@ -81,12 +81,18 @@ public class ContactServiceImpl implements ContactService {
 
     }
 
+    /**
+     * Method that deletes an user by id
+     * @param id The id of the contact to be deleted
+     */
     @Override
-    public ResponseEntity<?> deleteContact(int id) {
+    public void deleteContact(int id) {
 
-        contactRepository.deleteById(id);
-
-        return ResponseEntity.noContent().build();
-
+        contactRepository.findById(id).ifPresentOrElse(
+                contact -> contactRepository.deleteById(id),
+                () -> {
+                    throw new NotFoundException("Contact not found", id);
+                }
+        );
     }
 }
