@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,7 +74,7 @@ public class ContactController {
                     schema = @Schema(implementation = ContactDto.class)))
     })
     @PostMapping(path = "/add")
-    public ResponseEntity<ContactDto> addContact(@RequestBody ContactDto newContactDto) {
+    public ResponseEntity<ContactDto> addContact(@Valid @RequestBody ContactDto newContactDto) {
 
         Contact contact = contactService.addContact(newContactDto);
 
@@ -92,7 +94,7 @@ public class ContactController {
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<ContactDto> editContact(@RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
+    public ResponseEntity<ContactDto> editContact(@Valid @RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
 
         return new ResponseEntity<>(contactDtoConverter.convertToDto(contactService.editContact(contactDtoToEdit, id)),
                 HttpStatus.OK);

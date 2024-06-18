@@ -1,16 +1,15 @@
 package com.example.contactlistback.error;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * Error model to customise the response body of an error
- * Status and message are mandatory
+ * Error model to customise the response body of validation errors when a MethodArgumentNotValidException is thrown
  * The date is being set as the current date in the constructor, so there is no need to add it
  */
 @Setter
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class ApiError {
+public class ApiValidationError {
 
     @NonNull
     private HttpStatus status;
@@ -27,6 +26,6 @@ public class ApiError {
     private LocalDateTime date = LocalDateTime.now();
 
     @NonNull
-    private String message;
+    private List<String> errors;
 
 }

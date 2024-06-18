@@ -67,7 +67,7 @@ public class ContactDtoConverter {
         contact.setName(newContactDto.getName());
         contact.setSurname(newContactDto.getSurname());
         contact.setBirthday(newContactDto.getBirthday());
-        contact.setContactEmergency(newContactDto.isContactEmergency());
+        contact.setContactEmergency(newContactDto.getContactEmergency());
 
         List<Telephone> newTelephoneList = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public class ContactDtoConverter {
         existentContact.setName(contactDtoToEdit.getName());
         existentContact.setSurname(contactDtoToEdit.getSurname());
         existentContact.setBirthday(contactDtoToEdit.getBirthday());
-        existentContact.setContactEmergency(contactDtoToEdit.isContactEmergency());
+        existentContact.setContactEmergency(contactDtoToEdit.getContactEmergency());
 
         existentContact.getTelephoneList().clear();
 

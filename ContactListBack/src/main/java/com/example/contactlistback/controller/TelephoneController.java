@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class TelephoneController {
     })
     @PostMapping(path = "{idContact}/add")
     public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
-            @RequestBody TelephoneDto telephoneDto) {
+                                                     @Valid @RequestBody TelephoneDto telephoneDto) {
 
         Telephone telephone = telephoneService.addTelephone(telephoneDto, idContact);
 
@@ -56,7 +57,7 @@ public class TelephoneController {
             @ApiResponse(responseCode = "404", description = "Telephone not found")
     })
     @PutMapping(path = "edit/{idTelephone}")
-    public ResponseEntity<TelephoneDto> editTelephone(@RequestBody TelephoneDto telephoneDtoToEdit,
+    public ResponseEntity<TelephoneDto> editTelephone(@Valid @RequestBody TelephoneDto telephoneDtoToEdit,
                                            @PathVariable int idTelephone) {
 
         Telephone telephone = telephoneService.editTelephone(telephoneDtoToEdit, idTelephone);
