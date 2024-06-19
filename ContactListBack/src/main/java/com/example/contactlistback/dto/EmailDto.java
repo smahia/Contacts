@@ -9,16 +9,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class TelephoneDto {
+@NoArgsConstructor
+public class EmailDto {
 
     @NotNull(message = "ID is mandatory")
     private int id;
 
-    @NotBlank(message = "Telephone number is mandatory")
-    private String telephoneNumber;
+    @NotBlank(message = "Email is mandatory")
+    private String email;
 
-    @NotBlank(message = "Telephone type is mandatory")
+    @NotBlank(message = "Email type is mandatory")
     private String type;
 }

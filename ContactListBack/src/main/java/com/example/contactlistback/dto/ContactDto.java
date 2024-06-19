@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * These attributes must have the same name as the entity
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,12 +31,19 @@ public class ContactDto {
     @NotBlank(message = "Surname is mandatory")
     private String surname;
 
-    // TODO: fix date
     private Date birthday;
 
     @NotNull(message = "Contact emergency is mandatory")
     private Boolean contactEmergency;
 
+    /**
+     * The annotation valid means the system will check if the items inside the list are
+     * valid
+     */
     @NotEmpty(message = "At least one telephone must be included")
     private List<@Valid TelephoneDto> telephoneList = new ArrayList<>();
+
+    private List<@Valid EmailDto> emailList = new ArrayList<>();
+
+    private List<@Valid AddressDto> addressesList = new ArrayList<>();
 }

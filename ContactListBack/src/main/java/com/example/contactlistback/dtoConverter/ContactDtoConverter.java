@@ -1,7 +1,9 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
+import com.example.contactlistback.entity.Email;
 import com.example.contactlistback.entity.Telephone;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,6 +23,8 @@ public class ContactDtoConverter {
 
     private final ModelMapper modelMapper;
     private final TelephoneDtoConverter telephoneDtoConverter;
+    private final AddressDtoConverter addressDtoConverter;
+    private final EmailDtoConverter emailDtoConverter;
 
     /**
      * Converts a list of Contact to a list of ContactsDto using Model Mapper
@@ -69,6 +73,7 @@ public class ContactDtoConverter {
         contact.setBirthday(newContactDto.getBirthday());
         contact.setContactEmergency(newContactDto.getContactEmergency());
 
+        ///////////////////////////////
         List<Telephone> newTelephoneList = new ArrayList<>();
 
         for (int i = 0; i < newContactDto.getTelephoneList().size(); i++) {
@@ -76,6 +81,24 @@ public class ContactDtoConverter {
             newTelephoneList.add(telephone);
         }
         contact.setTelephoneList(newTelephoneList);
+
+        ///////////////////////////////
+        List<Address> newAddressList = new ArrayList<>();
+
+        for (int i = 0; i < newContactDto.getAddressesList().size(); i++) {
+            Address address = addressDtoConverter.dtoToNewEntity(newContactDto.getAddressesList().get(i), contact);
+            newAddressList.add(address);
+        }
+        contact.setAddressesList(newAddressList);
+
+        ///////////////////////////////
+        List<Email> newEmailList = new ArrayList<>();
+
+        for (int i = 0; i < newContactDto.getEmailList().size(); i++) {
+            Email email = emailDtoConverter.dtoToNewEntity(newContactDto.getEmailList().get(i), contact);
+            newEmailList.add(email);
+        }
+        contact.setEmailList(newEmailList);
 
 
         return contact;
@@ -94,12 +117,29 @@ public class ContactDtoConverter {
         existentContact.setBirthday(contactDtoToEdit.getBirthday());
         existentContact.setContactEmergency(contactDtoToEdit.getContactEmergency());
 
+        ///////////////////////////////
         existentContact.getTelephoneList().clear();
 
         List<Telephone> telephonesListUpdated = contactDtoToEdit.getTelephoneList().stream()
                 .map(dto -> telephoneDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
         existentContact.getTelephoneList().addAll(telephonesListUpdated);
+
+        ///////////////////////////////
+        existentContact.getAddressesList().clear();
+
+        List<Address> addressesListUpdated = contactDtoToEdit.getAddressesList().stream()
+                .map(dto -> addressDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
+
+        existentContact.getAddressesList().addAll(addressesListUpdated);
+
+        ///////////////////////////////
+        existentContact.getEmailList().clear();
+
+        List<Email> emailListUpdated = contactDtoToEdit.getEmailList().stream()
+                .map(dto -> emailDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
+
+        existentContact.getEmailList().addAll(emailListUpdated);
 
         return existentContact;
 

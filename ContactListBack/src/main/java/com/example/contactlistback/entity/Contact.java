@@ -29,7 +29,10 @@ public class Contact {
     @Column(nullable = false)
     private String surname;
 
-    // TODO: fix date
+    /**
+     * This annotation saves only the date in the database
+     */
+    @Temporal(TemporalType.DATE)
     private Date birthday;
 
     /**

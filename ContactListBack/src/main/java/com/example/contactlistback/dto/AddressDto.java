@@ -11,14 +11,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TelephoneDto {
+public class AddressDto {
 
     @NotNull(message = "ID is mandatory")
     private int id;
 
-    @NotBlank(message = "Telephone number is mandatory")
-    private String telephoneNumber;
+    @NotBlank(message = "Address is mandatory")
+    private String address;
 
-    @NotBlank(message = "Telephone type is mandatory")
+    @NotBlank(message = "Address type is mandatory")
     private String type;
 }

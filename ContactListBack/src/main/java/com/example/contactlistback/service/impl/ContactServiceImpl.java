@@ -7,8 +7,6 @@ import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.ContactRepository;
 import com.example.contactlistback.service.ContactService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
