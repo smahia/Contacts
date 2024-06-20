@@ -1,5 +1,6 @@
 package com.example.contactlistback.controller;
 
+import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dto.TelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Telephone;
@@ -32,9 +33,12 @@ public class TelephoneController {
      */
     @Operation(summary = "Add a new Telephone", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = TelephoneDto.class)))
+                    schema = @Schema(implementation = TelephoneDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TelephoneDto.class)))
     })
-    @PostMapping(path = "{idContact}/add")
+    @PostMapping(path = "/{idContact}/add")
     public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
                                                      @Valid @RequestBody TelephoneDto telephoneDto) {
 
@@ -53,10 +57,13 @@ public class TelephoneController {
      */
     @Operation(summary = "Edit a telephone by ID", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Telephone.class))),
-            @ApiResponse(responseCode = "404", description = "Telephone not found")
+                    schema = @Schema(implementation = TelephoneDto.class))),
+            @ApiResponse(responseCode = "404", description = "Telephone not found"),
+            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TelephoneDto.class)))
     })
-    @PutMapping(path = "edit/{idTelephone}")
+    @PutMapping(path = "/edit/{idTelephone}")
     public ResponseEntity<TelephoneDto> editTelephone(@Valid @RequestBody TelephoneDto telephoneDtoToEdit,
                                            @PathVariable int idTelephone) {
 
@@ -76,7 +83,7 @@ public class TelephoneController {
                     schema = @Schema(implementation = TelephoneDto.class))),
             @ApiResponse(responseCode = "404", description = "Telephone not found")
     })
-    @DeleteMapping(path = "delete/{idTelephone}")
+    @DeleteMapping(path = "/delete/{idTelephone}")
     public ResponseEntity<?> deleteTelephone(@PathVariable int idTelephone) {
 
         telephoneService.deleteTelephone(idTelephone);

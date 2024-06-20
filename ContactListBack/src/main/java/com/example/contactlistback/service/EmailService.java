@@ -12,7 +12,7 @@ public interface EmailService {
 
     Email addEmail(EmailDto emailDto, int idContact);
 
-    Email editEmail(EmailDto updatedEmailDto, int idContact);
+    Email editEmail(EmailDto updatedEmailDto, int idEmail);
 
     void deleteEmail(int id);
 }

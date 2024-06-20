@@ -1,15 +1,11 @@
-package com.example.contactlistback.dto;
+package com.example.contactlistback.dto.createDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class EmailDto {
-
-    @NotNull(message = "ID is mandatory")
-    private int id;
+public class CreateEmailDto {
 
     @Email(message = "Please provide a valid email address")
     @NotBlank(message = "Email is mandatory")

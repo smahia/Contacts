@@ -14,7 +14,11 @@ public class Email {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Annotation and Class have the same name, so the full import must be written here
+     */
     @NotBlank
+    //@jakarta.validation.constraints.Email
     @Column(nullable = false)
     private String email;
 

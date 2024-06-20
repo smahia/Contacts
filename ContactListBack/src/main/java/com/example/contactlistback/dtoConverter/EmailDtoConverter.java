@@ -1,6 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Email;
 import lombok.RequiredArgsConstructor;

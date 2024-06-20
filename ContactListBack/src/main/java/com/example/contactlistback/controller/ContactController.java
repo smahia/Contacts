@@ -1,6 +1,7 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.service.ContactService;
@@ -71,7 +72,10 @@ public class ContactController {
      */
     @Operation(summary = "Add a new Contact", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ContactDto.class)))
+                    schema = @Schema(implementation = ContactDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContactDto.class)))
     })
     @PostMapping(path = "/add")
     public ResponseEntity<ContactDto> addContact(@Valid @RequestBody ContactDto newContactDto) {
@@ -91,7 +95,10 @@ public class ContactController {
     @Operation(summary = "Edit a contact by ID", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found")
+            @ApiResponse(responseCode = "404", description = "Contact not found"),
+            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContactDto.class)))
     })
     @PutMapping(path = "/edit/{id}")
     public ResponseEntity<ContactDto> editContact(@Valid @RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
