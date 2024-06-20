@@ -4,6 +4,7 @@ import com.example.contactlistback.dto.TelephoneDto;
 import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Telephone;
+import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.TelephoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +38,7 @@ public class TelephoneController {
                     schema = @Schema(implementation = TelephoneDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TelephoneDto.class)))
+                            schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PostMapping(path = "/add/{idContact}/")
     public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
@@ -63,7 +64,7 @@ public class TelephoneController {
             @ApiResponse(responseCode = "404", description = "Telephone not found"),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TelephoneDto.class)))
+                            schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PutMapping(path = "/edit/{idTelephone}")
     public ResponseEntity<TelephoneDto> editTelephone(@Valid @RequestBody CreateTelephoneDto telephoneDtoToEdit,

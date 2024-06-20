@@ -2,6 +2,7 @@ package com.example.contactlistback.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
@@ -20,6 +21,9 @@ import java.util.List;
 public class ApiValidationError {
 
     @NonNull
+    @Schema(description = "Http status",
+            name = "status",
+            example = "400 - Bad Request")
     private HttpStatus status;
 
     @JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")

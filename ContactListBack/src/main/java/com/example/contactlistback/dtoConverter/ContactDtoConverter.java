@@ -116,6 +116,8 @@ public class ContactDtoConverter {
      * @param existentContact  The current contact that exists in the database
      * @return Contact
      */
+    // TODO: Update this method so it only updates personal details of the contact (not telephone and so)
+    // TODO: change the CreateDTO to UpdateDto? in ALL Update methods
     public Contact dtoToEntity(CreateContactDto contactDtoToEdit, Contact existentContact) {
 
         existentContact.setName(contactDtoToEdit.getName());

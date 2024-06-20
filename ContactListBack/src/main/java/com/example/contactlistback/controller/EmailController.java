@@ -4,6 +4,7 @@ import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.dtoConverter.EmailDtoConverter;
 import com.example.contactlistback.entity.EmailAddress;
+import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +38,7 @@ public class EmailController {
                     schema = @Schema(implementation = EmailDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmailDto.class)))
+                            schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PostMapping(path = "/add/{idContact}")
     public ResponseEntity<EmailDto> addEmail(@PathVariable int idContact,
@@ -61,7 +62,7 @@ public class EmailController {
             @ApiResponse(responseCode = "404", description = "Email not found"),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmailDto.class)))
+                            schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PutMapping(path = "/edit/{id}")
     public ResponseEntity<EmailDto> editEmail(@Valid @RequestBody CreateEmailDto emailDto, @PathVariable int id) {

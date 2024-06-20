@@ -49,7 +49,7 @@ public class AddressServiceImpl implements AddressService {
     public Address editAddress(CreateAddressDto addressDto, int AddressId) {
 
         Address address = addressRepository.findById(AddressId).orElseThrow(()
-                -> new NotFoundException("Contact not found", AddressId));
+                -> new NotFoundException("Address not found", AddressId));
 
         address.setAddress(addressDto.getAddress());
         address.setType(addressDto.getType());

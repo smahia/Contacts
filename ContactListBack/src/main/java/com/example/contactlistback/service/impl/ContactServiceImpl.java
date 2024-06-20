@@ -1,6 +1,5 @@
 package com.example.contactlistback.service.impl;
 
-import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;

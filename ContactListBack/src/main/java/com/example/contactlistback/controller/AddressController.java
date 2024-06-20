@@ -3,6 +3,7 @@ package com.example.contactlistback.controller;
 import com.example.contactlistback.dto.AddressDto;
 import com.example.contactlistback.dto.createDto.CreateAddressDto;
 import com.example.contactlistback.dtoConverter.AddressDtoConverter;
+import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,7 +37,7 @@ public class AddressController {
                     schema = @Schema(implementation = AddressDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AddressDto.class)))
+                            schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PostMapping(path = "/add/{idContact}")
     public ResponseEntity<AddressDto> addAddress(@PathVariable int idContact,
@@ -59,7 +60,7 @@ public class AddressController {
                     schema = @Schema(implementation = AddressDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AddressDto.class))),
+                            schema = @Schema(implementation = ApiValidationError.class))),
             @ApiResponse(responseCode = "404", description = "Address not found",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AddressDto.class)))
