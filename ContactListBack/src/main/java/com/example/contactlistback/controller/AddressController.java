@@ -1,7 +1,6 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.AddressDto;
-import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dtoConverter.AddressDtoConverter;
 import com.example.contactlistback.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;

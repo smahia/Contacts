@@ -2,12 +2,11 @@ package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dtoConverter.EmailDtoConverter;
-import com.example.contactlistback.entity.Email;
+import com.example.contactlistback.entity.EmailAddress;
 import com.example.contactlistback.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -39,9 +38,10 @@ public class EmailController {
             schema = @Schema(implementation = EmailDto.class)))
     })
     @PostMapping(path = "/add/{idContact}")
-    public ResponseEntity<EmailDto> addEmail(@Valid @RequestBody EmailDto emailDto, @PathVariable int idContact) {
+    public ResponseEntity<EmailDto> addEmail(@PathVariable int idContact,
+                                              @Valid @RequestBody EmailDto emailDto) {
 
-        Email email = emailService.addEmail(emailDto, idContact);
+        EmailAddress email = emailService.addEmail(emailDto, idContact);
 
         return new ResponseEntity<>(emailDtoConverter.convertToDto(email), HttpStatus.CREATED);
     }

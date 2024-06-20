@@ -3,7 +3,7 @@ package com.example.contactlistback.dtoConverter;
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
-import com.example.contactlistback.entity.Email;
+import com.example.contactlistback.entity.EmailAddress;
 import com.example.contactlistback.entity.Telephone;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -92,10 +92,10 @@ public class ContactDtoConverter {
         contact.setAddressesList(newAddressList);
 
         ///////////////////////////////
-        List<Email> newEmailList = new ArrayList<>();
+        List<EmailAddress> newEmailList = new ArrayList<>();
 
         for (int i = 0; i < newContactDto.getEmailList().size(); i++) {
-            Email email = emailDtoConverter.dtoToNewEntity(newContactDto.getEmailList().get(i), contact);
+            EmailAddress email = emailDtoConverter.dtoToNewEntity(newContactDto.getEmailList().get(i), contact);
             newEmailList.add(email);
         }
         contact.setEmailList(newEmailList);
@@ -136,7 +136,7 @@ public class ContactDtoConverter {
         ///////////////////////////////
         existentContact.getEmailList().clear();
 
-        List<Email> emailListUpdated = contactDtoToEdit.getEmailList().stream()
+        List<EmailAddress> emailListUpdated = contactDtoToEdit.getEmailList().stream()
                 .map(dto -> emailDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
         existentContact.getEmailList().addAll(emailListUpdated);

@@ -56,7 +56,7 @@ public class Contact {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Email> emailList = new ArrayList<>();
+    private List<EmailAddress> emailList = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "contact",

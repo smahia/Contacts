@@ -1,9 +1,8 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.EmailDto;
-import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.entity.Contact;
-import com.example.contactlistback.entity.Email;
+import com.example.contactlistback.entity.EmailAddress;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,7 @@ public class EmailDtoConverter {
      * @param emails An arrayList with the emails to be converted to an ArrayList of EmailsDto
      * @return List<EmailDto>
      */
-    public List<EmailDto> convertToDtoList(List<Email> emails) {
+    public List<EmailDto> convertToDtoList(List<EmailAddress> emails) {
         return emails.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -37,7 +36,7 @@ public class EmailDtoConverter {
      * @param email The Email to be converted to a EmailDto
      * @return EmailDto
      */
-    public EmailDto convertToDto(Email email) {
+    public EmailDto convertToDto(EmailAddress email) {
         return modelMapper.map(email, EmailDto.class);
     }
 
@@ -46,8 +45,8 @@ public class EmailDtoConverter {
      * @param emailDto The EmailDto to be converted to an Email
      * @return Email
      */
-    public Email fromDtoToEntity(EmailDto emailDto) {
-        return modelMapper.map(emailDto, Email.class);
+    public EmailAddress fromDtoToEntity(EmailDto emailDto) {
+        return modelMapper.map(emailDto, EmailAddress.class);
     }
 
     /**
@@ -56,9 +55,9 @@ public class EmailDtoConverter {
      * @param contact The Contact to be assigned to this Email
      * @return email
      */
-    public Email dtoToNewEntity(EmailDto emailDto, Contact contact) {
+    public EmailAddress dtoToNewEntity(EmailDto emailDto, Contact contact) {
 
-        Email email = new Email();
+        EmailAddress email = new EmailAddress();
         email.setType(emailDto.getType());
         email.setEmail(emailDto.getEmail());
         email.setContact(contact);
