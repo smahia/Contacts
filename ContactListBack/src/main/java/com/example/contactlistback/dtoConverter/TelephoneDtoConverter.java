@@ -1,6 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.TelephoneDto;
+import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Telephone;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class TelephoneDtoConverter {
 
     /**
      * Converts a list of Telephone to a list of TelephoneDto
+     *
      * @param telephones An arrayList with the telephones to be converted to an ArrayList of TelephonesDTO
      * @return List<TelephonesDto>
      */
@@ -34,6 +36,7 @@ public class TelephoneDtoConverter {
 
     /**
      * Converts a Telephone to a TelephoneDto using Model Mapper
+     *
      * @param telephone The Telephone to be converted to TelephoneDto
      * @return TelephoneDto
      */
@@ -43,6 +46,7 @@ public class TelephoneDtoConverter {
 
     /**
      * Converts a TelephoneDto to a Telephone using Model Mapper
+     *
      * @param telephoneDto The TelephoneDto to be converted to Telephone
      * @return Telephone
      */
@@ -52,11 +56,12 @@ public class TelephoneDtoConverter {
 
     /**
      * Converts a TelephoneDto to a new Telephone without the Model Mapper
+     *
      * @param telephoneDto The TelephoneDto which contains the data input from the user
-     * @param contact The Contact to be assigned to this Telephone
+     * @param contact      The Contact to be assigned to this Telephone
      * @return Telephone
      */
-    public Telephone dtoToNewEntity(TelephoneDto telephoneDto, Contact contact) {
+    public Telephone dtoToNewEntity(CreateTelephoneDto telephoneDto, Contact contact) {
 
         Telephone telephone = new Telephone();
         telephone.setType(telephoneDto.getType());
@@ -65,5 +70,4 @@ public class TelephoneDtoConverter {
 
         return telephone;
     }
-
 }

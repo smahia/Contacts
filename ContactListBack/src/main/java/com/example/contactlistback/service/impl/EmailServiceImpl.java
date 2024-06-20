@@ -1,6 +1,7 @@
 package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.dtoConverter.EmailDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.EmailAddress;
@@ -25,12 +26,13 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * Method that adds a new Email to an existent contact
-     * @param emailDto The new data Email
+     *
+     * @param emailDto  The new data Email
      * @param idContact The ID of the Contact to whom the Email will be assigned
      * @return Email
      */
     @Override
-    public EmailAddress addEmail(EmailDto emailDto, int idContact) {
+    public EmailAddress addEmail(CreateEmailDto emailDto, int idContact) {
 
         Contact contact = contactRepository.findById(idContact).orElseThrow(() ->
                 new NotFoundException("Contact not found", idContact));
@@ -43,12 +45,13 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * Method that updates an existent Email
+     *
      * @param updatedEmailDto The Email with the new data entered by the user
-     * @param idEmail The ID of the Email that will be edited
+     * @param idEmail         The ID of the Email that will be edited
      * @return Email
      */
     @Override
-    public EmailAddress editEmail(EmailDto updatedEmailDto, int idEmail) {
+    public EmailAddress editEmail(CreateEmailDto updatedEmailDto, int idEmail) {
 
         EmailAddress email = emailRepository.findById(idEmail).orElseThrow(() ->
                 new NotFoundException("Email not found", idEmail));
@@ -62,6 +65,7 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * Method that deletes an Email by id
+     *
      * @param id The ID of the Email to be deleted
      */
     @Override

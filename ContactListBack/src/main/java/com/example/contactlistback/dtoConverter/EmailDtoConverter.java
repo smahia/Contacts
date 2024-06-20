@@ -1,6 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.EmailAddress;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class EmailDtoConverter {
 
     /**
      * Converts a list of Email to a list of EmailDto
+     *
      * @param emails An arrayList with the emails to be converted to an ArrayList of EmailsDto
      * @return List<EmailDto>
      */
@@ -33,6 +35,7 @@ public class EmailDtoConverter {
 
     /**
      * Converts a Email to a EmailDto using Model Mapper
+     *
      * @param email The Email to be converted to a EmailDto
      * @return EmailDto
      */
@@ -42,6 +45,7 @@ public class EmailDtoConverter {
 
     /**
      * Converts a EmailDto to a Email using Model Mapper
+     *
      * @param emailDto The EmailDto to be converted to an Email
      * @return Email
      */
@@ -51,11 +55,12 @@ public class EmailDtoConverter {
 
     /**
      * Converts a EmailDto to a new Email without the Model Mapper
+     *
      * @param emailDto The EmailDto which contains the data input from the user
-     * @param contact The Contact to be assigned to this Email
+     * @param contact  The Contact to be assigned to this Email
      * @return email
      */
-    public EmailAddress dtoToNewEntity(EmailDto emailDto, Contact contact) {
+    public EmailAddress dtoToNewEntity(CreateEmailDto emailDto, Contact contact) {
 
         EmailAddress email = new EmailAddress();
         email.setType(emailDto.getType());

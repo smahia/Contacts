@@ -1,6 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.EmailAddress;
@@ -28,6 +29,7 @@ public class ContactDtoConverter {
 
     /**
      * Converts a list of Contact to a list of ContactsDto using Model Mapper
+     *
      * @param contacts An ArrayList with the contacts to be converted to an ArrayList of ContactDto
      * @return List<Contact>
      */
@@ -41,6 +43,7 @@ public class ContactDtoConverter {
 
     /**
      * Converts a Contact to a Contact Dto using Model Mapper
+     *
      * @param contact The contact to be converted to DTO
      * @return ContactDto
      */
@@ -52,6 +55,7 @@ public class ContactDtoConverter {
 
     /**
      * Converts a ContactDto to a Contact using Model Mapper
+     *
      * @param contactDto The ContactDto to be converted to Contact
      * @return Contact
      */
@@ -62,10 +66,11 @@ public class ContactDtoConverter {
 
     /**
      * Converts a ContactDto to a new Contact without the modelMapper
+     *
      * @param newContactDto The new ContactDto to be converted to a Contact manually
      * @return Contact
      */
-    public Contact dtoToNewEntity(ContactDto newContactDto) {
+    public Contact dtoToNewEntity(CreateContactDto newContactDto) {
 
         Contact contact = new Contact();
         contact.setName(newContactDto.getName());
@@ -106,17 +111,19 @@ public class ContactDtoConverter {
 
     /**
      * Converts an edited ContactDto to an existent Contact without the modelMapper
+     *
      * @param contactDtoToEdit The ContactDto which contains the input data from the user
-     * @param existentContact The current contact that exists in the database
+     * @param existentContact  The current contact that exists in the database
      * @return Contact
      */
-    public Contact dtoToEntity(ContactDto contactDtoToEdit, Contact existentContact) {
+    public Contact dtoToEntity(CreateContactDto contactDtoToEdit, Contact existentContact) {
 
         existentContact.setName(contactDtoToEdit.getName());
         existentContact.setSurname(contactDtoToEdit.getSurname());
         existentContact.setBirthday(contactDtoToEdit.getBirthday());
         existentContact.setContactEmergency(contactDtoToEdit.getContactEmergency());
 
+        // TODO: WHEN UPDATING AN ELEMENT, THE ID OF THE TELEPHONE AND SO CHANGE AS WELL
         ///////////////////////////////
         existentContact.getTelephoneList().clear();
 
@@ -126,6 +133,7 @@ public class ContactDtoConverter {
         existentContact.getTelephoneList().addAll(telephonesListUpdated);
 
         ///////////////////////////////
+
         existentContact.getAddressesList().clear();
 
         List<Address> addressesListUpdated = contactDtoToEdit.getAddressesList().stream()

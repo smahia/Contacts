@@ -1,8 +1,5 @@
 package com.example.contactlistback.dto.createDto;
 
-import com.example.contactlistback.dto.AddressDto;
-import com.example.contactlistback.dto.EmailDto;
-import com.example.contactlistback.dto.TelephoneDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,6 +15,7 @@ import java.util.List;
 
 /**
  * These attributes must have the same name as the entity
+ * This class allows to create a new Contact (PUT and POST methods)
  */
 @Getter
 @Setter

@@ -1,7 +1,7 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.ContactDto;
-import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.service.ContactService;
@@ -30,12 +30,13 @@ public class ContactController {
 
     /**
      * Convert the ArrayList of Contact returned by the service into an ArrayList of ContactDto
-     * @return ResponseEntity<List<ContactDto>>
+     *
+     * @return ResponseEntity<List < ContactDto>>
      */
     @Operation(summary = "Get contacts", responses = {
             @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = ContactDto.class)))
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContactDto.class)))
     })
     @GetMapping(path = "/")
     public ResponseEntity<List<ContactDto>> getAllContacts() {
@@ -47,13 +48,14 @@ public class ContactController {
     /**
      * Method for getting a contact
      * Convert the Contact returned by the service into a ContactDto
+     *
      * @param id The id of the contact to find
      * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Get contact by ID", responses = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ContactDto.class))),
+                            schema = @Schema(implementation = ContactDto.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")
     })
     @GetMapping(path = "/{id}")
@@ -67,6 +69,7 @@ public class ContactController {
     /**
      * Method for adding a new contact
      * Convert the Contact returned by the service to a ContactDto
+     *
      * @param newContactDto The object containing the data entered by the user
      * @return ResponseEntity<ContactDto>
      */
@@ -78,7 +81,7 @@ public class ContactController {
                             schema = @Schema(implementation = ContactDto.class)))
     })
     @PostMapping(path = "/add")
-    public ResponseEntity<ContactDto> addContact(@Valid @RequestBody ContactDto newContactDto) {
+    public ResponseEntity<ContactDto> addContact(@Valid @RequestBody CreateContactDto newContactDto) {
 
         Contact contact = contactService.addContact(newContactDto);
 
@@ -88,8 +91,9 @@ public class ContactController {
 
     /**
      * Method for editing an existing contact
+     *
      * @param contactDtoToEdit The ContactDto object containing the data entered by the user
-     * @param id The id of the Contact to edit
+     * @param id               The id of the Contact to edit
      * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Edit a contact by ID", responses = {
@@ -101,7 +105,7 @@ public class ContactController {
                             schema = @Schema(implementation = ContactDto.class)))
     })
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<ContactDto> editContact(@Valid @RequestBody ContactDto contactDtoToEdit, @PathVariable int id) {
+    public ResponseEntity<ContactDto> editContact(@Valid @RequestBody CreateContactDto contactDtoToEdit, @PathVariable int id) {
 
         return new ResponseEntity<>(contactDtoConverter.convertToDto(contactService.editContact(contactDtoToEdit, id)),
                 HttpStatus.OK);
@@ -110,6 +114,7 @@ public class ContactController {
 
     /**
      * Method for deleting a contact by id
+     *
      * @param id The id of the contact to be deleted
      * @return ResponseEntity<?> No content
      */

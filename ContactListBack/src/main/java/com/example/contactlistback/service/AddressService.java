@@ -1,6 +1,6 @@
 package com.example.contactlistback.service;
 
-import com.example.contactlistback.dto.AddressDto;
+import com.example.contactlistback.dto.createDto.CreateAddressDto;
 import com.example.contactlistback.entity.Address;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AddressService {
 
-    Address addAddress(AddressDto addressDto, int contactId);
+    Address addAddress(CreateAddressDto addressDto, int contactId);
+
+    Address editAddress(CreateAddressDto addressDto, int addressId);
+
+    void deleteAddress(int id);
 }

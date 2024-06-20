@@ -1,6 +1,7 @@
 package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.TelephoneDto;
+import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Telephone;
@@ -26,12 +27,13 @@ public class TelephoneServiceImpl implements TelephoneService {
 
     /**
      * Method for adding a new Telephone to the database
+     *
      * @param telephoneDto The TelephoneDto containing the data entered by the user
-     * @param idContact The id of the contact to which the phone will be assigned
+     * @param idContact    The id of the contact to which the phone will be assigned
      * @return Telephone
      */
     @Override
-    public Telephone addTelephone(TelephoneDto telephoneDto, int idContact) {
+    public Telephone addTelephone(CreateTelephoneDto telephoneDto, int idContact) {
 
         Contact contact = contactRepository.findById(idContact).orElseThrow(()
                 -> new NotFoundException("Contact not found", idContact));
@@ -44,14 +46,13 @@ public class TelephoneServiceImpl implements TelephoneService {
     }
 
     /**
-     *
      * @param telephoneDtoToEdit The TelephoneDto existent in the database to be edited and
-     * that contains the new data entered by the user
-     * @param idTelephone The id of the telephone to be edited
+     *                           that contains the new data entered by the user
+     * @param idTelephone        The id of the telephone to be edited
      * @return Telephone
      */
     @Override
-    public Telephone editTelephone(TelephoneDto telephoneDtoToEdit, int idTelephone) {
+    public Telephone editTelephone(CreateTelephoneDto telephoneDtoToEdit, int idTelephone) {
 
         Telephone telephone = telephoneRepository.findById(idTelephone).orElseThrow(() ->
                 new NotFoundException("Telephone not found", idTelephone));
@@ -66,6 +67,7 @@ public class TelephoneServiceImpl implements TelephoneService {
 
     /**
      * Method for deleting a Telephone
+     *
      * @param id The id of the Telephone to be deleted
      */
     @Override

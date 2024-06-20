@@ -1,6 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.AddressDto;
+import com.example.contactlistback.dto.createDto.CreateAddressDto;
 import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AddressDtoConverter {
 
     /**
      * Converts a list of Address to a list of AddressDto
+     *
      * @param addresses An arrayList with the addresses to be converted to an ArrayList of AddressDto
      * @return List<AddressDto>
      */
@@ -33,6 +35,7 @@ public class AddressDtoConverter {
 
     /**
      * Converts an Address to a AddressDto using Model Mapper
+     *
      * @param address The Address to be converted to AddressDto
      * @return AddressDto
      */
@@ -42,6 +45,7 @@ public class AddressDtoConverter {
 
     /**
      * Converts an AddressDto to an Address using Model Mapper
+     *
      * @param addressDto The AddressDto to be converted to Address
      * @return Address
      */
@@ -51,11 +55,12 @@ public class AddressDtoConverter {
 
     /**
      * Converts a AddressDto to a new Address without the Model Mapper
+     *
      * @param addressDto The AddressDto which contains the data input from the user
-     * @param contact The Contact to be assigned to this Address
+     * @param contact    The Contact to be assigned to this Address
      * @return Address
      */
-    public Address dtoToNewEntity(AddressDto addressDto, Contact contact) {
+    public Address dtoToNewEntity(CreateAddressDto addressDto, Contact contact) {
 
         Address address = new Address();
         address.setType(addressDto.getType());
@@ -64,5 +69,4 @@ public class AddressDtoConverter {
 
         return address;
     }
-
 }

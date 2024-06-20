@@ -1,6 +1,7 @@
 package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.ContactDto;
+import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.exception.NotFoundException;
@@ -23,6 +24,7 @@ public class ContactServiceImpl implements ContactService {
 
     /**
      * Method that returns all the contacts in the database
+     *
      * @return List<Contact>
      */
     @Override
@@ -33,6 +35,7 @@ public class ContactServiceImpl implements ContactService {
 
     /**
      * Method that implements the logic for getting a contact by id
+     *
      * @param id The id of the Contact to find
      * @return Contact
      * @throws NotFoundException If the Contact cannot be found in the database
@@ -46,11 +49,12 @@ public class ContactServiceImpl implements ContactService {
 
     /**
      * Method that implements the logic for adding a new contact to the databasee
+     *
      * @param newContactDto The object containing the data entered by the user
      * @return Contact
      */
     @Override
-    public Contact addContact(ContactDto newContactDto) {
+    public Contact addContact(CreateContactDto newContactDto) {
 
         Contact contact = contactDtoConverter.dtoToNewEntity(newContactDto);
 
@@ -61,12 +65,13 @@ public class ContactServiceImpl implements ContactService {
 
     /**
      * Method that updates an existent contact by id
+     *
      * @param contactDtoToEdit The object containing the data entered by the user
-     * @param id The ID of the Contact being edited
+     * @param id               The ID of the Contact being edited
      * @return Contact with its data already edited
      */
     @Override
-    public Contact editContact(ContactDto contactDtoToEdit, int id) {
+    public Contact editContact(CreateContactDto contactDtoToEdit, int id) {
 
         Contact existentContact = contactRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Contact not found", id));
@@ -81,6 +86,7 @@ public class ContactServiceImpl implements ContactService {
 
     /**
      * Method that deletes an user by id
+     *
      * @param id The id of the contact to be deleted
      */
     @Override

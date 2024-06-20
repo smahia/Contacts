@@ -1,6 +1,7 @@
 package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.dtoConverter.EmailDtoConverter;
 import com.example.contactlistback.entity.EmailAddress;
 import com.example.contactlistback.service.EmailService;
@@ -26,7 +27,8 @@ public class EmailController {
 
     /**
      * Method for adding a new email
-     * @param emailDto The new email containing the data entered by the user
+     *
+     * @param emailDto  The new email containing the data entered by the user
      * @param idContact The ID of the contact to whom this email will be assigned to
      * @return ResponseEntity<EmailDto>
      */
@@ -35,11 +37,11 @@ public class EmailController {
                     schema = @Schema(implementation = EmailDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = EmailDto.class)))
+                            schema = @Schema(implementation = EmailDto.class)))
     })
     @PostMapping(path = "/add/{idContact}")
     public ResponseEntity<EmailDto> addEmail(@PathVariable int idContact,
-                                              @Valid @RequestBody EmailDto emailDto) {
+                                             @Valid @RequestBody CreateEmailDto emailDto) {
 
         EmailAddress email = emailService.addEmail(emailDto, idContact);
 
@@ -48,8 +50,9 @@ public class EmailController {
 
     /**
      * Method for editing an existent email
+     *
      * @param emailDto The EmailDto that contains the email modified by the user
-     * @param id The ID of the Email that will be edited
+     * @param id       The ID of the Email that will be edited
      * @return ResponseEntity<EmailDto>
      */
     @Operation(summary = "Edit an email by ID", responses = {
@@ -58,16 +61,17 @@ public class EmailController {
             @ApiResponse(responseCode = "404", description = "Email not found"),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmailDto.class)))
+                            schema = @Schema(implementation = EmailDto.class)))
     })
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<EmailDto> editEmail(@Valid @RequestBody EmailDto emailDto, @PathVariable int id) {
+    public ResponseEntity<EmailDto> editEmail(@Valid @RequestBody CreateEmailDto emailDto, @PathVariable int id) {
 
         return new ResponseEntity<>(emailDtoConverter.convertToDto(emailService.editEmail(emailDto, id)), HttpStatus.OK);
     }
 
     /**
      * Method that deletes an Email by ID
+     *
      * @param id The ID of the Email that will be deleted
      * @return ResponseEntity<?> No content
      */

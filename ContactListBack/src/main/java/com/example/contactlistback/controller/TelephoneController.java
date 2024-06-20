@@ -1,7 +1,7 @@
 package com.example.contactlistback.controller;
 
-import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dto.TelephoneDto;
+import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Telephone;
 import com.example.contactlistback.service.TelephoneService;
@@ -27,8 +27,9 @@ public class TelephoneController {
 
     /**
      * Method for adding a new Telephone
+     *
      * @param telephoneDto The TelephoneDTO object containing the data entered by the user
-     * @param idContact The id of the Contact to which the phone will be assigned
+     * @param idContact    The id of the Contact to which the phone will be assigned
      * @return ResponseEntity<TelephoneDto>
      */
     @Operation(summary = "Add a new Telephone", responses = {
@@ -38,9 +39,9 @@ public class TelephoneController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = TelephoneDto.class)))
     })
-    @PostMapping(path = "/{idContact}/add")
+    @PostMapping(path = "/add/{idContact}/")
     public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
-                                                     @Valid @RequestBody TelephoneDto telephoneDto) {
+                                                     @Valid @RequestBody CreateTelephoneDto telephoneDto) {
 
         Telephone telephone = telephoneService.addTelephone(telephoneDto, idContact);
 
@@ -50,9 +51,10 @@ public class TelephoneController {
 
     /**
      * Method for editing a Telephone by id
+     *
      * @param telephoneDtoToEdit The TelephoneDto existent in the database and that contains the new data
-     * entered by the user
-     * @param idTelephone The id of the Telephone to be edited
+     *                           entered by the user
+     * @param idTelephone        The id of the Telephone to be edited
      * @return ResponseEntity<TelephoneDto>
      */
     @Operation(summary = "Edit a telephone by ID", responses = {
@@ -64,8 +66,8 @@ public class TelephoneController {
                             schema = @Schema(implementation = TelephoneDto.class)))
     })
     @PutMapping(path = "/edit/{idTelephone}")
-    public ResponseEntity<TelephoneDto> editTelephone(@Valid @RequestBody TelephoneDto telephoneDtoToEdit,
-                                           @PathVariable int idTelephone) {
+    public ResponseEntity<TelephoneDto> editTelephone(@Valid @RequestBody CreateTelephoneDto telephoneDtoToEdit,
+                                                      @PathVariable int idTelephone) {
 
         Telephone telephone = telephoneService.editTelephone(telephoneDtoToEdit, idTelephone);
 
@@ -75,6 +77,7 @@ public class TelephoneController {
 
     /**
      * Method for deleting a Telephone by id
+     *
      * @param idTelephone The id of the telephone to be deleted
      * @return ResponseEntity<?> No content
      */

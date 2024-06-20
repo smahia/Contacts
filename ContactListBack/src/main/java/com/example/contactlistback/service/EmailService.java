@@ -1,6 +1,6 @@
 package com.example.contactlistback.service;
 
-import com.example.contactlistback.dto.EmailDto;
+import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.entity.EmailAddress;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface EmailService {
 
-    EmailAddress addEmail(EmailDto emailDto, int idContact);
+    EmailAddress addEmail(CreateEmailDto emailDto, int idContact);
 
-    EmailAddress editEmail(EmailDto updatedEmailDto, int idEmail);
+    EmailAddress editEmail(CreateEmailDto updatedEmailDto, int idEmail);
 
     void deleteEmail(int id);
 }
