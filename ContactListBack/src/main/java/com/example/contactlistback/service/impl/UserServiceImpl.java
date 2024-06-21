@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDtoConverter userDtoConverter;
+    //private final PasswordEncoder passwordEncoder;
 
 
     /**
@@ -67,10 +68,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Method that edits an existent User
+     * Hash the password
+     *
      * @param editUserDto The object containing the input from the user
-     * @param userId The id of the user to be edited
+     * @param userId      The id of the user to be edited
      * @return User
      */
+    // TODO: Hash password
     @Override
     public User editUser(CreateUserDto editUserDto, int userId) {
 
@@ -78,6 +82,7 @@ public class UserServiceImpl implements UserService {
                 new NotFoundException("User not found", userId));
 
         existentUser.setName(editUserDto.getName());
+        //existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
         existentUser.setPassword(editUserDto.getPassword());
 
         userRepository.save(existentUser);

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserDtoConverter {
 
     private final ModelMapper modelMapper;
+    //private final PasswordEncoder passwordEncoder;
 
     /**
      * Converts a list of Users to a list of UserDto
@@ -54,15 +55,17 @@ public class UserDtoConverter {
 
     /**
      * Converts an UserDto to a new User without the Model Mapper
+     * Hash the password
      *
      * @param userDto The userDto which contains the data input from the user
      * @return User
      */
-    // TODO: HASH PASSWORD?
+    // TODO: hash password
     public User dtoToNewEntity(CreateUserDto userDto) {
 
         User user = new User();
         user.setName(userDto.getName());
+        //user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPassword(userDto.getPassword());
 
         return user;

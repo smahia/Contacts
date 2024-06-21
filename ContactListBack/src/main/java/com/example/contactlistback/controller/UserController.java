@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-@Tag(name = "UserController", description = "User management API")
+@Tag(name = "UserController", description = "User management API for user registration and authentication")
 public class UserController {
 
     UserService userService;
@@ -31,7 +31,8 @@ public class UserController {
 
     /**
      * Return all the users in the database
-     * @return ResponseEntity<List<UserDto>> A UserDto list
+     *
+     * @return ResponseEntity<List < UserDto>> A UserDto list
      */
     @Operation(summary = "Get all users", responses = {
             @ApiResponse(responseCode = "200", description = "Success",
@@ -46,6 +47,7 @@ public class UserController {
 
     /**
      * Return an User by ID
+     *
      * @param id The id of the User to be found
      * @return ResponseEntity<UserDto>
      */
@@ -63,6 +65,7 @@ public class UserController {
 
     /**
      * Add a new User to the database
+     *
      * @param createUserDto The CreateUserDto Object containing the input from the User
      * @return ResponseEntity<UserDto>
      */
@@ -81,8 +84,9 @@ public class UserController {
 
     /**
      * Edit the data of an existent User by id
+     *
      * @param createUserDto The CreateUserDto with the new data from the user
-     * @param id The id of the User to be edited
+     * @param id            The id of the User to be edited
      * @return ResponseEntity<UserDto>
      */
     @Operation(summary = "Edit an user by ID", responses = {
@@ -101,6 +105,7 @@ public class UserController {
 
     /**
      * Delete an User by ID
+     *
      * @param id The id of the user to be deleted
      * @return ResponseEntity<?> No Content
      */
