@@ -1,7 +1,9 @@
 package com.example.contactlistback.controller;
 
+import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.ListingDto;
 import com.example.contactlistback.dto.createDto.CreateListingDto;
+import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.dtoConverter.ListingDtoConverter;
 import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -25,10 +28,13 @@ import java.util.List;
 @Tag(name = "ListingController", description = "Listing management API")
 public class ListingController {
 
-    // TODO: CRUD for listings (Get lists from an user), add a contact to a list, delete a contact from a list, move contact between lists?
+    // TODO: CRUD for listings (Get lists from an user), add a contact to a list, delete a contact from a list,
+    //  move contact between lists?
+    // TODO: get user in session and not by id?
 
     private final ListingService listingService;
     private final ListingDtoConverter listingDtoConverter;
+    private final ContactDtoConverter contactDtoConverter;
 
     /**
      * Get lists by User
@@ -53,7 +59,8 @@ public class ListingController {
      * @param listId The id of the list
      * @return ResponseEntity<ListingDto>
      */
-    @Operation(summary = "Get a list from a contact", responses = {
+    // TODO: DOES NOT WORK
+    /*@Operation(summary = "Get a list from a contact", responses = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingDto.class))),
@@ -69,7 +76,20 @@ public class ListingController {
 
         return new ResponseEntity<>(listingDtoConverter.convertToDto(listingService.getListByUser(userId, listId)),
                 HttpStatus.OK);
-    }
+    }*/
+
+    /**
+     * Gets all contacts in a specific list
+     * @param listId The id of the list
+     * @return ResponseEntity<List<ContactDto>>
+     */
+    // TODO: DOES NOT WORK
+    /*@GetMapping(path = "getContacts/{listId}")
+    public ResponseEntity<Set<ContactDto>> getContactsByList(@PathVariable int listId) {
+
+        return new ResponseEntity<>(contactDtoConverter.convertToDtoSet(listingService.getContactsByList(listId)),
+                HttpStatus.OK);
+    }*/
 
     /**
      * Add a list to an user
@@ -77,7 +97,7 @@ public class ListingController {
      * @param userId The id of the user to whom the list will be assigned
      * @return ResponseEntity<ListingDto>
      */
-    @Operation(summary = "Add a new list to a contact", responses = {
+    @Operation(summary = "Add a new list to an user", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ListingDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",

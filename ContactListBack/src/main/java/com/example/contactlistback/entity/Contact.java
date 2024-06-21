@@ -9,9 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -65,7 +63,7 @@ public class Contact {
     )
     private List<Address> addressesList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "contactList")
-    private List<Listing> lists;
+    @ManyToMany(mappedBy = "contactList", cascade = { CascadeType.ALL })
+    private Set<Listing> lists = new HashSet<>();
 
 }

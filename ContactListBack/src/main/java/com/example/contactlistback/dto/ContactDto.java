@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * These attributes must have the same name as the entity
@@ -33,4 +31,6 @@ public class ContactDto {
     private List<EmailDto> emailList = new ArrayList<>();
 
     private List<AddressDto> addressesList = new ArrayList<>();
+
+    private Set<ListingDto> lists = new HashSet<>();
 }

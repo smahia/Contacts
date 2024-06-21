@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -21,12 +23,14 @@ public class Listing {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany (cascade = {
+            CascadeType.ALL
+    })
     @JoinTable(name = "contact_listing",
             joinColumns = @JoinColumn(name = "listing_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_id")
     )
-    private List<Contact> contactList = new ArrayList<>();
+    private Set<Contact> contactList = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

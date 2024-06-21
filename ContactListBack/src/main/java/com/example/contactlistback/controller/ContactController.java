@@ -94,6 +94,32 @@ public class ContactController {
 
     }
 
+    // TODO: Check this, should be a new contact or an existent contact?
+    /**
+     * Add a new contact to a list
+     * @param listId The id of the list the contact will be added to
+     * @param createContactDto The object containing the input from the user
+     * @return ResponseEntity<ContactDto>
+     */
+    // TODO: DOES NOT WORK
+    /*@Operation(summary = "Add a new Contact to an existent Listing", responses = {
+            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiValidationError.class))),
+            @ApiResponse(responseCode = "404", description = "List not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
+    })
+    @PostMapping(path = "/addtolist/{listId}")
+    public ResponseEntity<ContactDto> addNewContactToList(@PathVariable int listId,
+                                                       @Valid @RequestBody CreateContactDto createContactDto) {
+
+        return new ResponseEntity<>(contactDtoConverter.convertToDto(
+                contactService.addContactToList(createContactDto, listId)), HttpStatus.CREATED);
+    }*/
+
     /**
      * Method for editing an existing contact
      *
@@ -141,4 +167,30 @@ public class ContactController {
         return ResponseEntity.noContent().build();
 
     }
+
+    /**
+     * Delete a contact from a list
+     * @param listId The id of the list from where the contact will be deleted
+     * @param contactId The id of the contact that will be deleted
+     * @return ResponseEntity<?> No Content
+     */
+    // TODO: DOES NOT WORK
+    /*@Operation(summary = "Delete a contact from a list by ID", responses = {
+            @ApiResponse(responseCode = "204", description = "No content",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "List not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
+    })
+    @DeleteMapping(path = "deletefromlist/{listId}/{contactId}")
+    public ResponseEntity<?> deleteContactFromList(@PathVariable int listId, @PathVariable int contactId) {
+
+        contactService.deleteContactFromList(listId, contactId);
+
+        return ResponseEntity.noContent().build();
+    }*/
 }

@@ -24,5 +24,11 @@ public interface ContactService {
     void deleteContact(int id);
 
     // TODO: methods for adding, deleting an moving a contact to a list
+    // TODO: When adding to a list, the contact is new or existent?
+
+    // TODO : DOES NOT WORK
+    /*Contact addContactToList(CreateContactDto createContactDto, int listId);
+
+    void deleteContactFromList(int listId, int idContact);*/
 
 }

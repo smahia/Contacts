@@ -2,6 +2,7 @@ package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.createDto.CreateListingDto;
 import com.example.contactlistback.dtoConverter.ListingDtoConverter;
+import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
 import com.example.contactlistback.exception.NotFoundException;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -46,7 +48,8 @@ public class ListingServiceImpl implements ListingService {
      * @return Listing
      * @throws NotFoundException When an User or a Listing does not exist
      */
-    @Override
+    // TODO: fix this method: query returns two results?
+    /*@Override
     public Listing getListByUser(int userId, int listId) {
 
         User user = userRepository.findById(userId).orElseThrow(
@@ -56,7 +59,23 @@ public class ListingServiceImpl implements ListingService {
                 () -> new NotFoundException("List not found", listId));
 
         return listingRepository.findByUser(user);
-    }
+    }*/
+
+    /**
+     * Gets all the contacts of an specific list
+     * @param listId The Id of the list
+     * @return List<Contact>
+     * @throws NotFoundException When a list is not found
+     */
+    // TODO: Does not work
+    /*@Override
+    public Set<Contact> getContactsByList(int listId) {
+
+        Listing list = listingRepository.findById(listId).orElseThrow(
+                () -> new NotFoundException("List not found", listId));
+
+        return list.getContactList();
+    }*/
 
     /**
      * Add a new List to an specific user

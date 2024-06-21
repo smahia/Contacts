@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +41,19 @@ public class ContactDtoConverter {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
 
+    }
+
+    /**
+     * Converts a set of Contact to a set of ContactsDto using Model Mapper
+     *
+     * @param contacts A set with the contacts to be converted to a set of ContactDto
+     * @return Set<Contact>
+     */
+    public Set<ContactDto> convertToDtoSet(Set<Contact> contacts) {
+
+        return contacts.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toSet());
     }
 
     /**

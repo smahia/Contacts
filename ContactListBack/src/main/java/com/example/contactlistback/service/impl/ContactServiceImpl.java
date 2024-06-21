@@ -4,8 +4,10 @@ import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
+import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.ContactRepository;
+import com.example.contactlistback.repository.ListingRepository;
 import com.example.contactlistback.service.ContactService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
     private final ContactDtoConverter contactDtoConverter;
+    private final ListingRepository listingRepository;
 
     /**
      * Method that returns all the contacts in the database
@@ -99,4 +102,49 @@ public class ContactServiceImpl implements ContactService {
                 }
         );
     }
+
+    /**
+     * Add a new Contact to a Listing
+     * @param createContactDto The object containing the data entered by the user
+     * @param listId The ID of the List to which the contact is being added
+     * @return Contact
+     * @throws NotFoundException When a list does not exist
+     */
+    // TODO: DOES NOT WORK
+    /*@Override
+    public Contact addContactToList(CreateContactDto createContactDto, int listId) {
+
+        Listing list = listingRepository.findById(listId).orElseThrow(
+                () -> new NotFoundException("List not found", listId));
+
+        Contact contact = contactDtoConverter.dtoToNewEntity(createContactDto);
+
+        list.getContactList().add(contact);
+
+        contactRepository.save(contact);
+        listingRepository.save(list);
+
+        return contact;
+    }*/
+
+    /**
+     * Deletes a Contact from an specific list
+     * @param listId The ID of the list from which the contact will be deleted
+     * @param idContact The id of the contact that will be deleted
+     * @throws NotFoundException When a list or a contact is not found
+     */
+    // TODO: DOES NOT WORK
+    /*@Override
+    public void deleteContactFromList(int listId, int idContact) {
+
+        Listing list = listingRepository.findById(listId).orElseThrow(
+                () -> new NotFoundException("List not found", listId));
+
+        Contact existentContact = contactRepository.findById(idContact).orElseThrow(() ->
+                new NotFoundException("Contact not found", idContact));
+
+        list.getContactList().remove(existentContact);
+
+        listingRepository.save(list);
+    }*/
 }

@@ -41,7 +41,7 @@ public class TelephoneController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiValidationError.class)))
     })
-    @PostMapping(path = "/add/{idContact}/")
+    @PostMapping(path = "/add/{idContact}")
     public ResponseEntity<TelephoneDto> addTelephone(@PathVariable int idContact,
                                                      @Valid @RequestBody CreateTelephoneDto telephoneDto) {
 

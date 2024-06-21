@@ -10,5 +10,6 @@ public interface ListingRepository extends JpaRepository<Listing, Integer> {
 
     List<Listing> findAllByUser(User user);
 
+    // TODO: CHECK THIS, RETURNS MORE THAN ONE RESULT
     Listing findByUser(User user);
 }
