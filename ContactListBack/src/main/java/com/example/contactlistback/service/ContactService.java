@@ -1,10 +1,8 @@
 package com.example.contactlistback.service;
 
-import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.entity.Contact;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +22,7 @@ public interface ContactService {
     Contact editContact(UpdateContactDto contactDtoToEdit, int id);
 
     void deleteContact(int id);
+
+    // TODO: methods for adding, deleting an moving a contact to a list
 
 }
