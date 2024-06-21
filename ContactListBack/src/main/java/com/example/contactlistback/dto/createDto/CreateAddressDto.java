@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * This class allows to create a new Address (PUT and POST methods)
+ * This class allows to create and edit a new Address (PUT and POST methods)
  */
 @Getter
 @Setter

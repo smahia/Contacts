@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * This class allows to create a new Email (PUT and POST methods)
+ * This class allows to create and edit a new Email (PUT and POST methods)
  */
 @Data
 public class CreateEmailDto {

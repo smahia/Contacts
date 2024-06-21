@@ -2,6 +2,7 @@ package com.example.contactlistback.dtoConverter;
 
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
+import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.EmailAddress;
@@ -111,14 +112,14 @@ public class ContactDtoConverter {
 
     /**
      * Converts an edited ContactDto to an existent Contact without the modelMapper
+     * Only updates personal details of the contact (not telephone, email or address)
      *
      * @param contactDtoToEdit The ContactDto which contains the input data from the user
      * @param existentContact  The current contact that exists in the database
      * @return Contact
      */
-    // TODO: Update this method so it only updates personal details of the contact (not telephone and so)
     // TODO: change the CreateDTO to UpdateDto? in ALL Update methods
-    public Contact dtoToEntity(CreateContactDto contactDtoToEdit, Contact existentContact) {
+    public Contact dtoToEntity(UpdateContactDto contactDtoToEdit, Contact existentContact) {
 
         existentContact.setName(contactDtoToEdit.getName());
         existentContact.setSurname(contactDtoToEdit.getSurname());
@@ -127,29 +128,29 @@ public class ContactDtoConverter {
 
         // TODO: WHEN UPDATING AN ELEMENT, THE ID OF THE TELEPHONE AND SO CHANGE AS WELL
         ///////////////////////////////
-        existentContact.getTelephoneList().clear();
+        /*existentContact.getTelephoneList().clear();
 
         List<Telephone> telephonesListUpdated = contactDtoToEdit.getTelephoneList().stream()
                 .map(dto -> telephoneDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
-        existentContact.getTelephoneList().addAll(telephonesListUpdated);
+        existentContact.getTelephoneList().addAll(telephonesListUpdated);*/
 
         ///////////////////////////////
 
-        existentContact.getAddressesList().clear();
+        /*existentContact.getAddressesList().clear();
 
         List<Address> addressesListUpdated = contactDtoToEdit.getAddressesList().stream()
                 .map(dto -> addressDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
-        existentContact.getAddressesList().addAll(addressesListUpdated);
+        existentContact.getAddressesList().addAll(addressesListUpdated);*/
 
         ///////////////////////////////
-        existentContact.getEmailList().clear();
+        /*existentContact.getEmailList().clear();
 
         List<EmailAddress> emailListUpdated = contactDtoToEdit.getEmailList().stream()
                 .map(dto -> emailDtoConverter.dtoToNewEntity(dto, existentContact)).toList();
 
-        existentContact.getEmailList().addAll(emailListUpdated);
+        existentContact.getEmailList().addAll(emailListUpdated);*/
 
         return existentContact;
 

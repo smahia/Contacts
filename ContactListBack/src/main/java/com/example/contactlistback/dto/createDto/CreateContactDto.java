@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * These attributes must have the same name as the entity
- * This class allows to create a new Contact (PUT and POST methods)
+ * This class allows to create a new Contact (POST method)
  */
 @Getter
 @Setter

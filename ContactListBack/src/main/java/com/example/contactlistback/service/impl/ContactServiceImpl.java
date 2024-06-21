@@ -1,6 +1,7 @@
 package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.createDto.CreateContactDto;
+import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.exception.NotFoundException;
@@ -70,7 +71,7 @@ public class ContactServiceImpl implements ContactService {
      * @return Contact with its data already edited
      */
     @Override
-    public Contact editContact(CreateContactDto contactDtoToEdit, int id) {
+    public Contact editContact(UpdateContactDto contactDtoToEdit, int id) {
 
         Contact existentContact = contactRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Contact not found", id));

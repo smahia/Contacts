@@ -2,6 +2,7 @@ package com.example.contactlistback.service;
 
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
+import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.entity.Contact;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public interface ContactService {
 
     Contact addContact(CreateContactDto newContactDto);
 
-    Contact editContact(CreateContactDto contactDtoToEdit, int id);
+    Contact editContact(UpdateContactDto contactDtoToEdit, int id);
 
     void deleteContact(int id);
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * This class allows to create a new Telephone (PUT and POST methods)
+ * This class allows to create and edit a new Telephone (PUT and POST methods)
  */
 @Getter
 @Setter

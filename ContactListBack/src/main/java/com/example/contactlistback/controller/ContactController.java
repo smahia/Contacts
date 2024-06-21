@@ -2,6 +2,7 @@ package com.example.contactlistback.controller;
 
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
+import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.error.ApiValidationError;
@@ -106,7 +107,7 @@ public class ContactController {
                             schema = @Schema(implementation = ApiValidationError.class)))
     })
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<ContactDto> editContact(@Valid @RequestBody CreateContactDto contactDtoToEdit, @PathVariable int id) {
+    public ResponseEntity<ContactDto> editContact(@Valid @RequestBody UpdateContactDto contactDtoToEdit, @PathVariable int id) {
 
         return new ResponseEntity<>(contactDtoConverter.convertToDto(contactService.editContact(contactDtoToEdit, id)),
                 HttpStatus.OK);
