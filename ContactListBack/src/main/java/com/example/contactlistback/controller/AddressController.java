@@ -3,6 +3,7 @@ package com.example.contactlistback.controller;
 import com.example.contactlistback.dto.AddressDto;
 import com.example.contactlistback.dto.createDto.CreateAddressDto;
 import com.example.contactlistback.dtoConverter.AddressDtoConverter;
+import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,7 +64,7 @@ public class AddressController {
                             schema = @Schema(implementation = ApiValidationError.class))),
             @ApiResponse(responseCode = "404", description = "Address not found",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AddressDto.class)))
+                            schema = @Schema(implementation = ApiError.class)))
     })
     @PutMapping(path = "edit/{id}")
     public ResponseEntity<AddressDto> editAddress(@PathVariable int id,
@@ -88,7 +89,7 @@ public class AddressController {
                             schema = @Schema(implementation = AddressDto.class))),
             @ApiResponse(responseCode = "404", description = "Address not found",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AddressDto.class)))
+                            schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "delete/{id}")
     public ResponseEntity<?> deleteAddress(@PathVariable int id) {

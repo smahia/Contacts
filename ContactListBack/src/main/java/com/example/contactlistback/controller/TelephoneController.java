@@ -4,6 +4,7 @@ import com.example.contactlistback.dto.TelephoneDto;
 import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Telephone;
+import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.TelephoneService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,7 +86,9 @@ public class TelephoneController {
     @Operation(summary = "Delete a telephone by ID", responses = {
             @ApiResponse(responseCode = "204", description = "No content", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = TelephoneDto.class))),
-            @ApiResponse(responseCode = "404", description = "Telephone not found")
+            @ApiResponse(responseCode = "404", description = "Telephone not found",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "/delete/{idTelephone}")
     public ResponseEntity<?> deleteTelephone(@PathVariable int idTelephone) {

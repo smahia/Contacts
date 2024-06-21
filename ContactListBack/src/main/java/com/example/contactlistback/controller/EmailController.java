@@ -4,6 +4,7 @@ import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.dtoConverter.EmailDtoConverter;
 import com.example.contactlistback.entity.EmailAddress;
+import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,7 +80,9 @@ public class EmailController {
     @Operation(summary = "Delete an email by ID", responses = {
             @ApiResponse(responseCode = "204", description = "No content", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EmailDto.class))),
-            @ApiResponse(responseCode = "404", description = "Email not found")
+            @ApiResponse(responseCode = "404", description = "Email not found",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteEmail(@PathVariable int id) {

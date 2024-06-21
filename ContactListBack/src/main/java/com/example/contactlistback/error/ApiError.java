@@ -2,6 +2,7 @@ package com.example.contactlistback.error;
 
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
@@ -21,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 public class ApiError {
 
     @NonNull
+    @Schema(description = "Http status",
+            name = "status",
+            example = "404 - Not Found")
     private HttpStatus status;
 
     @JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")

@@ -5,6 +5,7 @@ import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
+import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,7 +59,9 @@ public class ContactController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found")
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
     })
     @GetMapping(path = "/{id}")
     public ResponseEntity<ContactDto> getContact(@PathVariable int id) {
@@ -99,9 +102,12 @@ public class ContactController {
      * @return ResponseEntity<ContactDto>
      */
     @Operation(summary = "Edit a contact by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found"),
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiValidationError.class)))
@@ -123,7 +129,9 @@ public class ContactController {
     @Operation(summary = "Delete a contact by ID", responses = {
             @ApiResponse(responseCode = "204", description = "No content", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found")
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteContact(@PathVariable int id) {
