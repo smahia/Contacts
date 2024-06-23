@@ -3,10 +3,7 @@ package com.example.contactlistback.dtoConverter;
 import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.createDto.CreateContactDto;
 import com.example.contactlistback.dto.updateDto.UpdateContactDto;
-import com.example.contactlistback.entity.Address;
-import com.example.contactlistback.entity.Contact;
-import com.example.contactlistback.entity.EmailAddress;
-import com.example.contactlistback.entity.Telephone;
+import com.example.contactlistback.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -58,13 +55,27 @@ public class ContactDtoConverter {
 
     /**
      * Converts a Contact to a Contact Dto using Model Mapper
+     * Get the listings of the contacts and then only the id
+     * It has to be set manually because in the Entity is a Set of Listings but in the Dto is a Set of IDs, so the
+     * Model Mapper does not know how to do the association
      *
      * @param contact The contact to be converted to DTO
      * @return ContactDto
      */
     public ContactDto convertToDto(Contact contact) {
 
-        return modelMapper.map(contact, ContactDto.class);
+        //return modelMapper.map(contact, ContactDto.class);
+        ContactDto contactDto = modelMapper.map(contact, ContactDto.class);
+
+        Set<Listing> listings = contact.getLists();
+
+        Set<Integer> listId = listings.stream()
+                .map(Listing::getId)
+                .collect(Collectors.toSet());
+
+        contactDto.setListIds(listId);
+
+        return contactDto;
 
     }
 
@@ -93,7 +104,7 @@ public class ContactDtoConverter {
         contact.setBirthday(newContactDto.getBirthday());
         contact.setContactEmergency(newContactDto.getContactEmergency());
 
-        ///////////////////////////////
+        // Add Telephone
         List<Telephone> newTelephoneList = new ArrayList<>();
 
         for (int i = 0; i < newContactDto.getTelephoneList().size(); i++) {
@@ -102,7 +113,7 @@ public class ContactDtoConverter {
         }
         contact.setTelephoneList(newTelephoneList);
 
-        ///////////////////////////////
+        // Add Address
         List<Address> newAddressList = new ArrayList<>();
 
         for (int i = 0; i < newContactDto.getAddressesList().size(); i++) {
@@ -111,7 +122,7 @@ public class ContactDtoConverter {
         }
         contact.setAddressesList(newAddressList);
 
-        ///////////////////////////////
+        // Add Email
         List<EmailAddress> newEmailList = new ArrayList<>();
 
         for (int i = 0; i < newContactDto.getEmailList().size(); i++) {

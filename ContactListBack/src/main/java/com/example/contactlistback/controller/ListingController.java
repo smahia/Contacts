@@ -1,9 +1,7 @@
 package com.example.contactlistback.controller;
 
-import com.example.contactlistback.dto.ContactDto;
 import com.example.contactlistback.dto.ListingDto;
 import com.example.contactlistback.dto.createDto.CreateListingDto;
-import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.dtoConverter.ListingDtoConverter;
 import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
@@ -19,77 +17,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/listings")
 @Tag(name = "ListingController", description = "Listing management API")
 public class ListingController {
 
-    // TODO: CRUD for listings (Get lists from an user), add a contact to a list, delete a contact from a list,
+    // TODO: CRUD for listings add a contact to a list, delete a contact from a list,
     //  move contact between lists?
     // TODO: get user in session and not by id?
 
     private final ListingService listingService;
     private final ListingDtoConverter listingDtoConverter;
-    private final ContactDtoConverter contactDtoConverter;
-
-    /**
-     * Get lists by User
-     * @param userId The id of the User
-     * @return ResponseEntity<List<ListingDto>>
-     */
-    @Operation(summary = "Get lists from a contact", responses = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ListingDto.class)))
-    })
-    @GetMapping(path = "getLists/{userId}")
-    public ResponseEntity<List<ListingDto>> getListsByUser(@PathVariable int userId) {
-
-        return new ResponseEntity<>(listingDtoConverter.convertToDtoList(listingService.getListsByUser(userId)),
-                HttpStatus.OK);
-    }
-
-    /**
-     * Get list by user
-     * @param userId The id of the user
-     * @param listId The id of the list
-     * @return ResponseEntity<ListingDto>
-     */
-    // TODO: DOES NOT WORK
-    /*@Operation(summary = "Get a list from a contact", responses = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ListingDto.class))),
-            @ApiResponse(responseCode = "404", description = "List not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class))),
-            @ApiResponse(responseCode = "404", description = "User not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)))
-    })
-    @GetMapping(path = "getList/{userId}/{listId}")
-    public ResponseEntity<ListingDto> getListByUser(@PathVariable int userId, @PathVariable int listId) {
-
-        return new ResponseEntity<>(listingDtoConverter.convertToDto(listingService.getListByUser(userId, listId)),
-                HttpStatus.OK);
-    }*/
-
-    /**
-     * Gets all contacts in a specific list
-     * @param listId The id of the list
-     * @return ResponseEntity<List<ContactDto>>
-     */
-    // TODO: DOES NOT WORK
-    /*@GetMapping(path = "getContacts/{listId}")
-    public ResponseEntity<Set<ContactDto>> getContactsByList(@PathVariable int listId) {
-
-        return new ResponseEntity<>(contactDtoConverter.convertToDtoSet(listingService.getContactsByList(listId)),
-                HttpStatus.OK);
-    }*/
 
     /**
      * Add a list to an user
@@ -152,6 +91,8 @@ public class ListingController {
                             schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "delete/{idList}")
+    // TODO: Delete contacts when deleting a list. If the contact is only in that list the contact will be deleted
+    //  but if not the relation will be deleted
     public ResponseEntity<?> deleteList(@PathVariable int idList) {
 
         listingService.deleteList(idList);

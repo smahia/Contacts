@@ -32,5 +32,6 @@ public class ContactDto {
 
     private List<AddressDto> addressesList = new ArrayList<>();
 
-    private Set<ListingDto> lists = new HashSet<>();
+    // If the name is not the same as in the Entity, it has to be converted manually even with Model Mapper
+    private Set<Integer> listIds = new HashSet<>();
 }

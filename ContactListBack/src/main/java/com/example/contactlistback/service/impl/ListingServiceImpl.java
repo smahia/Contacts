@@ -12,9 +12,6 @@ import com.example.contactlistback.service.ListingService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
-
 @Service
 @AllArgsConstructor
 public class ListingServiceImpl implements ListingService {
@@ -22,60 +19,6 @@ public class ListingServiceImpl implements ListingService {
     private final ListingRepository listingRepository;
     private final UserRepository userRepository;
     private final ListingDtoConverter listingDtoConverter;
-
-    /**
-     * Get all list of an user
-     *
-     * @param userId The id of the User whose lists are to be consulted
-     * @return List<Listing>
-     * @throws NotFoundException When an User does not exist
-     */
-    @Override
-    public List<Listing> getListsByUser(int userId) {
-
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User not found", userId));
-
-        return listingRepository.findAllByUser(user);
-
-    }
-
-    /**
-     * Get an specific list from an specific user
-     *
-     * @param userId The id of the User whose list is being consulted
-     * @param listId The id of the list will be consulted
-     * @return Listing
-     * @throws NotFoundException When an User or a Listing does not exist
-     */
-    // TODO: fix this method: query returns two results?
-    /*@Override
-    public Listing getListByUser(int userId, int listId) {
-
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User not found", userId));
-
-        Listing list = listingRepository.findById(listId).orElseThrow(
-                () -> new NotFoundException("List not found", listId));
-
-        return listingRepository.findByUser(user);
-    }*/
-
-    /**
-     * Gets all the contacts of an specific list
-     * @param listId The Id of the list
-     * @return List<Contact>
-     * @throws NotFoundException When a list is not found
-     */
-    // TODO: Does not work
-    /*@Override
-    public Set<Contact> getContactsByList(int listId) {
-
-        Listing list = listingRepository.findById(listId).orElseThrow(
-                () -> new NotFoundException("List not found", listId));
-
-        return list.getContactList();
-    }*/
 
     /**
      * Add a new List to an specific user
@@ -92,9 +35,8 @@ public class ListingServiceImpl implements ListingService {
                 () -> new NotFoundException("User not found", userId));
 
         Listing list = listingDtoConverter.dtoToNewEntity(listingDto, user);
-        listingRepository.save(list);
 
-        return list;
+        return listingRepository.save(list);
 
     }
 
@@ -113,9 +55,8 @@ public class ListingServiceImpl implements ListingService {
                 () -> new NotFoundException("List not found", listId));
 
         list.setName(listingDto.getName());
-        listingRepository.save(list);
 
-        return list;
+        return listingRepository.save(list);
     }
 
     /**

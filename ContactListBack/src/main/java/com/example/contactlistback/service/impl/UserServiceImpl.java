@@ -60,9 +60,8 @@ public class UserServiceImpl implements UserService {
     public User addUser(CreateUserDto createUserDto) {
 
         User user = userDtoConverter.dtoToNewEntity(createUserDto);
-        userRepository.save(user);
 
-        return user;
+        return userRepository.save(user);
 
     }
 
@@ -85,9 +84,7 @@ public class UserServiceImpl implements UserService {
         //existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
         existentUser.setPassword(editUserDto.getPassword());
 
-        userRepository.save(existentUser);
-
-        return existentUser;
+        return userRepository.save(existentUser);
 
     }
 

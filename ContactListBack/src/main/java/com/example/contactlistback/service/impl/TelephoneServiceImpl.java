@@ -39,9 +39,9 @@ public class TelephoneServiceImpl implements TelephoneService {
                 -> new NotFoundException("Contact not found", idContact));
 
         Telephone telephone = telephoneDtoConverter.dtoToNewEntity(telephoneDto, contact);
-        telephoneRepository.save(telephone);
 
-        return telephone;
+
+        return telephoneRepository.save(telephone);
 
     }
 
@@ -60,9 +60,7 @@ public class TelephoneServiceImpl implements TelephoneService {
         telephone.setTelephoneNumber(telephoneDtoToEdit.getTelephoneNumber());
         telephone.setType(telephoneDtoToEdit.getType());
 
-        telephoneRepository.save(telephone);
-
-        return telephone;
+        return telephoneRepository.save(telephone);
     }
 
     /**

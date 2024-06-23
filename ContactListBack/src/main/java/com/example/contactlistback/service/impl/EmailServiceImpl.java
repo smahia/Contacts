@@ -37,9 +37,8 @@ public class EmailServiceImpl implements EmailService {
                 new NotFoundException("Contact not found", idContact));
 
         EmailAddress email = emailDtoConverter.dtoToNewEntity(emailDto, contact);
-        emailRepository.save(email);
 
-        return email;
+        return emailRepository.save(email);
     }
 
     /**
@@ -58,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
         email.setEmail(updatedEmailDto.getEmail());
         email.setType(updatedEmailDto.getType());
 
-        return email;
+        return emailRepository.save(email);
 
     }
 

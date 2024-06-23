@@ -1,9 +1,6 @@
 package com.example.contactlistback.service.impl;
 
-import com.example.contactlistback.dto.AddressDto;
-import com.example.contactlistback.dto.EmailDto;
 import com.example.contactlistback.dto.createDto.CreateAddressDto;
-import com.example.contactlistback.dto.createDto.CreateEmailDto;
 import com.example.contactlistback.dtoConverter.AddressDtoConverter;
 import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
@@ -39,9 +36,8 @@ public class AddressServiceImpl implements AddressService {
                 -> new NotFoundException("Contact not found", ContactId));
 
         Address address = addressDtoConverter.dtoToNewEntity(addressDto, contact);
-        addressRepository.save(address);
 
-        return address;
+        return addressRepository.save(address);
 
     }
 
@@ -54,9 +50,8 @@ public class AddressServiceImpl implements AddressService {
         address.setAddress(addressDto.getAddress());
         address.setType(addressDto.getType());
 
-        addressRepository.save(address);
 
-        return address;
+        return addressRepository.save(address);
     }
 
     /**

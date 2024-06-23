@@ -2,7 +2,6 @@ package com.example.contactlistback.dto.createDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +37,6 @@ public class CreateContactDto {
      * The annotation valid means the system will check if the items inside the list are
      * valid
      */
-    @NotEmpty(message = "At least one telephone must be included")
     private List<@Valid CreateTelephoneDto> telephoneList = new ArrayList<>();
 
     private List<@Valid CreateEmailDto> emailList = new ArrayList<>();

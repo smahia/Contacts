@@ -51,19 +51,17 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     * Method that implements the logic for adding a new contact to the databasee
+     * Method that implements the logic for creating a new contact in the databasee
      *
      * @param newContactDto The object containing the data entered by the user
      * @return Contact
      */
     @Override
-    public Contact addContact(CreateContactDto newContactDto) {
+    public Contact createNewContact(CreateContactDto newContactDto) {
 
         Contact contact = contactDtoConverter.dtoToNewEntity(newContactDto);
 
-        contactRepository.save(contact);
-
-        return contact;
+        return contactRepository.save(contact);
     }
 
     /**
@@ -81,7 +79,7 @@ public class ContactServiceImpl implements ContactService {
 
         Contact editedContact = contactDtoConverter.dtoToEntity(contactDtoToEdit, existentContact);
 
-        contactRepository.save(editedContact);
+        editedContact = contactRepository.save(editedContact);
 
         return editedContact;
 
@@ -104,37 +102,47 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     * Add a new Contact to a Listing
+     * Create a new Contact and add it to a Listing
+     *
      * @param createContactDto The object containing the data entered by the user
-     * @param listId The ID of the List to which the contact is being added
+     * @param listId           The ID of the List to which the contact is being added
      * @return Contact
      * @throws NotFoundException When a list does not exist
      */
-    // TODO: DOES NOT WORK
-    /*@Override
-    public Contact addContactToList(CreateContactDto createContactDto, int listId) {
+    @Override
+    public Contact createNewContactInList(CreateContactDto createContactDto, int listId) {
 
         Listing list = listingRepository.findById(listId).orElseThrow(
                 () -> new NotFoundException("List not found", listId));
 
-        Contact contact = contactDtoConverter.dtoToNewEntity(createContactDto);
+        /*
+        This new Contact does not have an ID because it has not been created yet:
+            Contact contact = contactDtoConverter.dtoToNewEntity(createContactDto);
+            list.getContactList().add(contact);
+       First you have to add it to the database and then, since save returns the contact saved,
+       that contact saved added it to the list:
+            Contact contact = contactDtoConverter.dtoToNewEntity(createContactDto);
+            contact = contactRepository.save(contact);
+            list.getContactList().add(contact);
+         */
+
+        Contact contact = this.createNewContact(createContactDto);
 
         list.getContactList().add(contact);
 
-        contactRepository.save(contact);
         listingRepository.save(list);
 
         return contact;
-    }*/
+    }
 
     /**
      * Deletes a Contact from an specific list
-     * @param listId The ID of the list from which the contact will be deleted
+     *
+     * @param listId    The ID of the list from which the contact will be deleted
      * @param idContact The id of the contact that will be deleted
      * @throws NotFoundException When a list or a contact is not found
      */
-    // TODO: DOES NOT WORK
-    /*@Override
+    @Override
     public void deleteContactFromList(int listId, int idContact) {
 
         Listing list = listingRepository.findById(listId).orElseThrow(
@@ -146,5 +154,5 @@ public class ContactServiceImpl implements ContactService {
         list.getContactList().remove(existentContact);
 
         listingRepository.save(list);
-    }*/
+    }
 }

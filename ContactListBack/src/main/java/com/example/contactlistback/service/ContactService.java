@@ -17,18 +17,16 @@ public interface ContactService {
 
     Contact getContact(int id);
 
-    Contact addContact(CreateContactDto newContactDto);
+    Contact createNewContact(CreateContactDto newContactDto);
 
     Contact editContact(UpdateContactDto contactDtoToEdit, int id);
 
     void deleteContact(int id);
 
-    // TODO: methods for adding, deleting an moving a contact to a list
-    // TODO: When adding to a list, the contact is new or existent?
+    // TODO: methods for adding an existent contact, deleting an moving a contact to a list
 
-    // TODO : DOES NOT WORK
-    /*Contact addContactToList(CreateContactDto createContactDto, int listId);
+    Contact createNewContactInList(CreateContactDto createContactDto, int listId);
 
-    void deleteContactFromList(int listId, int idContact);*/
+    void deleteContactFromList(int listId, int idContact);
 
 }

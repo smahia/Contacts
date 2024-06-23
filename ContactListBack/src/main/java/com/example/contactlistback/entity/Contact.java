@@ -3,16 +3,15 @@ package com.example.contactlistback.entity;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor @AllArgsConstructor
 public class Contact {
 
     @Id
@@ -41,7 +40,6 @@ public class Contact {
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean contactEmergency;
 
-    @NotEmpty
     @OneToMany(
             mappedBy = "contact",
             cascade = CascadeType.ALL,

@@ -60,7 +60,9 @@ public class EmailController {
     @Operation(summary = "Edit an email by ID", responses = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EmailDto.class))),
-            @ApiResponse(responseCode = "404", description = "Email not found"),
+            @ApiResponse(responseCode = "404", description = "Email not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiValidationError.class)))
