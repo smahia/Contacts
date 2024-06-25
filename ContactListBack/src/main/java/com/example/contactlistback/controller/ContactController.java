@@ -120,6 +120,59 @@ public class ContactController {
     }
 
     /**
+     * Add an existent contact to an existent list
+     *
+     * @param listId    The id of the list the contact will be added to
+     * @param contactId The id of the contact
+     * @return ResponseEntity<?> OK
+     */
+    // TODO: Check if the contact already exists in the list
+    @Operation(summary = "Add an existent Contact to an existent Listing", responses = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "List not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
+    })
+    @PostMapping(path = "addtolist/{listId}/{contactId}")
+    public ResponseEntity<?> addContactToList(@PathVariable int listId, @PathVariable int contactId) {
+
+        contactService.addContactToList(contactId, listId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
+     * Move a contact between source and destination lists
+     *
+     * @param sourceListid      The id of the source list
+     * @param contactId         The id of the contact
+     * @param destinationListId The id of the destination list
+     * @return ResponseEntity<?> OK
+     */
+    @Operation(summary = "Move a Contact from a source list to a destionation list", responses = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ContactDto.class))),
+            @ApiResponse(responseCode = "404", description = "Contact not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "List not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
+    })
+    @PutMapping(path = "move/{sourceListid}/{contactId}/{destinationListId}")
+    public ResponseEntity<?> moveContactBetweenLists(@PathVariable int sourceListid, @PathVariable int contactId,
+                                                     @PathVariable int destinationListId) {
+
+        contactService.moveContactBetweenLists(sourceListid, destinationListId, contactId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
      * Method for editing an existing contact
      *
      * @param contactDtoToEdit The ContactDto object containing the data entered by the user
@@ -185,8 +238,6 @@ public class ContactController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class)))
     })
-    // TODO: Delete contacts when deleting a list. If the contact is only in that list the contact will be deleted
-    //  but if not the relation will be deleted
     @DeleteMapping(path = "deletefromlist/{listId}/{contactId}")
     public ResponseEntity<?> deleteContactFromList(@PathVariable int listId, @PathVariable int contactId) {
 

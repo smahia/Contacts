@@ -23,10 +23,12 @@ public interface ContactService {
 
     void deleteContact(int id);
 
-    // TODO: methods for adding an existent contact, deleting an moving a contact to a list
-
     Contact createNewContactInList(CreateContactDto createContactDto, int listId);
 
-    void deleteContactFromList(int listId, int idContact);
+    void addContactToList(int contactId, int listId);
+
+    void deleteContactFromList(int listId, int contactId);
+
+    void moveContactBetweenLists(int sourceListId, int destinationListId, int contactId);
 
 }

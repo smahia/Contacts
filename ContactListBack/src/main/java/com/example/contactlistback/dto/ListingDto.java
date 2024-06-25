@@ -18,6 +18,7 @@ public class ListingDto {
 
     private String name;
 
+    // TODO: Return only the contactIds
     private Set<ContactDto> contactList = new HashSet<>();
 
     private UserDto user;

@@ -136,23 +136,68 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     * Deletes a Contact from an specific list
+     * Add an existent contact to an existent list
      *
-     * @param listId    The ID of the list from which the contact will be deleted
-     * @param idContact The id of the contact that will be deleted
-     * @throws NotFoundException When a list or a contact is not found
+     * @param contactId The id of the contact to be added
+     * @param listId    The id of the list the contact will be added to
      */
     @Override
-    public void deleteContactFromList(int listId, int idContact) {
+    public void addContactToList(int contactId, int listId) {
 
         Listing list = listingRepository.findById(listId).orElseThrow(
                 () -> new NotFoundException("List not found", listId));
 
-        Contact existentContact = contactRepository.findById(idContact).orElseThrow(() ->
-                new NotFoundException("Contact not found", idContact));
+        Contact contact = contactRepository.findById(contactId).orElseThrow(
+                () -> new NotFoundException("Contact not found", contactId)
+        );
+
+        list.getContactList().add(contact);
+
+        listingRepository.save(list);
+    }
+
+    /**
+     * Deletes a Contact from an specific list
+     * If the contact is only in that list the contact itself will be deleted,
+     * but if not the relationship will be deleted
+     *
+     * @param listId    The ID of the list from which the contact will be deleted
+     * @param contactId The id of the contact that will be deleted
+     * @throws NotFoundException When a list or a contact is not found
+     */
+    @Override
+    public void deleteContactFromList(int listId, int contactId) {
+
+        Listing list = listingRepository.findById(listId).orElseThrow(
+                () -> new NotFoundException("List not found", listId));
+
+        Contact existentContact = contactRepository.findById(contactId).orElseThrow(() ->
+                new NotFoundException("Contact not found", contactId));
 
         list.getContactList().remove(existentContact);
 
         listingRepository.save(list);
+
+        if (existentContact.getLists().isEmpty()) {
+
+            this.deleteContact(contactId);
+        }
+
+    }
+
+    /**
+     * Move a contact between source and destination lists
+     *
+     * @param sourceListId      The id of the source list
+     * @param destinationListId The id of the destination list
+     * @param contactId         The id of the contact
+     */
+    @Override
+    public void moveContactBetweenLists(int sourceListId, int destinationListId, int contactId) {
+
+        this.addContactToList(contactId, destinationListId);
+
+        this.deleteContactFromList(sourceListId, contactId);
+
     }
 }

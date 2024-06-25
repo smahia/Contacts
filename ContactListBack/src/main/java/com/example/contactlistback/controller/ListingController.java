@@ -91,8 +91,6 @@ public class ListingController {
                             schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping(path = "delete/{idList}")
-    // TODO: Delete contacts when deleting a list. If the contact is only in that list the contact will be deleted
-    //  but if not the relation will be deleted
     public ResponseEntity<?> deleteList(@PathVariable int idList) {
 
         listingService.deleteList(idList);

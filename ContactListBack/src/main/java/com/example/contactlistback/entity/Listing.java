@@ -23,8 +23,12 @@ public class Listing {
     @Column(nullable = false)
     private String name;
 
+    /**
+     * CascadeType is PERSIST and MERGE, so this way does not include REMOVE and so the removal
+     * is not propagated through the ManyToMany relationship, so it does not delete all lists and contacts.
+     */
     @ManyToMany (cascade = {
-            CascadeType.ALL
+            CascadeType.PERSIST, CascadeType.MERGE
     })
     @JoinTable(name = "contact_listing",
             joinColumns = @JoinColumn(name = "listing_id"),
