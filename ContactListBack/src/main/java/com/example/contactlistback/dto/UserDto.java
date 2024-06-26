@@ -1,6 +1,5 @@
 package com.example.contactlistback.dto;
 
-import com.example.contactlistback.entity.Listing;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,6 @@ public class UserDto {
 
     private String name;
 
-    private List<Listing> lists = new ArrayList<>();
+    private List<Integer> listsIds = new ArrayList<>();
 
 }

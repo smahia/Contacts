@@ -1,7 +1,9 @@
 package com.example.contactlistback.dtoConverter;
 
+import com.example.contactlistback.dto.ListingDto;
 import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
+import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -40,7 +42,16 @@ public class UserDtoConverter {
      * @return UserDto
      */
     public UserDto convertToDto(User user) {
-        return modelMapper.map(user, UserDto.class);
+
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        List<Listing> listing = user.getLists();
+
+        List<Integer> listsIds = listing.stream().map(Listing::getId).toList();
+
+        userDto.setListsIds(listsIds);
+
+        return userDto;
     }
 
     /**

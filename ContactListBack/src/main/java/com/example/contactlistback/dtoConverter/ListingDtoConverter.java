@@ -1,11 +1,7 @@
 package com.example.contactlistback.dtoConverter;
 
-
-import com.example.contactlistback.dto.AddressDto;
 import com.example.contactlistback.dto.ListingDto;
-import com.example.contactlistback.dto.createDto.CreateAddressDto;
 import com.example.contactlistback.dto.createDto.CreateListingDto;
-import com.example.contactlistback.entity.Address;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
@@ -14,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +42,19 @@ public class ListingDtoConverter {
      * @return ListingDto
      */
     public ListingDto convertToDto(Listing listing) {
-        return modelMapper.map(listing, ListingDto.class);
+
+        ListingDto listingDto = modelMapper.map(listing, ListingDto.class);
+
+        int userId = listing.getUser().getId();
+
+        Set<Contact> contactList = listing.getContactList();
+
+        Set<Integer> contactListIds = contactList.stream().map(Contact::getId).collect(Collectors.toSet());
+
+        listingDto.setContactIds(contactListIds);
+        listingDto.setUserId(userId);
+
+        return listingDto;
     }
 
     /**
