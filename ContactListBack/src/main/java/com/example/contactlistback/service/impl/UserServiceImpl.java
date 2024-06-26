@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         User existentUser = userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("User not found", userId));
 
-        existentUser.setName(editUserDto.getName());
+        existentUser.setUsername(editUserDto.getName());
         //existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
         existentUser.setPassword(editUserDto.getPassword());
 

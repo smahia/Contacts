@@ -1,6 +1,5 @@
 package com.example.contactlistback.dtoConverter;
 
-import com.example.contactlistback.dto.ListingDto;
 import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.entity.Listing;
@@ -75,7 +74,7 @@ public class UserDtoConverter {
     public User dtoToNewEntity(CreateUserDto userDto) {
 
         User user = new User();
-        user.setName(userDto.getName());
+        user.setUsername(userDto.getName());
         //user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPassword(userDto.getPassword());
 

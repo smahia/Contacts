@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "ListingController", description = "Listing management API")
 public class ListingController {
 
-    // TODO: CRUD for listings add a contact to a list, delete a contact from a list,
-    //  move contact between lists?
     // TODO: get user in session and not by id?
 
     private final ListingService listingService;
