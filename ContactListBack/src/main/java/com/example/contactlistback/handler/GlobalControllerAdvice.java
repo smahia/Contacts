@@ -2,6 +2,7 @@ package com.example.contactlistback.handler;
 
 import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
+import com.example.contactlistback.exception.DifferentPasswordException;
 import com.example.contactlistback.exception.NotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -66,5 +67,18 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    /**
+     * Method that handles a DifferentPasswordException thrown when passwords don't match
+     * @param ex DifferentPasswordException
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(DifferentPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleDifferentPasswordException(DifferentPasswordException ex) {
+
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 }

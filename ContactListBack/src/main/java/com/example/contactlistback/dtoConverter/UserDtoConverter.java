@@ -5,6 +5,7 @@ import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
+import com.example.contactlistback.exception.DifferentPasswordException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,15 +73,22 @@ public class UserDtoConverter {
      *
      * @param userDto The userDto which contains the data input from the user
      * @return User
+     * @throws DifferentPasswordException If passwords don't match
      */
-    // TODO: hash password
     public User dtoToNewEntity(CreateUserDto userDto) {
 
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        if (userDto.getPassword().contentEquals(userDto.getPasswordConfirmation())) {
+
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        } else {
+            throw new DifferentPasswordException();
+        }
+
         user.setRol(Stream.of(UserRole.USER).collect(Collectors.toSet()));
-        user.setPassword(userDto.getPassword());
 
         return user;
     }

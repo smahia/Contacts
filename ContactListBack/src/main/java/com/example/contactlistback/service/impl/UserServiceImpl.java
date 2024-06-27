@@ -3,6 +3,7 @@ package com.example.contactlistback.service.impl;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.dtoConverter.UserDtoConverter;
 import com.example.contactlistback.entity.User;
+import com.example.contactlistback.exception.DifferentPasswordException;
 import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.UserRepository;
 import com.example.contactlistback.service.UserService;
@@ -94,8 +95,10 @@ public class UserServiceImpl implements UserService {
      * @param editUserDto The object containing the input from the user
      * @param userId      The id of the user to be edited
      * @return User
+     * @throws NotFoundException When a User is not found
+     * @throws DifferentPasswordException When passwords don't match
+     * @throws DataIntegrityViolationException When the username already exists
      */
-    // TODO: Hash password
     @Override
     public User editUser(CreateUserDto editUserDto, int userId) {
 
@@ -103,10 +106,24 @@ public class UserServiceImpl implements UserService {
                 new NotFoundException("User not found", userId));
 
         existentUser.setUsername(editUserDto.getUsername());
-        existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
-        existentUser.setPassword(editUserDto.getPassword());
 
-        return userRepository.save(existentUser);
+        if (editUserDto.getPassword().contentEquals(editUserDto.getPasswordConfirmation())) {
+
+            existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
+
+        } else {
+
+            throw new DifferentPasswordException();
+        }
+
+        try {
+
+            return userRepository.save(existentUser);
+
+        } catch (DataIntegrityViolationException ex) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
 
     }
 
@@ -114,6 +131,7 @@ public class UserServiceImpl implements UserService {
      * Method that deletes an User by ID
      *
      * @param id The id of the user to be deleted
+     * @throws NotFoundException When a user does not exist
      */
     @Override
     public void deleteUser(int id) {

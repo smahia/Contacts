@@ -1,15 +1,13 @@
 package com.example.contactlistback.dto.createDto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CreateUserDto {
 
     @NotBlank(message = "Username is mandatory")
@@ -17,4 +15,7 @@ public class CreateUserDto {
 
     @NotBlank(message = "Password is mandatory")
     private String password;
+
+    @NotBlank(message = "Password is mandatory")
+    private String passwordConfirmation;
 }
