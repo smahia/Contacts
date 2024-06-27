@@ -1,15 +1,18 @@
 package com.example.contactlistback.dtoConverter;
 
+import com.example.contactlistback.auth.UserRole;
 import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Class that implements the logic so that a UserDto can be mapped to an User object and vice versa, manually
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserDtoConverter {
 
     private final ModelMapper modelMapper;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Converts a list of Users to a list of UserDto
@@ -65,7 +68,7 @@ public class UserDtoConverter {
 
     /**
      * Converts an UserDto to a new User without the Model Mapper
-     * Hash the password
+     * Hash the password and set rol as USER by default
      *
      * @param userDto The userDto which contains the data input from the user
      * @return User
@@ -74,8 +77,9 @@ public class UserDtoConverter {
     public User dtoToNewEntity(CreateUserDto userDto) {
 
         User user = new User();
-        user.setUsername(userDto.getName());
-        //user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRol(Stream.of(UserRole.USER).collect(Collectors.toSet()));
         user.setPassword(userDto.getPassword());
 
         return user;

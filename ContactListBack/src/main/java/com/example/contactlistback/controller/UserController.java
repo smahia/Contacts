@@ -1,7 +1,5 @@
 package com.example.contactlistback.controller;
 
-import com.example.contactlistback.dto.ContactDto;
-import com.example.contactlistback.dto.TelephoneDto;
 import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.dtoConverter.UserDtoConverter;

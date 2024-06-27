@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateUserDto {
 
-    @NotBlank(message = "Name is mandatory")
-    private String name;
+    @NotBlank(message = "Username is mandatory")
+    private String username;
 
     @NotBlank(message = "Password is mandatory")
     private String password;

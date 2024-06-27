@@ -7,9 +7,14 @@ import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.UserRepository;
 import com.example.contactlistback.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class that implements UserService
@@ -20,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDtoConverter userDtoConverter;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     /**
@@ -51,17 +56,34 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Find an User by username
+     * @param username The username to find
+     * @return Optional<User>
+     */
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    /**
      * Method that adds a new User to the database
      *
      * @param createUserDto The object containing the input from the user
      * @return User
+     * @throws DataIntegrityViolationException If the username is not unique
      */
     @Override
     public User addUser(CreateUserDto createUserDto) {
 
         User user = userDtoConverter.dtoToNewEntity(createUserDto);
 
-        return userRepository.save(user);
+        try {
+
+            return userRepository.save(user);
+
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
 
     }
 
@@ -80,8 +102,8 @@ public class UserServiceImpl implements UserService {
         User existentUser = userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("User not found", userId));
 
-        existentUser.setUsername(editUserDto.getName());
-        //existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
+        existentUser.setUsername(editUserDto.getUsername());
+        existentUser.setPassword(passwordEncoder.encode(editUserDto.getPassword()));
         existentUser.setPassword(editUserDto.getPassword());
 
         return userRepository.save(existentUser);
