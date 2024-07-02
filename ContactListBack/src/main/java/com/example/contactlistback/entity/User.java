@@ -38,10 +38,15 @@ public class User implements UserDetails {
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private List<Listing> lists = new ArrayList<>();
 
+    /**
+     * UserDetails method implemented
+     * Return the authorities given to the user
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return rol.stream()

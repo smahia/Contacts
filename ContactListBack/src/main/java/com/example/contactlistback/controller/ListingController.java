@@ -1,8 +1,11 @@
 package com.example.contactlistback.controller;
 
+import com.example.contactlistback.auth.UserRole;
 import com.example.contactlistback.dto.ListingDto;
 import com.example.contactlistback.dto.createDto.CreateListingDto;
 import com.example.contactlistback.dtoConverter.ListingDtoConverter;
+import com.example.contactlistback.entity.Listing;
+import com.example.contactlistback.entity.User;
 import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.ListingService;
@@ -15,7 +18,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -27,11 +37,28 @@ public class ListingController {
 
     private final ListingService listingService;
     private final ListingDtoConverter listingDtoConverter;
+    
+    @GetMapping(path = "/getListings")
+    public ResponseEntity<List<ListingDto>> getListings(@AuthenticationPrincipal User user) {
+
+        /*if (user.getRol().contains(UserRole.USER)) {
+
+            return new ResponseEntity<>(listingDtoConverter.convertToDtoList(listingService.getListings(user)),
+                    HttpStatus.OK);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }*/
+
+        return new ResponseEntity<>(listingDtoConverter.convertToDtoList(listingService.getListings(user)),
+                HttpStatus.OK);
+
+    }
 
     /**
      * Add a list to an user
      * @param listingDto The object containing the input from the user
-     * @param userId The id of the user to whom the list will be assigned
+     * @param user The user to whom the list will be assigned
      * @return ResponseEntity<ListingDto>
      */
     @Operation(summary = "Add a new list to an user", responses = {
@@ -44,10 +71,11 @@ public class ListingController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class)))
     })
-    @PostMapping(path = "/add/{userId}")
-    public ResponseEntity<ListingDto> addList(@Valid @RequestBody CreateListingDto listingDto, @PathVariable int userId) {
+    @PostMapping(path = "/add/")
+    public ResponseEntity<ListingDto> addList(@Valid @RequestBody CreateListingDto listingDto,
+                                              @AuthenticationPrincipal User user) {
 
-        return new ResponseEntity<>(listingDtoConverter.convertToDto(listingService.addList(listingDto, userId)),
+        return new ResponseEntity<>(listingDtoConverter.convertToDto(listingService.addList(listingDto, user)),
                 HttpStatus.CREATED);
     }
 

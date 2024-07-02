@@ -2,7 +2,6 @@ package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.createDto.CreateListingDto;
 import com.example.contactlistback.dtoConverter.ListingDtoConverter;
-import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Listing;
 import com.example.contactlistback.entity.User;
 import com.example.contactlistback.exception.NotFoundException;
@@ -11,6 +10,8 @@ import com.example.contactlistback.repository.UserRepository;
 import com.example.contactlistback.service.ListingService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,18 +22,28 @@ public class ListingServiceImpl implements ListingService {
     private final ListingDtoConverter listingDtoConverter;
 
     /**
+     * Get the list of an authenticated user
+     * @param user The authenticated user
+     * @return List<Listing> An ArrayList with the listings of the user
+     */
+    @Override
+    public List<Listing> getListings(User user) {
+        return listingRepository.findAllByUser(user);
+    }
+
+    /**
      * Add a new List to an specific user
      *
      * @param listingDto The object containing the data from the user
-     * @param userId     The id of the User the list will be assigned to
+     * @param user     The User the list will be assigned to
      * @return Listing
      * @throws NotFoundException When an User is not found
      */
     @Override
-    public Listing addList(CreateListingDto listingDto, int userId) {
+    public Listing addList(CreateListingDto listingDto, User user) {
 
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User not found", userId));
+        /*User user = userRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User not found", userId));*/
 
         Listing list = listingDtoConverter.dtoToNewEntity(listingDto, user);
 

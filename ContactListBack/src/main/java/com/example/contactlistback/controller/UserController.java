@@ -3,6 +3,7 @@ package com.example.contactlistback.controller;
 import com.example.contactlistback.dto.UserDto;
 import com.example.contactlistback.dto.createDto.CreateUserDto;
 import com.example.contactlistback.dtoConverter.UserDtoConverter;
+import com.example.contactlistback.entity.User;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -118,5 +120,15 @@ public class UserController {
         userService.deleteUser(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Get the details of the authenticated user
+     * @param user The authenticated user
+     * @return UserDto
+     */
+    @GetMapping(path = "/me")
+    public UserDto getUserLoggedIn(@AuthenticationPrincipal User user) {
+        return userDtoConverter.convertToDto(user);
     }
 }
