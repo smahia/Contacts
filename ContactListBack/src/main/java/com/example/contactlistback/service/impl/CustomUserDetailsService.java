@@ -18,6 +18,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     /**
+     * Define how to retrieve the user using the userService that is injected
+     *
      * @param username the username identifying the user whose data is required.
      * @return UserDetails The UserDetails object represents the authenticated user in the Spring Security
      * framework and contains details such as the user’s username, password, authorities (roles),
@@ -29,5 +31,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userService.findUserByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(username + "not found")
         );
+    }
+
+    public UserDetails loadUserById(int id) {
+        return userService.getUser(id);
     }
 }

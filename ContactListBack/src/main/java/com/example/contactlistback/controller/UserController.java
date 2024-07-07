@@ -64,25 +64,6 @@ public class UserController {
     }
 
     /**
-     * Add a new User to the database
-     *
-     * @param createUserDto The CreateUserDto Object containing the input from the User
-     * @return ResponseEntity<UserDto>
-     */
-    @Operation(summary = "Add a new User", responses = {
-            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = CreateUserDto.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiValidationError.class)))
-    })
-    @PostMapping(path = "/add")
-    public ResponseEntity<UserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-
-        return new ResponseEntity<>(userDtoConverter.convertToDto(userService.addUser(createUserDto)), HttpStatus.CREATED);
-    }
-
-    /**
      * Edit the data of an existent User by id
      *
      * @param createUserDto The CreateUserDto with the new data from the user
@@ -124,11 +105,18 @@ public class UserController {
 
     /**
      * Get the details of the authenticated user
+     *
      * @param user The authenticated user
      * @return UserDto
      */
+    @Operation(summary = "Get the details of the authenticated user", responses = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping(path = "/me")
-    public UserDto getUserLoggedIn(@AuthenticationPrincipal User user) {
+    public UserDto getAuthenticatedUser(@AuthenticationPrincipal User user) {
         return userDtoConverter.convertToDto(user);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.contactlistback.service.impl;
 
 import com.example.contactlistback.dto.createDto.CreateUserDto;
-import com.example.contactlistback.dtoConverter.UserDtoConverter;
 import com.example.contactlistback.entity.User;
 import com.example.contactlistback.exception.DifferentPasswordException;
 import com.example.contactlistback.exception.NotFoundException;
@@ -25,7 +24,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserDtoConverter userDtoConverter;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -58,6 +56,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Find an User by username
+     *
      * @param username The username to find
      * @return Optional<User>
      */
@@ -67,36 +66,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Method that adds a new User to the database
-     *
-     * @param createUserDto The object containing the input from the user
-     * @return User
-     * @throws DataIntegrityViolationException If the username is not unique
-     */
-    @Override
-    public User addUser(CreateUserDto createUserDto) {
-
-        User user = userDtoConverter.dtoToNewEntity(createUserDto);
-
-        try {
-
-            return userRepository.save(user);
-
-        } catch (DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
-        }
-
-    }
-
-    /**
      * Method that edits an existent User
      * Hash the password
      *
      * @param editUserDto The object containing the input from the user
      * @param userId      The id of the user to be edited
      * @return User
-     * @throws NotFoundException When a User is not found
-     * @throws DifferentPasswordException When passwords don't match
+     * @throws NotFoundException               When a User is not found
+     * @throws DifferentPasswordException      When passwords don't match
      * @throws DataIntegrityViolationException When the username already exists
      */
     @Override

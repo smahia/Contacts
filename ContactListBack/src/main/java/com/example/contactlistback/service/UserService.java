@@ -19,8 +19,6 @@ public interface UserService {
 
     Optional<User> findUserByUsername(String username);
 
-    User addUser(CreateUserDto createUserDto);
-
     User editUser(CreateUserDto editUserDto, int userId);
 
     void deleteUser(int id);

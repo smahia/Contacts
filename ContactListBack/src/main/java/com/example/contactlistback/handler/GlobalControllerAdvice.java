@@ -4,11 +4,13 @@ import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
 import com.example.contactlistback.exception.DifferentPasswordException;
 import com.example.contactlistback.exception.NotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,10 +31,11 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
      * Springs ResponseEntityExceptionHandler has a method handleException annotated with
      * MethodArgumentNotValidException.class, so the handleMethodArgumentNotValid must be overridden and not annotated
      * https://stackoverflow.com/questions/38282298/ambiguous-exceptionhandler-method-mapped-for-class-org-springframework-web-bin
-     * @param ex MethodArgumentNotValidException Exception to be thrown
-     * when validation on an argument annotated with @Valid fails
+     *
+     * @param ex      MethodArgumentNotValidException Exception to be thrown
+     *                when validation on an argument annotated with @Valid fails
      * @param headers HttpHeaders
-     * @param status HttpStatusCode
+     * @param status  HttpStatusCode
      * @param request WebRequest
      * @return ResponseEntity<Object>
      */
@@ -58,6 +61,7 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
      * 404 error code (in the request header) and the ApiError body,
      * which contains the status, the message (which is the message from the NotFoundException class)
      * and the local date
+     *
      * @param ex The NotFoundException
      * @return ResponseEntity<ApiError>
      */
@@ -71,6 +75,7 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
     /**
      * Method that handles a DifferentPasswordException thrown when passwords don't match
+     *
      * @param ex DifferentPasswordException
      * @return ResponseEntity<ApiError>
      */
@@ -80,5 +85,52 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    /**
+     * Handler for when a security exception occurs
+     *
+     * @param exception Represent the security exceptions, such as bad credentials, access denied
+     *                  or expired JWT token
+     * @return ProblemDetail
+     */
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleSecurityException(Exception exception) {
+
+        ProblemDetail errorDetail = null;
+
+        if (exception instanceof BadCredentialsException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
+            errorDetail.setProperty("description", "The username or password is incorrect");
+
+            return errorDetail;
+        }
+
+        if (exception instanceof AccountStatusException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The account is locked");
+        }
+
+        if (exception instanceof AccessDeniedException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "You are not authorized to access this resource");
+        }
+
+        if (exception instanceof SignatureException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT signature is invalid");
+        }
+
+        if (exception instanceof ExpiredJwtException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT token has expired");
+        }
+
+        if (errorDetail == null) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
+            errorDetail.setProperty("description", "Unknown internal server error.");
+        }
+
+        return errorDetail;
     }
 }

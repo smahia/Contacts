@@ -1,28 +1,23 @@
 package com.example.contactlistback.security;
 
-import com.example.contactlistback.service.impl.CustomUserDetailsService;
+import com.example.contactlistback.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // switch off the default web application security configuration and add your own
+@EnableMethodSecurity // to switch off the default web application security configuration and add your own
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -40,50 +35,42 @@ public class SecurityConfig {
         return (web) -> web.ignoring().anyRequest();
     }*/
 
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final UserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
 
-    /**
-     * https://stackoverflow.com/questions/77504542/rewriting-a-spring-security-deprecated-authenticationmanager-httpsecurity
-     * @param http
-     * @return
-     * @throws Exception
-     */
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-
-        AuthenticationManagerBuilder authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authManagerBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
-
-        return authManagerBuilder.build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
-
     /**
-     * https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html#authorizeHttpRequests(org.springframework.security.config.Customizer)
-     * https://github.com/spring-projects/spring-security/issues/12750
-     * https://stackoverflow.com/questions/76761567/spring-security-configuration-update-for-springboot-version-3-x
-     * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
-     * @param http
-     * @return
-     * @throws Exception
+     * Define what criteria an incoming request must match before being forwarded to the controllers. We want the
+     * following criteria:
+     * The request URL path matching /auth/signup and /auth/login doesn't require authentication.
+     * Any other request URL path must be authenticated.
+     * The request is stateless, meaning every request must be treated as a new one,
+     * even if it comes from the same client or has been received earlier.
+     * Must use the custom authentication provider, and they must be executed before the authentication middleware.
+     *
+     * @param http HttpSecurity
+     * @return SecurityFilterChain
+     * @throws Exception Exception
      */
-    // https://stackoverflow.com/questions/52029258/understanding-requestmatchers-on-spring-security
-    // https://stackoverflow.com/questions/42828687/unable-to-set-up-basic-authentication-with-spring-boot-rest-api
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("listings/").hasRole("USER") // specify which requests the spring
-                                // security configuration will be applied to
-                                .requestMatchers("users/add").permitAll()
-                                .anyRequest().authenticated() //other URLs are only allowed authenticated users
+                                // specify which requests the spring security configuration will be applied to
+                                .requestMatchers("/signup").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .anyRequest().authenticated() // other URLs are only allowed authenticated users
                 )
-                .httpBasic(hbc -> hbc.authenticationEntryPoint(customAuthenticationEntryPoint));
+                .authenticationProvider(authenticationProvider)
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }

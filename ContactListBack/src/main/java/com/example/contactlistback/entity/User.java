@@ -45,7 +45,7 @@ public class User implements UserDetails {
 
     /**
      * UserDetails method implemented
-     * Return the authorities given to the user
+     * Return the user’s roles list; it is helpful to manage permissions
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
