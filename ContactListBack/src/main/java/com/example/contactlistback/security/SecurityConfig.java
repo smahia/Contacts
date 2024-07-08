@@ -63,8 +63,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 // specify which requests the spring security configuration will be applied to
-                                .requestMatchers("/signup").permitAll()
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("auth/signup").permitAll()
+                                .requestMatchers("auth/login").permitAll()
                                 .anyRequest().authenticated() // other URLs are only allowed authenticated users
                 )
                 .authenticationProvider(authenticationProvider)
