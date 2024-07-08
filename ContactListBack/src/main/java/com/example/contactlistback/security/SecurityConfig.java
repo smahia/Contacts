@@ -38,6 +38,18 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * The AuthenticationManager coordinates and manages the authentication flow,
+     * allowing the application to delegate the authentication process to multiple providers.
+     * Each provider can have authentication mechanisms, such as username/password, social login,
+     * or multi-factor authentication.
+     * When a user attempts to log in, the application delegates the authentication to the AuthenticationManager.
+     * The AuthenticationManager then selects the appropriate AuthenticationProvider based on the request type and forwards the request to the configured provider.
+     *
+     * @param config AuthenticationConfiguration
+     * @return AuthenticationManager
+     * @throws Exception Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

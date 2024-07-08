@@ -17,6 +17,11 @@ public class AuthenticationConfig {
 
     /**
      * Set the new strategy to perform the authentication
+     * DaoAuthenticationProvider retrieves user details from a UserDetailsService.
+     * The UserDetailsService interface contains a single method loadUserByUsername(),
+     * which takes a username as a parameter and returns a UserDetails object.
+     * The UserDetails object contains the user’s security-related information such as password, authorities,
+     * and account status.
      *
      * @return AuthenticationProvider
      */

@@ -17,7 +17,11 @@ import java.util.function.Function;
 
 /**
  * This class generate, decode, and validate a JSON Web token
+ * It is responsible for generating a JWT token for an authenticated user
+ * It creates a token using the user’s username, current time, and expiration time
+ * It also provides methods for resolving and validating a token
  * https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
+ * https://howtodoinjava.com/spring-security/jwt-auth-vuejs-spring-boot-security/
  */
 @Component
 public class JwtProvider {

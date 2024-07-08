@@ -18,11 +18,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import java.io.IOException;
 
 /**
+ * It's an implementation of the OncePerRequestFilter abstract class,
+ * which ensures that the filter is only executed once per request.
  * This class extracts and validates the token from the request header.
  * For every request, we want to retrieve the JWT token in the header “Authorization”, and validate it:
  * If the token is invalid, reject the request if the token is invalid or continues otherwise.
  * If the token is valid, extract the username, find the related user in the database,
- * and set it in the authentication context so you can access it in any application layer.
+ * and set it in the authentication context (creates an Authentication object) so you can access it
+ * in any application layer.
  */
 @Component
 @AllArgsConstructor
