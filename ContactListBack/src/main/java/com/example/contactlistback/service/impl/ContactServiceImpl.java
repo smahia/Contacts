@@ -5,14 +5,20 @@ import com.example.contactlistback.dto.updateDto.UpdateContactDto;
 import com.example.contactlistback.dtoConverter.ContactDtoConverter;
 import com.example.contactlistback.entity.Contact;
 import com.example.contactlistback.entity.Listing;
+import com.example.contactlistback.entity.User;
+import com.example.contactlistback.exception.CustomAccessDeniedException;
 import com.example.contactlistback.exception.NotFoundException;
 import com.example.contactlistback.repository.ContactRepository;
 import com.example.contactlistback.repository.ListingRepository;
 import com.example.contactlistback.service.ContactService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class that implements ContactService
@@ -34,6 +40,32 @@ public class ContactServiceImpl implements ContactService {
     public List<Contact> getAllContacts() {
 
         return contactRepository.findAll();
+    }
+
+    /**
+     * Return a set of contacts of an specific list
+     *
+     * @param listId The list id
+     * @return List<Contact>
+     */
+    @Override
+    public Set<Contact> getAllContactsByList(int listId) {
+
+        Listing list = listingRepository.findById(listId).orElseThrow(
+                () -> new NotFoundException("List not found", listId)
+        );
+
+        User owner = list.getUser();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        if (userDetails.getUsername().equals(owner.getUsername())) {
+            return list.getContactList();
+        } else {
+            throw new CustomAccessDeniedException();
+        }
+
     }
 
     /**
@@ -94,7 +126,7 @@ public class ContactServiceImpl implements ContactService {
     public void deleteContact(int id) {
 
         contactRepository.findById(id).ifPresentOrElse(
-                contact -> contactRepository.deleteById(id),
+                (contact) -> contactRepository.deleteById(id),
                 () -> {
                     throw new NotFoundException("Contact not found", id);
                 }

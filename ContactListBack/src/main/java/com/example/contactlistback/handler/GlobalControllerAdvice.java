@@ -2,6 +2,7 @@ package com.example.contactlistback.handler;
 
 import com.example.contactlistback.error.ApiError;
 import com.example.contactlistback.error.ApiValidationError;
+import com.example.contactlistback.exception.CustomAccessDeniedException;
 import com.example.contactlistback.exception.DifferentPasswordException;
 import com.example.contactlistback.exception.NotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -85,6 +86,21 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    /**
+     * Handle CustomAccessDeniedException thrown when a user tries
+     * to perform an action that they are not allowed to perform
+     *
+     * @param ex CustomAccessDeniedException
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(CustomAccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<ApiError> handleAccessDeniedException(CustomAccessDeniedException ex) {
+
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiError);
     }
 
     /**

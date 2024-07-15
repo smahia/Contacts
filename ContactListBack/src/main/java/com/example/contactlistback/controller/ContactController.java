@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,11 +42,29 @@ public class ContactController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ContactDto.class)))
     })
-    @GetMapping(path = "/")
+    @GetMapping(path = "/getContacts")
     public ResponseEntity<List<ContactDto>> getAllContacts() {
 
         return new ResponseEntity<>(contactDtoConverter.convertToDtoList(contactService.getAllContacts()
         ), HttpStatus.OK);
+    }
+
+    /**
+     * Return a set of contacts of an specific list
+     *
+     * @param listId The list id
+     * @return ResponseEntity<Set < ContactDto>>
+     */
+    @Operation(summary = "Get contacts by list", responses = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContactDto.class)))
+    })
+    @GetMapping(path = "/getContactsByList/{listId}")
+    public ResponseEntity<Set<ContactDto>> getContactsByList(@PathVariable int listId) {
+
+        return new ResponseEntity<>(contactDtoConverter.convertToDtoSet(contactService.getAllContactsByList(listId)),
+                HttpStatus.OK);
     }
 
     /**

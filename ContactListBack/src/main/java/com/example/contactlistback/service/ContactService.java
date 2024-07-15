@@ -6,6 +6,7 @@ import com.example.contactlistback.entity.Contact;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class that implements the header methods to handle CRUD operations to manage contact data.
@@ -14,6 +15,8 @@ import java.util.List;
 public interface ContactService {
 
     List<Contact> getAllContacts();
+
+    Set<Contact> getAllContactsByList(int listId);
 
     Contact getContact(int id);
 
