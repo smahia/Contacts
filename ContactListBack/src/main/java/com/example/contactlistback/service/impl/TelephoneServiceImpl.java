@@ -1,6 +1,5 @@
 package com.example.contactlistback.service.impl;
 
-import com.example.contactlistback.dto.TelephoneDto;
 import com.example.contactlistback.dto.createDto.CreateTelephoneDto;
 import com.example.contactlistback.dtoConverter.TelephoneDtoConverter;
 import com.example.contactlistback.entity.Contact;
@@ -10,8 +9,6 @@ import com.example.contactlistback.repository.ContactRepository;
 import com.example.contactlistback.repository.TelephoneRepository;
 import com.example.contactlistback.service.TelephoneService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**

@@ -37,8 +37,6 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-
-
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
@@ -48,6 +46,9 @@ dependencies {
 
 }
 
-tasks.named('test') {
+/*tasks.named('test') {
+    useJUnitPlatform()
+}*/
+test {
     useJUnitPlatform()
 }
