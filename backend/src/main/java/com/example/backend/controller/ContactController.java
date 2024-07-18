@@ -145,7 +145,6 @@ public class ContactController {
      * @param contactId The id of the contact
      * @return ResponseEntity<?> OK
      */
-    // TODO: Check if the contact already exists in the list
     @Operation(summary = "Add an existent Contact to an existent Listing", responses = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ContactDto.class))),

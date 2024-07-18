@@ -7,6 +7,7 @@ import com.example.backend.entity.Contact;
 import com.example.backend.entity.Listing;
 import com.example.backend.entity.User;
 import com.example.backend.exception.CustomAccessDeniedException;
+import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.repository.ContactRepository;
 import com.example.backend.repository.ListingRepository;
@@ -183,9 +184,18 @@ public class ContactServiceImpl implements ContactService {
                 () -> new NotFoundException("Contact not found", contactId)
         );
 
-        list.getContactList().add(contact);
+        if (list.getContactList().contains(contact)) {
 
-        listingRepository.save(list);
+            throw new GenericException("The contact already exists in the list.");
+
+        } else {
+
+            list.getContactList().add(contact);
+
+            listingRepository.save(list);
+        }
+
+
     }
 
     /**

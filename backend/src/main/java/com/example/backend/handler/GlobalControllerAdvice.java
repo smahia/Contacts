@@ -4,6 +4,7 @@ import com.example.backend.error.ApiError;
 import com.example.backend.error.ApiValidationError;
 import com.example.backend.exception.CustomAccessDeniedException;
 import com.example.backend.exception.DifferentPasswordException;
+import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -83,6 +84,20 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DifferentPasswordException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiError> handleDifferentPasswordException(DifferentPasswordException ex) {
+
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    /**
+     * Generic handler for sending messages to the user, e.g. when a contact is already added to a list
+     *
+     * @param ex GenericException
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(GenericException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleGenericException(GenericException ex) {
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
