@@ -4,16 +4,15 @@ import com.example.backend.dto.LoginUserDto;
 import com.example.backend.dto.createDto.CreateUserDto;
 import com.example.backend.dtoConverter.UserDtoConverter;
 import com.example.backend.entity.User;
+import com.example.backend.exception.GenericException;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor
@@ -40,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return userRepository.save(user);
 
         } catch (DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+            throw new GenericException("Username already exists");
         }
     }
 
