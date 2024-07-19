@@ -1,0 +1,70 @@
+<div class="container">
+
+  <section class="section">
+
+    <h1 class="title has-text-centered">Sign up</h1>
+
+    <div class="registerForm">
+      <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
+
+        <div class="field" id="username">
+          <label class="label">Username</label>
+          <div class="control">
+            <input class="input" type="text" formControlName="username">
+          </div>
+
+          <div *ngIf="registrationForm.controls.username.hasError('required')
+&& !registrationForm.controls.username.untouched">
+
+            <p class="help is-danger">Username is mandatory</p>
+
+          </div>
+
+        </div>
+
+        <div class="field" id="password">
+          <label class="label">Password</label>
+          <div class="control">
+            <input class="input" type="password"
+                   formControlName="password">
+          </div>
+
+          <div *ngIf="registrationForm.controls.password.hasError('required')
+&& !registrationForm.controls.password.untouched">
+
+            <p class="help is-danger">Password is mandatory</p>
+
+          </div>
+
+        </div>
+
+        <div class="field" id="passwordConfirmation">
+          <label class="label">Password confirmation</label>
+          <div class="control">
+            <input class="input" type="password"
+                   formControlName="passwordConfirmation">
+          </div>
+
+          <div *ngIf="registrationForm.controls.passwordConfirmation.hasError('required')
+&& !registrationForm.controls.passwordConfirmation.untouched">
+
+            <p class="help is-danger">Password is mandatory</p>
+
+          </div>
+
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link">Submit</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </section>
+
+</div>
+
+
