@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {RegistrationService} from "../../service/registration.service";
 import {User} from "../../model/user";
 import Swal from 'sweetalert2';
@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -18,6 +19,8 @@ import Swal from 'sweetalert2';
 export class RegisterComponent {
 
   user: User = new User();
+  passwordsAreIdentical = false;
+  messagePasswordAreNotIdentical = false;
 
   registrationForm = new FormGroup(
     {
@@ -32,7 +35,26 @@ export class RegisterComponent {
 
   handleSubmit() {
 
-    if (this.registrationForm.valid) {
+    // Clear the error notification with the messages from the back
+    document.getElementById("errors")!.classList.add("is-hidden");
+    document.getElementById("errors")!.innerHTML = "";
+
+    if (this.registrationForm.value.password?.toUpperCase() ===
+      this.registrationForm.value.passwordConfirmation?.toUpperCase()) {
+
+      this.passwordsAreIdentical = true;
+
+      this.messagePasswordAreNotIdentical = false;
+
+    } else {
+
+      this.messagePasswordAreNotIdentical = true;
+
+      this.passwordsAreIdentical = false;
+
+    }
+
+    if (this.registrationForm.valid && this.passwordsAreIdentical) {
 
       // non-null assertion operator it tells TypeScript that even though
       // something looks like it could be null, it can trust you that it's not
@@ -52,11 +74,16 @@ export class RegisterComponent {
             }).then(
               () => {
                 this.registrationForm.reset();
+                window.location.reload();
               }
             );
           },
           error: error => {
-            console.log(error.error.message)
+            console.log(error.error.message);
+
+            document.getElementById("errors")!.classList.remove("is-hidden");
+            document.getElementById("errors")!.innerHTML = error.error.message;
+
           }
         });
 

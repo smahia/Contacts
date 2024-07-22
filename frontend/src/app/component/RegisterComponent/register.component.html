@@ -4,13 +4,19 @@
 
     <h1 class="title has-text-centered">Sign up</h1>
 
+    <div class="notification is-danger is-light is-hidden" id="errors">
+
+    </div>
+
     <div class="registerForm">
       <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
 
         <div class="field" id="username">
           <label class="label">Username</label>
           <div class="control">
-            <input class="input" type="text" formControlName="username">
+            <input class="input"
+                   [ngClass]="{'is-danger' : registrationForm.controls.username.hasError('required')
+&& !registrationForm.controls.username.untouched }" type="text" formControlName="username">
           </div>
 
           <div *ngIf="registrationForm.controls.username.hasError('required')
@@ -25,7 +31,10 @@
         <div class="field" id="password">
           <label class="label">Password</label>
           <div class="control">
-            <input class="input" type="password"
+            <input class="input"
+                   [ngClass]="{'is-danger' : registrationForm.controls.password.hasError('required')
+&& !registrationForm.controls.password.untouched || (messagePasswordAreNotIdentical)}"
+                   type="password"
                    formControlName="password">
           </div>
 
@@ -41,7 +50,10 @@
         <div class="field" id="passwordConfirmation">
           <label class="label">Password confirmation</label>
           <div class="control">
-            <input class="input" type="password"
+            <input class="input"
+                   [ngClass]="{'is-danger' : registrationForm.controls.passwordConfirmation.hasError('required')
+&& !registrationForm.controls.passwordConfirmation.untouched || (messagePasswordAreNotIdentical) } "
+                   type="password"
                    formControlName="passwordConfirmation">
           </div>
 
@@ -49,6 +61,12 @@
 && !registrationForm.controls.passwordConfirmation.untouched">
 
             <p class="help is-danger">Password is mandatory</p>
+
+          </div>
+
+          <div *ngIf="messagePasswordAreNotIdentical">
+
+            <p class="help is-danger">Passwords don't match</p>
 
           </div>
 
