@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
-import {RegistrationService} from "../../service/registration.service";
+import {RegistrationService} from "../../service/registration/registration.service";
 import {SignUpRequest} from "../../request/signUpRequest";
 import Swal from 'sweetalert2';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,7 @@ export class RegisterComponent {
     }
   );
 
-  constructor(private registrationService: RegistrationService) {
+  constructor(private registrationService: RegistrationService, private router: Router) {
   }
 
   handleSubmit() {
@@ -74,7 +75,7 @@ export class RegisterComponent {
             }).then(
               () => {
                 this.registrationForm.reset();
-                window.location.reload();
+                this.router.navigateByUrl('/login');
               }
             );
           },

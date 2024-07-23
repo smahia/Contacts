@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {SignUpRequest} from "../request/signUpRequest";
+import {SignUpRequest} from "../../request/signUpRequest";
 
 const baseUrl = "http://localhost:8080/auth/signup";
 
