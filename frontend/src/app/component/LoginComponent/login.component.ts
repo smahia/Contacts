@@ -5,6 +5,7 @@ import {LogInRequest} from "../../request/logInRequest";
 import {LoginService} from "../../service/login/login.service";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {AuthEmitter} from "../../emitter/authEmitter";
 
 @Component({
   selector: 'app-login',
@@ -43,9 +44,13 @@ export class LoginComponent {
       this.loginService.login(this.user).subscribe(
         {
           next: value => {
-            this.user = value;
+
+            // We are storing this JWT token in local storage so we can retrieve it from there whenever required
+            localStorage.setItem('token', value.token!);
+
             console.log(value);
             console.log("User is logged in");
+
 
             const Toast = Swal.mixin({
               toast: true,
@@ -65,12 +70,17 @@ export class LoginComponent {
 
             this.router.navigateByUrl('/');
 
+            AuthEmitter.authEmitter.emit(true);
+
+
           },
           error: error => {
             console.log(error.error.description);
 
             document.getElementById("errors")!.classList.remove("is-hidden");
             document.getElementById("errors")!.innerHTML = error.error.description;
+
+            AuthEmitter.authEmitter.emit(false);
 
           }
         });
