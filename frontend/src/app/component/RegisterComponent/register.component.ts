@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {RegistrationService} from "../../service/registration.service";
-import {User} from "../../model/user";
+import {SignUpRequest} from "../../request/signUpRequest";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent {
 
-  user: User = new User();
+  user: SignUpRequest = new SignUpRequest();
   passwordsAreIdentical = false;
   messagePasswordAreNotIdentical = false;
 
