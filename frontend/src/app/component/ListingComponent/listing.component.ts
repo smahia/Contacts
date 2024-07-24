@@ -1,15 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {ListingService} from "../../service/listing/listing.service";
-import {AuthEmitter} from "../../emitter/authEmitter";
+import {NgFor, NgIf} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-listing',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    NgFor
+  ],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss'
 })
 export class ListingComponent implements OnInit {
+
+  // TODO: implement search bar?
+  lists: any;
 
   constructor(private listingService: ListingService) {
   }
@@ -19,12 +27,18 @@ export class ListingComponent implements OnInit {
     this.listingService.showMyLists().subscribe(
       {
         next: value => {
+
           console.log(value);
-          AuthEmitter.authEmitter.emit(true);
+
+          this.lists = value;
+
+          //console.log(this.lists[0].name);
+
         },
         error: error => {
+
           console.log(error);
-          AuthEmitter.authEmitter.emit(false);
+
         }
       });
   }
