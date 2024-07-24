@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {AuthEmitter} from "../../emitter/authEmitter";
+import {LoginService} from "../../service/login/login.service";
 
 @Component({
   selector: 'app-home',
@@ -15,16 +15,19 @@ import {AuthEmitter} from "../../emitter/authEmitter";
 })
 export class HomeComponent implements OnInit {
 
-  username = null;
   userIsLoggedIn = false;
 
+  constructor(private loginService: LoginService) {
+  }
+
   ngOnInit(): void {
-    AuthEmitter.authEmitter.subscribe(
+
+    this.loginService.isLoggedIn.subscribe(
       value => {
+
         this.userIsLoggedIn = value;
-        console.log("home: " + this.userIsLoggedIn);
       }
-    );
+    )
   }
 
 

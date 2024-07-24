@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
-import {AuthEmitter} from "../../emitter/authEmitter";
 import {NgIf} from "@angular/common";
+import {LoginService} from "../../service/login/login.service";
 
 @Component({
   selector: 'app-navbar',
@@ -17,11 +17,14 @@ export class NavbarComponent implements OnInit {
 
   userIsLoggedIn = false;
 
+  constructor(private loginService: LoginService) {
+  }
+
   ngOnInit(): void {
 
-    AuthEmitter.authEmitter.subscribe(
+    this.loginService.isLoggedIn.subscribe(
       value => {
-        console.log("navbar: " + this.userIsLoggedIn);
+
         this.userIsLoggedIn = value;
       }
     );
@@ -30,9 +33,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
 
-    localStorage.removeItem('token');
-    AuthEmitter.authEmitter.emit(false);
-
+    this.loginService.logout();
   }
 
 }
