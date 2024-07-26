@@ -90,6 +90,12 @@ public class UserDtoConverter {
 
         user.setRol(Stream.of(UserRole.USER).collect(Collectors.toSet()));
 
+        Listing defaultList = new Listing();
+        defaultList.setName("Default");
+        defaultList.setUser(user);
+
+        user.getLists().add(defaultList);
+
         return user;
     }
 }

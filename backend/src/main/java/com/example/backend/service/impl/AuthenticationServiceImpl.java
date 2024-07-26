@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import com.example.backend.dto.LoginUserDto;
 import com.example.backend.dto.createDto.CreateUserDto;
 import com.example.backend.dtoConverter.UserDtoConverter;
+import com.example.backend.entity.Listing;
 import com.example.backend.entity.User;
 import com.example.backend.exception.GenericException;
 import com.example.backend.repository.UserRepository;
@@ -35,11 +36,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userDtoConverter.dtoToNewEntity(createUserDto);
 
         try {
-
             return userRepository.save(user);
-
         } catch (DataIntegrityViolationException ex) {
-            throw new GenericException("Username already exists");
+            throw new GenericException("Username already exists.");
         }
     }
 
