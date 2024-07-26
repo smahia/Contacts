@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ListingService} from "../../service/listing/listing.service";
 import {NgFor, NgIf} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SearchListsPipe} from "../../pipe/search-lists.pipe";
 
 @Component({
   selector: 'app-listing',
@@ -9,15 +10,17 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     NgIf,
     ReactiveFormsModule,
-    NgFor
+    NgFor,
+    FormsModule,
+    SearchListsPipe
   ],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss'
 })
 export class ListingComponent implements OnInit {
-
-  // TODO: implement search bar?
+  
   lists: any;
+  searchListsFilter = '';
 
   constructor(private listingService: ListingService) {
   }

@@ -4,6 +4,7 @@ import {LogInRequest} from "../../request/logInRequest";
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {LogInResponse} from "../../response/logInResponse";
 import moment from "moment";
+import {Router} from "@angular/router";
 
 const baseUrl = "http://localhost:8080/auth/login";
 
@@ -25,7 +26,7 @@ export class LoginService {
 
   private loggedInSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
 
     if (this.isTokenValid()) {
       // If the token is valid, set the value to true
@@ -85,6 +86,8 @@ export class LoginService {
     localStorage.removeItem("expires_at");
 
     this.loggedInSubject.next(false);
+
+    this.router.navigateByUrl('/');
   }
 
   /**
