@@ -3,6 +3,7 @@ import {RegisterComponent} from "./component/RegisterComponent/register.componen
 import {HomeComponent} from "./component/HomeComponent/home.component";
 import {LoginComponent} from "./component/LoginComponent/login.component";
 import {ListingComponent} from "./component/ListingComponent/listing.component";
+import {AuthGuard} from "./guard/auth.guard";
 
 export const routes: Routes = [
   {
@@ -23,6 +24,7 @@ export const routes: Routes = [
   {
     path: 'myLists',
     title: 'My lists',
-    component: ListingComponent
+    component: ListingComponent,
+    canActivate: [AuthGuard]
   }
 ];
