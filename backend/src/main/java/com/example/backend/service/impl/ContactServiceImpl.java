@@ -188,13 +188,9 @@ public class ContactServiceImpl implements ContactService {
 
         list.getContactList().remove(existentContact);
 
+        this.deleteContact(contactId);
+
         listingRepository.save(list);
-
-        // TODO: DELETE IF
-        if (existentContact.getLists().isEmpty()) {
-
-            this.deleteContact(contactId);
-        }
 
     }
 }
