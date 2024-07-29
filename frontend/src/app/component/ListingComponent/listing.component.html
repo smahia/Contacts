@@ -8,7 +8,8 @@
       <p class="panel-heading">
         Lists
 
-        <button class="button is-dark is-inverted">
+        <button class="button is-dark is-inverted"
+                (click)="toggleModal()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -57,6 +58,36 @@
       </div>
 
     </article>
+
+    <!-- Modal for adding new lists -->
+    <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+      <div class="modal-background" (click)="toggleModal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Create a new list</p>
+          <button class="delete" aria-label="close" (click)="toggleModal()"></button>
+        </header>
+        <section class="modal-card-body">
+
+          <label class="label">Name</label>
+          <input
+            class="input"
+            type="text"
+          />
+
+        </section>
+        <footer class="modal-card-foot">
+          <div class="columns is-mobile">
+            <div class="column is-5">
+              <button class="button is-link">Save</button>
+            </div>
+            <div class="column">
+              <button class="button is-danger" (click)="toggleModal()">Cancel</button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
 
   </section>
 

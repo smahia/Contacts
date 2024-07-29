@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ListingService} from "../../service/listing/listing.service";
-import {NgFor, NgIf} from "@angular/common";
+import {NgClass, NgFor, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SearchListsPipe} from "../../pipe/search-lists.pipe";
 import Swal from "sweetalert2";
@@ -13,7 +13,8 @@ import Swal from "sweetalert2";
     ReactiveFormsModule,
     NgFor,
     FormsModule,
-    SearchListsPipe
+    SearchListsPipe,
+    NgClass
   ],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss'
@@ -22,6 +23,7 @@ export class ListingComponent implements OnInit {
 
   lists: any;
   searchListsFilter = '';
+  isModalActive: boolean = false;
 
   constructor(private listingService: ListingService) {
   }
@@ -45,6 +47,10 @@ export class ListingComponent implements OnInit {
 
         }
       });
+  }
+
+  toggleModal() {
+    this.isModalActive = !this.isModalActive;
   }
 
   deleteList(listId: number, listName: String) {
