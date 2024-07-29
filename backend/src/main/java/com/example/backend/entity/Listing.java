@@ -25,12 +25,9 @@ public class Listing {
      * CascadeType is PERSIST and MERGE, so this way does not include REMOVE and so the removal
      * is not propagated through the ManyToMany relationship, so it does not delete all lists and contacts.
      */
-    @ManyToMany (cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE
-    })
-    @JoinTable(name = "contact_listing",
-            joinColumns = @JoinColumn(name = "listing_id"),
-            inverseJoinColumns = @JoinColumn(name = "contact_id")
+    @OneToMany (mappedBy = "list",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private Set<Contact> contactList = new HashSet<>();
 

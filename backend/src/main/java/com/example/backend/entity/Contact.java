@@ -61,7 +61,8 @@ public class Contact {
     )
     private List<Address> addressesList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "contactList", cascade = { CascadeType.ALL })
-    private Set<Listing> lists = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "contactList", nullable = false)
+    private Listing list;
 
 }
