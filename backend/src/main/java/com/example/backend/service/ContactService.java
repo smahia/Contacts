@@ -32,6 +32,4 @@ public interface ContactService {
 
     void deleteContactFromList(int listId, int contactId);
 
-    void moveContactBetweenLists(int sourceListId, int destinationListId, int contactId);
-
 }

@@ -168,6 +168,7 @@ public class ContactServiceImpl implements ContactService {
         return contact;
     }
 
+    // TODO: DELETE
     /**
      * Add an existent contact to an existent list
      *
@@ -220,26 +221,11 @@ public class ContactServiceImpl implements ContactService {
 
         listingRepository.save(list);
 
+        // TODO: DELETE IF
         if (existentContact.getLists().isEmpty()) {
 
             this.deleteContact(contactId);
         }
-
-    }
-
-    /**
-     * Move a contact between source and destination lists
-     *
-     * @param sourceListId      The id of the source list
-     * @param destinationListId The id of the destination list
-     * @param contactId         The id of the contact
-     */
-    @Override
-    public void moveContactBetweenLists(int sourceListId, int destinationListId, int contactId) {
-
-        this.addContactToList(contactId, destinationListId);
-
-        this.deleteContactFromList(sourceListId, contactId);
 
     }
 }
