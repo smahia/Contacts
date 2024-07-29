@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.createDto.CreateContactDto;
 import com.example.backend.dto.updateDto.UpdateContactDto;
 import com.example.backend.entity.Contact;
+import com.example.backend.entity.Listing;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface ContactService {
 
     Contact getContact(int id);
 
-    Contact createNewContact(CreateContactDto newContactDto);
+    Contact createNewContact(CreateContactDto newContactDto, Listing list);
 
     Contact editContact(UpdateContactDto contactDtoToEdit, int id);
 

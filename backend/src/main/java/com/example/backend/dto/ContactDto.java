@@ -1,9 +1,11 @@
 package com.example.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
 
@@ -22,6 +24,7 @@ public class ContactDto {
 
     private String surname;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
 
     private Boolean contactEmergency;
@@ -33,5 +36,5 @@ public class ContactDto {
     private List<AddressDto> addressesList = new ArrayList<>();
 
     // If the name is not the same as in the Entity, it has to be converted manually even with Model Mapper
-    private Set<Integer> listIds = new HashSet<>();
+    private Integer listId;
 }

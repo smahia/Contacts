@@ -2,12 +2,12 @@ package com.example.backend.service.impl;
 
 import com.example.backend.dto.createDto.CreateContactDto;
 import com.example.backend.dto.updateDto.UpdateContactDto;
+import com.example.backend.dtoConverter.AddressDtoConverter;
 import com.example.backend.dtoConverter.ContactDtoConverter;
-import com.example.backend.entity.Contact;
-import com.example.backend.entity.Listing;
-import com.example.backend.entity.User;
+import com.example.backend.dtoConverter.EmailDtoConverter;
+import com.example.backend.dtoConverter.TelephoneDtoConverter;
+import com.example.backend.entity.*;
 import com.example.backend.exception.CustomAccessDeniedException;
-import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.repository.ContactRepository;
 import com.example.backend.repository.ListingRepository;
@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
     private final ContactDtoConverter contactDtoConverter;
     private final ListingRepository listingRepository;
+    private final TelephoneDtoConverter telephoneDtoConverter;
+    private final AddressDtoConverter addressDtoConverter;
+    private final EmailDtoConverter emailDtoConverter;
 
     /**
      * Method that returns all the contacts in the database
@@ -87,12 +91,13 @@ public class ContactServiceImpl implements ContactService {
      * Method that implements the logic for creating a new contact in the databasee
      *
      * @param newContactDto The object containing the data entered by the user
+     * @param list          The list to which the contact will be added
      * @return Contact
      */
     @Override
-    public Contact createNewContact(CreateContactDto newContactDto) {
+    public Contact createNewContact(CreateContactDto newContactDto, Listing list) {
 
-        Contact contact = contactDtoConverter.dtoToNewEntity(newContactDto);
+        Contact contact = contactDtoConverter.dtoToNewEntity(newContactDto, list);
 
         return contactRepository.save(contact);
     }
@@ -159,7 +164,7 @@ public class ContactServiceImpl implements ContactService {
             list.getContactList().add(contact);
          */
 
-        Contact contact = this.createNewContact(createContactDto);
+        Contact contact = this.createNewContact(createContactDto, list);
 
         list.getContactList().add(contact);
 

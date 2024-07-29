@@ -67,13 +67,9 @@ public class ContactDtoConverter {
         //return modelMapper.map(contact, ContactDto.class);
         ContactDto contactDto = modelMapper.map(contact, ContactDto.class);
 
-        Set<Listing> listings = contact.getLists();
+        int listId = contact.getList().getId();
 
-        Set<Integer> listId = listings.stream()
-                .map(Listing::getId)
-                .collect(Collectors.toSet());
-
-        contactDto.setListIds(listId);
+        contactDto.setListId(listId);
 
         return contactDto;
 
@@ -94,15 +90,17 @@ public class ContactDtoConverter {
      * Converts a ContactDto to a new Contact without the modelMapper
      *
      * @param newContactDto The new ContactDto to be converted to a Contact manually
+     * @param list          The list to which the contact will be added
      * @return Contact
      */
-    public Contact dtoToNewEntity(CreateContactDto newContactDto) {
+    public Contact dtoToNewEntity(CreateContactDto newContactDto, Listing list) {
 
         Contact contact = new Contact();
         contact.setName(newContactDto.getName());
         contact.setSurname(newContactDto.getSurname());
         contact.setBirthday(newContactDto.getBirthday());
         contact.setContactEmergency(newContactDto.getContactEmergency());
+        contact.setList(list);
 
         // Add Telephone
         List<Telephone> newTelephoneList = new ArrayList<>();
@@ -130,7 +128,6 @@ public class ContactDtoConverter {
             newEmailList.add(email);
         }
         contact.setEmailList(newEmailList);
-
 
         return contact;
     }
