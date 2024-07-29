@@ -168,37 +168,6 @@ public class ContactServiceImpl implements ContactService {
         return contact;
     }
 
-    // TODO: DELETE
-    /**
-     * Add an existent contact to an existent list
-     *
-     * @param contactId The id of the contact to be added
-     * @param listId    The id of the list the contact will be added to
-     */
-    @Override
-    public void addContactToList(int contactId, int listId) {
-
-        Listing list = listingRepository.findById(listId).orElseThrow(
-                () -> new NotFoundException("List not found", listId));
-
-        Contact contact = contactRepository.findById(contactId).orElseThrow(
-                () -> new NotFoundException("Contact not found", contactId)
-        );
-
-        if (list.getContactList().contains(contact)) {
-
-            throw new GenericException("The contact already exists in the list.");
-
-        } else {
-
-            list.getContactList().add(contact);
-
-            listingRepository.save(list);
-        }
-
-
-    }
-
     /**
      * Deletes a Contact from an specific list
      * If the contact is only in that list the contact itself will be deleted,

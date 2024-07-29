@@ -28,8 +28,6 @@ public interface ContactService {
 
     Contact createNewContactInList(CreateContactDto createContactDto, int listId);
 
-    void addContactToList(int contactId, int listId);
-
     void deleteContactFromList(int listId, int contactId);
 
 }

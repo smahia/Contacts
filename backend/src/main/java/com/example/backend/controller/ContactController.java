@@ -139,31 +139,6 @@ public class ContactController {
     }
 
     /**
-     * Add an existent contact to an existent list
-     *
-     * @param listId    The id of the list the contact will be added to
-     * @param contactId The id of the contact
-     * @return ResponseEntity<?> OK
-     */
-    @Operation(summary = "Add an existent Contact to an existent Listing", responses = {
-            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class))),
-            @ApiResponse(responseCode = "404", description = "List not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)))
-    })
-    @PostMapping(path = "addtolist/{listId}/{contactId}")
-    public ResponseEntity<?> addContactToList(@PathVariable int listId, @PathVariable int contactId) {
-
-        contactService.addContactToList(contactId, listId);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    /**
      * Move a contact between source and destination lists
      *
      * @param sourceListid      The id of the source list
