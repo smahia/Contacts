@@ -91,29 +91,6 @@ public class ContactController {
     }
 
     /**
-     * Method for creating a new contact (is not assigned to any list)
-     * Convert the Contact returned by the service to a ContactDto
-     *
-     * @param newContactDto The object containing the data entered by the user
-     * @return ResponseEntity<ContactDto>
-     */
-    @Operation(summary = "Create a new Contact but it is not assigned to any list", responses = {
-            @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request: validation fails",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiValidationError.class)))
-    })
-    @PostMapping(path = "/create")
-    public ResponseEntity<ContactDto> createNewContact(@Valid @RequestBody CreateContactDto newContactDto) {
-
-        Contact contact = contactService.createNewContact(newContactDto);
-
-        return new ResponseEntity<>(contactDtoConverter.convertToDto(contact), HttpStatus.CREATED);
-
-    }
-
-    /**
      * Add a new contact to a list
      *
      * @param listId           The id of the list the contact will be added to
