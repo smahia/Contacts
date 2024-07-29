@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {MyListsResponse} from "../../response/myListsResponse";
 
-const baseUrl = "http://localhost:8080/listings/getListings";
+const baseUrl = "http://localhost:8080/listings/";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,11 @@ export class ListingService {
 
   showMyLists(): Observable<MyListsResponse> {
 
-    return this.http.get(baseUrl);
+    return this.http.get(baseUrl + "getListings");
 
+  }
+
+  deleteList(listId: number): Observable<any> {
+    return this.http.delete(baseUrl + "delete/" + listId);
   }
 }

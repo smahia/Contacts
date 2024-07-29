@@ -5,7 +5,15 @@
     <h1 class="title has-text-centered">My lists</h1>
 
     <article class="panel is-info">
-      <p class="panel-heading">Lists</p>
+      <p class="panel-heading">
+        Lists
+
+        <button class="button is-dark is-inverted">
+              <span class="icon">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+        </button>
+      </p>
 
       <div class="panel-block">
         <p class="control has-icons-left">
@@ -29,11 +37,6 @@
 
           <div class="list-item-controls">
             <div class="buttons">
-              <button class="button is-dark is-inverted">
-              <span class="icon">
-                <i class="fa-solid fa-plus"></i>
-              </span>
-              </button>
 
               <button class="button is-dark is-inverted">
               <span class="icon">
@@ -41,7 +44,7 @@
               </span>
               </button>
 
-              <button class="button is-dark is-inverted">
+              <button class="button is-dark is-inverted" (click)="deleteList(list.id!, list.name!)">
               <span class="icon">
                 <i class="fa-solid fa-trash"></i>
               </span>
