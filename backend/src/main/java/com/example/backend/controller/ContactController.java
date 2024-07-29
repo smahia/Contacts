@@ -139,33 +139,6 @@ public class ContactController {
     }
 
     /**
-     * Move a contact between source and destination lists
-     *
-     * @param sourceListid      The id of the source list
-     * @param contactId         The id of the contact
-     * @param destinationListId The id of the destination list
-     * @return ResponseEntity<?> OK
-     */
-    @Operation(summary = "Move a Contact from a source list to a destionation list", responses = {
-            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ContactDto.class))),
-            @ApiResponse(responseCode = "404", description = "Contact not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class))),
-            @ApiResponse(responseCode = "404", description = "List not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)))
-    })
-    @PutMapping(path = "move/{sourceListid}/{contactId}/{destinationListId}")
-    public ResponseEntity<?> moveContactBetweenLists(@PathVariable int sourceListid, @PathVariable int contactId,
-                                                     @PathVariable int destinationListId) {
-
-        contactService.moveContactBetweenLists(sourceListid, destinationListId, contactId);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    /**
      * Method for editing an existing contact
      *
      * @param contactDtoToEdit The ContactDto object containing the data entered by the user
