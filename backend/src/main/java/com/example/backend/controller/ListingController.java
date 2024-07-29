@@ -31,7 +31,7 @@ public class ListingController {
 
     private final ListingService listingService;
     private final ListingDtoConverter listingDtoConverter;
-    
+
     @GetMapping(path = "/getListings")
     public ResponseEntity<List<ListingDto>> getListings(@AuthenticationPrincipal User user) {
 
@@ -51,8 +51,9 @@ public class ListingController {
 
     /**
      * Add a list to an user
+     *
      * @param listingDto The object containing the input from the user
-     * @param user The user to whom the list will be assigned
+     * @param user       The user to whom the list will be assigned
      * @return ResponseEntity<ListingDto>
      */
     @Operation(summary = "Add a new list to an user", responses = {
@@ -75,7 +76,8 @@ public class ListingController {
 
     /**
      * Edit an existent list
-     * @param idList The id of the list that will be edited
+     *
+     * @param idList         The id of the list that will be edited
      * @param editListingDto The object containing the input from the user
      * @return ResponseEntity<ListingDto>
      */
@@ -100,6 +102,7 @@ public class ListingController {
 
     /**
      * Delete an existent list
+     *
      * @param idList The id of the list that will be deleted
      * @return ResponseEntity<?> No content
      */

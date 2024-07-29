@@ -31,7 +31,9 @@ public class Listing {
     )
     private Set<Contact> contactList = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
