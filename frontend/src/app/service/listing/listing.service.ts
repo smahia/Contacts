@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {MyListsResponse} from "../../response/myListsResponse";
+import {NewListRequest} from "../../request/NewListRequest";
 
 const baseUrl = "http://localhost:8080/listings/";
 
@@ -17,6 +18,10 @@ export class ListingService {
 
     return this.http.get(baseUrl + "getListings");
 
+  }
+
+  addList(newList: NewListRequest): Observable<MyListsResponse> {
+    return this.http.post(baseUrl + "add/", newList);
   }
 
   deleteList(listId: number): Observable<any> {
