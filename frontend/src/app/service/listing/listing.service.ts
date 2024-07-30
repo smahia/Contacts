@@ -15,13 +15,15 @@ export class ListingService {
   }
 
   showMyLists(): Observable<MyListsResponse> {
-
     return this.http.get(baseUrl + "getListings");
-
   }
 
   addList(newList: NewListRequest): Observable<MyListsResponse> {
     return this.http.post(baseUrl + "add/", newList);
+  }
+
+  editList(listEdited: NewListRequest, listId: number): Observable<MyListsResponse> {
+    return this.http.put(baseUrl + "edit/" + listId, listEdited);
   }
 
   deleteList(listId: number): Observable<any> {

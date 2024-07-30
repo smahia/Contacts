@@ -39,7 +39,7 @@
           <div class="list-item-controls">
             <div class="buttons">
 
-              <button class="button is-dark is-inverted">
+              <button class="button is-dark is-inverted" (click)="openEditModal(list)">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
               </span>
@@ -70,7 +70,7 @@
         <section class="modal-card-body">
 
 
-          <form [formGroup]="newListForm" (ngSubmit)="handleSubmit()">
+          <form [formGroup]="newListForm" (ngSubmit)="handleSubmitForAdding()">
 
             <div class="field" id="name">
               <label class="label">Name</label>
@@ -96,7 +96,7 @@
                     <button class="button is-link">Save</button>
                   </div>
                   <div class="column">
-                    <button class="button is-danger" (click)="toggleModal()">Cancel</button>
+                    <button class="button is-danger" type="button" (click)="toggleModal()">Cancel</button>
                   </div>
                 </div>
               </div>
@@ -107,6 +107,58 @@
         </section>
         <footer class="modal-card-foot">
 
+        </footer>
+      </div>
+    </div>
+
+
+    <!-- Modal for editing an existent lists -->
+    <div class="modal" [ngClass]="{ 'is-active' : isEditingModalActive }">
+      <div class="modal-background" (click)="toggleEditModal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit list</p>
+          <button class="delete" aria-label="close" (click)="toggleEditModal()"></button>
+        </header>
+        <section class="modal-card-body">
+
+
+          <form [formGroup]="editListForm" (ngSubmit)="handleSubmitForEditing()">
+
+            <div class="field" id="editedName">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input"
+                       [ngClass]="{'is-danger' : editListForm.controls.editedName.hasError('required')
+&& !editListForm.controls.editedName.untouched }" type="text" formControlName="editedName">
+              </div>
+
+              <div *ngIf="editListForm.controls.editedName.hasError('required')
+&& !editListForm.controls.editedName.untouched">
+
+                <p class="help is-danger">Name is mandatory</p>
+
+              </div>
+
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <div class="columns is-mobile">
+                  <div class="column is-5">
+                    <button class="button is-link">Save</button>
+                  </div>
+                  <div class="column">
+                    <button class="button is-danger" type="button" (click)="toggleEditModal()">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </section>
+        <footer class="modal-card-foot">
         </footer>
       </div>
     </div>
