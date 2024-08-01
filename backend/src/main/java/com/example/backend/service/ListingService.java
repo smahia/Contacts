@@ -12,6 +12,8 @@ public interface ListingService {
 
     List<Listing> getListings(User user);
 
+    Listing getListById(int id, User user);
+
     Listing addList(CreateListingDto listingDto, User user);
 
     Listing editList(CreateListingDto listingDto, int listId);

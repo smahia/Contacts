@@ -50,6 +50,25 @@ public class ListingController {
     }
 
     /**
+     * Get a list by ID
+     *
+     * @param id The id of the list
+     * @return ResponseEntity<ListingDto>
+     */
+    @Operation(summary = "Get a list by ID", responses = {
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ListingDto.class))),
+            @ApiResponse(responseCode = "404", description = "List not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)))
+    })
+    @GetMapping(path = "/getList/{id}")
+    public ResponseEntity<ListingDto> getList(@PathVariable int id, @AuthenticationPrincipal User user) {
+
+        return new ResponseEntity<>(listingDtoConverter.convertToDto(listingService.getListById(id, user)), HttpStatus.OK);
+    }
+
+    /**
      * Add a list to an user
      *
      * @param listingDto The object containing the input from the user

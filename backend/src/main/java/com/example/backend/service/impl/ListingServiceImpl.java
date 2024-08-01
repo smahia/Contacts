@@ -23,6 +23,7 @@ public class ListingServiceImpl implements ListingService {
 
     /**
      * Get the list of an authenticated user
+     *
      * @param user The authenticated user
      * @return List<Listing> An ArrayList with the listings of the user
      */
@@ -32,10 +33,25 @@ public class ListingServiceImpl implements ListingService {
     }
 
     /**
+     * Return a list by id
+     *
+     * @param id The id of the list
+     * @return Listing
+     */
+    @Override
+    public Listing getListById(int id, User user) {
+
+        return listingRepository.findByIdAndUser(id, user).orElseThrow(
+                () -> new NotFoundException("List not found", id)
+        );
+
+    }
+
+    /**
      * Add a new List to an specific user
      *
      * @param listingDto The object containing the data from the user
-     * @param user     The User the list will be assigned to
+     * @param user       The User the list will be assigned to
      * @return Listing
      * @throws NotFoundException When an User is not found
      */
