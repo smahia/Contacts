@@ -18,6 +18,10 @@ export class ListingService {
     return this.http.get(baseUrl + "getListings");
   }
 
+  getListById(listId: number): Observable<MyListsResponse> {
+    return this.http.get(baseUrl + "getList/" + listId);
+  }
+
   addList(newList: NewListRequest): Observable<MyListsResponse> {
     return this.http.post(baseUrl + "add/", newList);
   }
