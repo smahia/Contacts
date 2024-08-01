@@ -6,6 +6,7 @@ import {SearchListsPipe} from "../../pipe/search-lists.pipe";
 import Swal from "sweetalert2";
 import {NewListRequest} from "../../request/NewListRequest";
 import {MyListsResponse} from "../../response/myListsResponse";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-listing',
@@ -16,7 +17,8 @@ import {MyListsResponse} from "../../response/myListsResponse";
     NgFor,
     FormsModule,
     SearchListsPipe,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss'
