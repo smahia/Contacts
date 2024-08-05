@@ -3,7 +3,7 @@ import {MyListsResponse} from "../../response/myListsResponse";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ListingService} from "../../service/listing/listing.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {ContactDetailsComponent} from "../ContactDetailsComponent/contact-details.component";
 import {ContactService} from "../../service/contact/contact.service";
 import {GetContactResponse} from "../../response/GetContactResponse";
@@ -14,7 +14,8 @@ import {GetContactResponse} from "../../response/GetContactResponse";
   imports: [
     NgForOf,
     ContactDetailsComponent,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './list-details.component.html',
   styleUrl: './list-details.component.scss'
