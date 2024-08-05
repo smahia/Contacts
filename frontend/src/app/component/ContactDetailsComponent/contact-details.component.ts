@@ -4,11 +4,15 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ContactService} from "../../service/contact/contact.service";
 import Swal from "sweetalert2";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-contact-details, [contact-details]',
   standalone: true,
-  imports: [],
+  imports: [
+    NgForOf,
+    NgIf
+  ],
   templateUrl: './contact-details.component.html',
   styleUrl: './contact-details.component.scss'
 })
