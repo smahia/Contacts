@@ -1,0 +1,47 @@
+<div class="addTelephoneForm">
+  <form [formGroup]="addTelephoneForm" (ngSubmit)="handleSubmit()">
+
+    <div class="field" id="username">
+      <label class="label">Telephone </label>
+      <div class="control">
+        <input class="input is-small"
+               [ngClass]="{'is-danger' : addTelephoneForm.controls.telephoneNumber.hasError('required')
+&& !addTelephoneForm.controls.telephoneNumber.untouched }" type="text" formControlName="telephoneNumber">
+      </div>
+
+      <div *ngIf="addTelephoneForm.controls.telephoneNumber.hasError('required')
+&& !addTelephoneForm.controls.telephoneNumber.untouched">
+
+        <p class="help is-danger">Number is mandatory</p>
+
+      </div>
+
+    </div>
+
+    <div class="field" id="password">
+      <label class="label">Type </label>
+      <div class="control">
+        <input class="input is-small"
+               [ngClass]="{'is-danger' : addTelephoneForm.controls.type.hasError('required')
+&& !addTelephoneForm.controls.type.untouched }"
+               type="text"
+               formControlName="type">
+      </div>
+
+      <div *ngIf="addTelephoneForm.controls.type.hasError('required')
+&& !addTelephoneForm.controls.type.untouched">
+
+        <p class="help is-danger">Type is mandatory</p>
+
+      </div>
+
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link">Add telephone</button>
+      </div>
+    </div>
+
+  </form>
+</div>
