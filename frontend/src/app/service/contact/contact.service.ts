@@ -19,4 +19,8 @@ export class ContactService {
   getContact(contactId: number): Observable<GetContactResponse> {
     return this.http.get(baseUrl + contactId);
   }
+
+  deleteContact(contactId: number, listId: number): Observable<any> {
+    return this.http.delete(baseUrl + "deletefromlist/" + listId + "/" + contactId);
+  }
 }

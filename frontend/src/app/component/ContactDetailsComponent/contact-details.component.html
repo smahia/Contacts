@@ -3,12 +3,33 @@
 
     <div class="card shadow-lg">
       <div class="card-content">
-        <div class="content has-text-grey-light">
-          <h3>{{ contact.name }} {{ contact.surname }}</h3>
+        <div class="content">
+
+          <div class="header">
+            <h3 class="name">
+              {{ contact.name }} {{ contact.surname }}
+            </h3>
+
+            <div class="buttons">
+              <button class="button is-dark is-inverted">
+            <span class="icon">
+              <i class="fas fa-pencil-alt"></i>
+            </span>
+              </button>
+
+              <button class="button is-dark is-inverted" (click)="deleteContact(contact.listId!, contact.id!)">
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+              </button>
+            </div>
+          </div>
+
           Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non miy
         </div>
       </div>
     </div>
+
 
   </div>
 </div>
