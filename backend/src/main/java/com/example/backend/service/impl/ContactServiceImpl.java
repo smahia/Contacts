@@ -6,19 +6,22 @@ import com.example.backend.dtoConverter.AddressDtoConverter;
 import com.example.backend.dtoConverter.ContactDtoConverter;
 import com.example.backend.dtoConverter.EmailDtoConverter;
 import com.example.backend.dtoConverter.TelephoneDtoConverter;
-import com.example.backend.entity.*;
+import com.example.backend.entity.Contact;
+import com.example.backend.entity.Listing;
+import com.example.backend.entity.User;
 import com.example.backend.exception.CustomAccessDeniedException;
+import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.repository.ContactRepository;
 import com.example.backend.repository.ListingRepository;
 import com.example.backend.service.ContactService;
+import com.example.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +38,7 @@ public class ContactServiceImpl implements ContactService {
     private final TelephoneDtoConverter telephoneDtoConverter;
     private final AddressDtoConverter addressDtoConverter;
     private final EmailDtoConverter emailDtoConverter;
+    private final UserService userService;
 
     /**
      * Method that returns all the contacts in the database
@@ -138,7 +142,7 @@ public class ContactServiceImpl implements ContactService {
                 }
         );
     }
-
+    
     /**
      * Create a new Contact and add it to a Listing
      *
@@ -153,7 +157,14 @@ public class ContactServiceImpl implements ContactService {
         Listing list = listingRepository.findById(listId).orElseThrow(
                 () -> new NotFoundException("List not found", listId));
 
-        /*
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User currentUser = userService.findUserByUsername(login).orElseThrow(
+                () -> new GenericException("User not found")
+        );
+
+        if (currentUser.getLists().contains(list)) {
+            /*
         This new Contact does not have an ID because it has not been created yet:
             Contact contact = contactDtoConverter.dtoToNewEntity(createContactDto);
             list.getContactList().add(contact);
@@ -164,13 +175,17 @@ public class ContactServiceImpl implements ContactService {
             list.getContactList().add(contact);
          */
 
-        Contact contact = this.createNewContact(createContactDto, list);
+            Contact contact = this.createNewContact(createContactDto, list);
 
-        list.getContactList().add(contact);
+            list.getContactList().add(contact);
 
-        listingRepository.save(list);
+            listingRepository.save(list);
 
-        return contact;
+            return contact;
+        } else {
+            throw new GenericException("You do not have permission to perform this action.");
+        }
+
     }
 
     /**
@@ -191,11 +206,22 @@ public class ContactServiceImpl implements ContactService {
         Contact existentContact = contactRepository.findById(contactId).orElseThrow(() ->
                 new NotFoundException("Contact not found", contactId));
 
-        list.getContactList().remove(existentContact);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User currentUser = userService.findUserByUsername(login).orElseThrow(
+                () -> new GenericException("User not found")
+        );
 
-        this.deleteContact(contactId);
+        if (currentUser.getLists().contains(list)) {
 
-        listingRepository.save(list);
+            list.getContactList().remove(existentContact);
+
+            this.deleteContact(contactId);
+
+            listingRepository.save(list);
+        } else {
+            throw new GenericException("You do not have permission to perform this action.");
+        }
 
     }
 }
