@@ -5,13 +5,15 @@ import {Title} from "@angular/platform-browser";
 import {ContactService} from "../../service/contact/contact.service";
 import Swal from "sweetalert2";
 import {NgForOf, NgIf} from "@angular/common";
+import {AddTelephoneComponent} from "../AddTelephoneComponent/add-telephone.component";
 
 @Component({
   selector: 'app-contact-details, [contact-details]',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    AddTelephoneComponent
   ],
   templateUrl: './contact-details.component.html',
   styleUrl: './contact-details.component.scss'
@@ -20,6 +22,8 @@ export class ContactDetailsComponent implements OnInit {
 
   contactId: number = 0;
   contact: GetContactResponse = new GetContactResponse();
+  displayTelephoneForm = false;
+
 
   constructor(private route: ActivatedRoute, private titleService: Title,
               private contactService: ContactService, private router: Router) {
@@ -43,6 +47,10 @@ export class ContactDetailsComponent implements OnInit {
       }
     );
 
+  }
+
+  showTelephoneForm() {
+    this.displayTelephoneForm = !this.displayTelephoneForm;
   }
 
   deleteContact(listId: number, contactId: number) {

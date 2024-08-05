@@ -9,7 +9,7 @@
             <h3 class="name">
 
               <ng-container *ngIf="contact.contactEmergency">
-                <i class="fa-solid fa-circle-exclamation" style="color: #ff0000;"></i>
+                <i class="fa-solid fa-circle-exclamation" title="Emergency contact" style="color: #ff0000;"></i>
               </ng-container>
 
               {{ contact.name }} {{ contact.surname }}
@@ -37,26 +37,40 @@
           <h4 class="title is-4">
             Telephone
 
-            <button class="button is-dark is-inverted is-small">
+            <button class="button is-dark is-inverted is-small" (click)="showTelephoneForm()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
             </button>
 
           </h4>
-          <ng-container *ngFor="let telephone of contact.telephoneList">
 
-            <p>
-              Number: {{ telephone.telephoneNumber }}
-            </p>
+          <div id="comp-render" *ngIf="displayTelephoneForm">
+            <app-add-telephone [idContact]="contact.id!"></app-add-telephone>
+          </div>
 
-            <p>
-              Type: {{ telephone.type }}
-            </p>
+          <ng-container *ngIf="contact.telephoneList!.length > 0; else noTelephone">
 
-            <h6 class="is-6">####</h6>
+            <ng-container *ngFor="let telephone of contact.telephoneList">
+
+              <p>
+                Number: {{ telephone.telephoneNumber }}
+              </p>
+
+              <p>
+                Type: {{ telephone.type }}
+              </p>
+
+              <h6 class="is-6">####</h6>
+
+            </ng-container>
 
           </ng-container>
+
+          <ng-template #noTelephone>
+            <p>This contact does not have telephones.</p>
+          </ng-template>
+
 
           <br>
 
@@ -70,19 +84,28 @@
             </button>
 
           </h4>
-          <ng-container *ngFor="let email of contact.emailList">
 
-            <p>
-              Email: {{ email.email }}
-            </p>
+          <ng-container *ngIf="contact.emailList!.length > 0; else noEmail">
 
-            <p>
-              Type: {{ email.type }}
-            </p>
+            <ng-container *ngFor="let email of contact.emailList">
 
-            <h6 class="is-6">####</h6>
+              <p>
+                Email: {{ email.email }}
+              </p>
+
+              <p>
+                Type: {{ email.type }}
+              </p>
+
+              <h6 class="is-6">####</h6>
+
+            </ng-container>
 
           </ng-container>
+
+          <ng-template #noEmail>
+            <p>This contact does not have emails.</p>
+          </ng-template>
 
           <br>
 
@@ -96,19 +119,27 @@
             </button>
 
           </h4>
-          <ng-container *ngFor="let address of contact.addressesList">
 
-            <p>
-              Address: {{ address.address }}
-            </p>
+          <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
+            <ng-container *ngFor="let address of contact.addressesList">
 
-            <p>
-              Type: {{ address.type }}
-            </p>
+              <p>
+                Address: {{ address.address }}
+              </p>
 
-            <h6 class="is-6">####</h6>
+              <p>
+                Type: {{ address.type }}
+              </p>
+
+              <h6 class="is-6">####</h6>
+
+            </ng-container>
 
           </ng-container>
+
+          <ng-template #noAddress>
+            <p>This contact does not have addresses.</p>
+          </ng-template>
 
         </div>
       </div>
