@@ -8,6 +8,12 @@ import {NgForOf, NgIf} from "@angular/common";
 import {AddTelephoneComponent} from "../AddTelephoneComponent/add-telephone.component";
 import {AddEmailComponent} from "../AddEmailComponent/add-email.component";
 import {AddAddressComponent} from "../AddAddressComponent/add-address.component";
+import {TelephoneService} from "../../service/telephone/telephone.service";
+import {EmailService} from "../../service/email/email.service";
+import {AddressService} from "../../service/address/address.service";
+import {TelephoneResponse} from "../../response/TelephoneResponse";
+import {EmailResponse} from "../../response/EmailResponse";
+import {AddressResponse} from "../../response/AddressResponse";
 
 @Component({
   selector: 'app-contact-details, [contact-details]',
@@ -32,7 +38,9 @@ export class ContactDetailsComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private titleService: Title,
-              private contactService: ContactService, private router: Router) {
+              private contactService: ContactService, private router: Router,
+              private telephoneService: TelephoneService, private emailService: EmailService,
+              private addressService: AddressService) {
   }
 
   ngOnInit(): void {
@@ -88,6 +96,138 @@ export class ContactDetailsComponent implements OnInit {
             }).then(
               () => {
                 this.router.navigateByUrl('/list/' + listId);
+              }
+            )
+          },
+          error: error => {
+            console.log(error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            }).then(
+              () => {
+                window.location.reload();
+              }
+            )
+          }
+        });
+      }
+    });
+
+  }
+
+  deletePhone(telephone: TelephoneResponse) {
+
+    let phoneId = telephone.id;
+
+    Swal.fire({
+      title: "Are you sure you want to delete the phone " + telephone.telephoneNumber + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.telephoneService.deleteTelephone(phoneId!).subscribe({
+          next: value => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The phone has been deleted.",
+              icon: "success"
+            }).then(
+              () => {
+                window.location.reload();
+              }
+            )
+          },
+          error: error => {
+            console.log(error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            }).then(
+              () => {
+                window.location.reload();
+              }
+            )
+          }
+        });
+      }
+    });
+
+  }
+
+  deleteEmail(email: EmailResponse) {
+
+    let emailId = email.id;
+
+    Swal.fire({
+      title: "Are you sure you want to delete the email " + email.email + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.emailService.deleteEmail(emailId!).subscribe({
+          next: value => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The email has been deleted.",
+              icon: "success"
+            }).then(
+              () => {
+                window.location.reload();
+              }
+            )
+          },
+          error: error => {
+            console.log(error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            }).then(
+              () => {
+                window.location.reload();
+              }
+            )
+          }
+        });
+      }
+    });
+
+  }
+
+  deleteAddress(address: AddressResponse) {
+
+    let addressId = address.id;
+
+    Swal.fire({
+      title: "Are you sure you want to delete the address " + address.address + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.addressService.deleteAddress(addressId!).subscribe({
+          next: value => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The address has been deleted.",
+              icon: "success"
+            }).then(
+              () => {
+                window.location.reload();
               }
             )
           },

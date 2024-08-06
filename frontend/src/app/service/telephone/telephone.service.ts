@@ -18,4 +18,8 @@ export class TelephoneService {
     return this.http.post(baseUrl + "add/" + idContact, telephone);
   }
 
+  deleteTelephone(idTelephone: number):Observable<any> {
+    return this.http.delete(baseUrl + "delete/" + idTelephone);
+  }
+
 }

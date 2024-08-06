@@ -53,6 +53,14 @@
 
             <ng-container *ngFor="let telephone of contact.telephoneList">
 
+              <div class="is-flex is-justify-content-flex-end">
+                <button class="button is-dark is-inverted is-small" (click)="deletePhone(telephone)">
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+                </button>
+              </div>
+
               <p>
                 Number: {{ telephone.telephoneNumber }}
               </p>
@@ -93,6 +101,14 @@
 
             <ng-container *ngFor="let email of contact.emailList">
 
+              <div class="is-flex is-justify-content-flex-end">
+                <button class="button is-dark is-inverted is-small" (click)="deleteEmail(email)">
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+                </button>
+              </div>
+
               <p>
                 Email: {{ email.email }}
               </p>
@@ -130,6 +146,14 @@
 
           <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
             <ng-container *ngFor="let address of contact.addressesList">
+
+              <div class="is-flex is-justify-content-flex-end">
+                <button class="button is-dark is-inverted is-small" (click)="deleteAddress(address)">
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+                </button>
+              </div>
 
               <p>
                 Address: {{ address.address }}

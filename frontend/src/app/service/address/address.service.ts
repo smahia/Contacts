@@ -16,4 +16,8 @@ export class AddressService {
   addAddress(idContact: number, address: NewAddressRequest): Observable<AddressResponse> {
     return this.http.post(baseUrl + "add/" + idContact, address);
   }
+
+  deleteAddress(idAddress: number) {
+    return this.http.delete(baseUrl + "delete/" + idAddress);
+  }
 }
