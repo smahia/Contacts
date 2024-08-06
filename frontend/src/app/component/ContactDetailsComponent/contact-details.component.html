@@ -77,13 +77,17 @@
           <h4 class="title is-4">
             Email
 
-            <button class="button is-dark is-inverted is-small">
+            <button class="button is-dark is-inverted is-small" (click)="showEmailForm()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
             </button>
 
           </h4>
+
+          <div id="comp-form-email" *ngIf="displayEmailForm">
+            <app-add-email [idContact]="contact.id!"></app-add-email>
+          </div>
 
           <ng-container *ngIf="contact.emailList!.length > 0; else noEmail">
 
@@ -112,13 +116,17 @@
           <h4 class="title is-4">
             Address
 
-            <button class="button is-dark is-inverted is-small">
+            <button class="button is-dark is-inverted is-small" (click)="showAddressForm()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
             </button>
 
           </h4>
+
+          <div id="comp-form-address" *ngIf="displayAddressForm">
+            <app-add-address [idContact]="contact.id!"></app-add-address>
+          </div>
 
           <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
             <ng-container *ngFor="let address of contact.addressesList">
