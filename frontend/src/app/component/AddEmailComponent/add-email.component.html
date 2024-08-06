@@ -1,0 +1,52 @@
+<div class="addEmailForm">
+  <form [formGroup]="addEmailForm" (ngSubmit)="handleSubmit()">
+
+    <div class="field" id="email">
+      <label class="label">Email </label>
+      <div class="control">
+        <input class="input is-small"
+               [ngClass]="{'is-danger' : (addEmailForm.controls.email.hasError('required')
+               || addEmailForm.controls.email.hasError('email'))
+&& !addEmailForm.controls.email.untouched }" type="text" formControlName="email">
+      </div>
+
+      <div *ngIf="addEmailForm.controls.email.hasError('required')
+&& !addEmailForm.controls.email.untouched">
+
+        <p class="help is-danger">Email is mandatory</p>
+
+      </div>
+
+      <div *ngIf="addEmailForm.controls.email.hasError('email')">
+        <p class="help is-danger">Please enter valid email</p>
+      </div>
+
+    </div>
+
+    <div class="field" id="type">
+      <label class="label">Type </label>
+      <div class="control">
+        <input class="input is-small"
+               [ngClass]="{'is-danger' : addEmailForm.controls.type.hasError('required')
+&& !addEmailForm.controls.type.untouched }"
+               type="text"
+               formControlName="type">
+      </div>
+
+      <div *ngIf="addEmailForm.controls.type.hasError('required')
+&& !addEmailForm.controls.type.untouched">
+
+        <p class="help is-danger">Type is mandatory</p>
+
+      </div>
+
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link">Add email</button>
+      </div>
+    </div>
+
+  </form>
+</div>
