@@ -7,9 +7,9 @@ export class NewContactRequest {
   name?: string;
   surname?: string;
   birthday?: string;
-  contactEmergency?: boolean;
-  telephoneList?: NewTelephoneRequest[];
-  emailList?: NewEmailRequest[];
-  addressesList?: NewAddressRequest[];
+  contactEmergency: boolean = false;
+  telephoneList: NewTelephoneRequest[] = [];
+  emailList: NewEmailRequest[] = [];
+  addressesList: NewAddressRequest[] = [];
 
 }

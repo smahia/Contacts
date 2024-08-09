@@ -8,7 +8,7 @@
       <form [formGroup]="addContactForm" (ngSubmit)="handleSubmit()">
 
         <div class="field" id="name">
-          <label class="label">Username</label>
+          <label class="label">Name</label>
           <div class="control">
             <input class="input"
                    [ngClass]="{'is-danger' : addContactForm.controls.name.hasError('required')
@@ -66,6 +66,19 @@
             </label>
           </div>
         </div>
+
+        <div class="field" formArrayName="telephoneList" id="telephoneList">
+          <div *ngFor="let telephone of telephones.controls; let i=index" [formGroupName]="i">
+            <label class="label">Telephone number</label>
+            <input class="input"
+                   type="text" formControlName="telephoneNumber">
+            <label class="label mt-2">Type</label>
+            <input class="input mb-2"
+                   type="text" formControlName="type">
+          </div>
+        </div>
+
+        <button type="button" class="mb-5" (click)="addTelephone()">Add phone</button>
 
         <div class="field is-grouped">
           <div class="control">
