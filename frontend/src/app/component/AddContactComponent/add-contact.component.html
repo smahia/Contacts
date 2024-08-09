@@ -1,1 +1,81 @@
-<p>add-contact works!</p>
+<div class="container">
+
+  <section class="section">
+
+    <h1 class="title has-text-centered">Create new contact</h1>
+
+    <div class="addContactForm">
+      <form [formGroup]="addContactForm" (ngSubmit)="handleSubmit()">
+
+        <div class="field" id="name">
+          <label class="label">Username</label>
+          <div class="control">
+            <input class="input"
+                   [ngClass]="{'is-danger' : addContactForm.controls.name.hasError('required')
+&& !addContactForm.controls.name.untouched }" type="text" formControlName="name">
+          </div>
+
+          <div *ngIf="addContactForm.controls.name.hasError('required')
+&& !addContactForm.controls.name.untouched">
+
+            <p class="help is-danger">Name is mandatory</p>
+
+          </div>
+
+        </div>
+
+        <div class="field" id="surname">
+          <label class="label">Surname</label>
+          <div class="control">
+            <input class="input"
+                   [ngClass]="{'is-danger' : addContactForm.controls.surname.hasError('required')
+&& !addContactForm.controls.surname.untouched }"
+                   type="text"
+                   formControlName="surname">
+          </div>
+
+          <div *ngIf="addContactForm.controls.surname.hasError('required')
+&& !addContactForm.controls.surname.untouched">
+
+            <p class="help is-danger">Surname is mandatory</p>
+
+          </div>
+
+        </div>
+
+        <div class="field" id="birthday">
+          <label class="label">Birthday</label>
+          <div class="control">
+            <input class="input"
+                   type="date"
+                   formControlName="birthday">
+          </div>
+
+        </div>
+
+        <div class="field" id="contactEmergency">
+          <label for="contactEmergency" class="label">Contact emergency</label>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" id="yes" name="contactEmergency" value="true" formControlName="contactEmergency">
+              Yes
+            </label>
+            <label class="radio">
+              <input type="radio" id="no" name="contactEmergency" value="false" formControlName="contactEmergency">
+              No
+            </label>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link">Create contact</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </section>
+
+</div>
