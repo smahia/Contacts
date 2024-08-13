@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GetContactResponse} from "../../response/GetContactResponse";
 import {NewContactRequest} from "../../request/NewContactRequest";
+import {EditContactRequest} from "../../request/EditContactRequest";
 
 const baseUrl = "http://localhost:8080/contacts/";
 
@@ -23,6 +24,10 @@ export class ContactService {
 
   addContact(listId: number, newContact: NewContactRequest): Observable<GetContactResponse> {
     return this.http.post(baseUrl + "addnewtolist/" + listId, newContact);
+  }
+
+  editContact(contactId: number, editedContact: EditContactRequest): Observable<GetContactResponse> {
+    return this.http.put(baseUrl + "edit/" + contactId, editedContact);
   }
 
   deleteContact(contactId: number, listId: number): Observable<any> {

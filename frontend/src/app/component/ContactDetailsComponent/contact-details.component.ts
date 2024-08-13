@@ -3,8 +3,11 @@ import {GetContactResponse} from "../../response/GetContactResponse";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ContactService} from "../../service/contact/contact.service";
+import moment from "moment";
 import Swal from "sweetalert2";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import { formatDate } from '@angular/common';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AddTelephoneComponent} from "../AddTelephoneComponent/add-telephone.component";
 import {AddEmailComponent} from "../AddEmailComponent/add-email.component";
 import {AddAddressComponent} from "../AddAddressComponent/add-address.component";
@@ -14,6 +17,7 @@ import {AddressService} from "../../service/address/address.service";
 import {TelephoneResponse} from "../../response/TelephoneResponse";
 import {EmailResponse} from "../../response/EmailResponse";
 import {AddressResponse} from "../../response/AddressResponse";
+import {EditContactRequest} from "../../request/EditContactRequest";
 
 @Component({
   selector: 'app-contact-details, [contact-details]',
@@ -21,6 +25,9 @@ import {AddressResponse} from "../../response/AddressResponse";
   imports: [
     NgForOf,
     NgIf,
+    ReactiveFormsModule,
+    FormsModule,
+    NgClass,
     AddTelephoneComponent,
     AddEmailComponent,
     AddAddressComponent
@@ -35,6 +42,18 @@ export class ContactDetailsComponent implements OnInit {
   displayTelephoneForm = false;
   displayEmailForm = false;
   displayAddressForm = false;
+  isModalActive: boolean = false;
+  // This variable will hold the new information of the edited contact
+  editedContact: EditContactRequest = new EditContactRequest();
+
+  editContactForm = new FormGroup(
+      {
+        name: new FormControl('', Validators.required),
+        surname: new FormControl('', Validators.required),
+        birthday: new FormControl(''),
+        contactEmergency: new FormControl("false")
+      }
+    );
 
 
   constructor(private route: ActivatedRoute, private titleService: Title,
@@ -43,6 +62,7 @@ export class ContactDetailsComponent implements OnInit {
               private addressService: AddressService) {
   }
 
+  // TODO: fix birthday
   ngOnInit(): void {
 
     // Get the param of the url
@@ -54,12 +74,90 @@ export class ContactDetailsComponent implements OnInit {
           this.contact = value;
           this.titleService.setTitle(this.contact.name + " " +  this.contact.surname);
           console.log(this.contact);
+          console.log(this.contact.birthday);
         },
         error: err => {
           console.log(err);
         }
       }
     );
+  }
+
+  // For adding a edit contact modal
+  toggleModal() {
+    this.isModalActive = !this.isModalActive;
+
+    this.editContactForm.controls['name'].setValue(this.contact.name!);
+    this.editContactForm.controls['surname'].setValue(this.contact.surname!);
+
+    if (this.contact.birthday != null) {
+      // Convert birthday to ISO 8601 so it can be shown in the input from the modal
+       const [day, month, year] = this.contact.birthday.split('/');
+       const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+       this.editContactForm.controls['birthday'].setValue(formattedDate);
+    }
+
+    console.log(this.contact.birthday!);
+
+    this.contact.contactEmergency == true ?
+            this.editContactForm.controls['contactEmergency'].setValue("true")
+            : this.editContactForm.controls['contactEmergency'].setValue("false")
+
+  }
+
+  closeModal() {
+      this.isModalActive = !this.isModalActive;
+      this.editContactForm.reset();
+  }
+
+  /**
+   For editing contact personal details
+   */
+  handleSubmitEditingContact() {
+
+    if (this.editContactForm.valid) {
+
+      this.editedContact.name = this.editContactForm.value.name!;
+      this.editedContact.surname = this.editContactForm.value.surname!;
+
+      // Check if a date has been selected
+      if (this.editContactForm.value.birthday != "") {
+        this.editedContact.birthday = moment.utc(this.editContactForm.value.birthday).format('DD/MM/yyyy');
+      }
+
+      this.editContactForm.value.contactEmergency == "true" ?
+        this.editedContact.contactEmergency = true : this.editedContact.contactEmergency = false;
+
+
+      this.contactService.editContact(this.contactId, this.editedContact).subscribe({
+                next: value => {
+
+                  Swal.fire({
+                    title: "Success",
+                    text: "The contact has been saved",
+                    icon: "success"
+                  }).then(() => {
+                    this.isModalActive = false;
+                    window.location.reload();
+                  });
+
+                },
+                error: error => {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                  }).then(
+                    () => {
+                      this.isModalActive = false;
+                      window.location.reload();
+                    }
+                  )
+                }
+              }
+            );
+
+    }
 
   }
 
