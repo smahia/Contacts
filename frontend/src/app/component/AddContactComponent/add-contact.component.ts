@@ -7,6 +7,8 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import moment from "moment";
 import Swal from "sweetalert2";
 import {NewTelephoneRequest} from "../../request/NewTelephoneRequest";
+import {NewAddressRequest} from "../../request/NewAddressRequest";
+import {NewEmailRequest} from "../../request/NewEmailRequest";
 
 @Component({
   selector: 'app-add-contact',
@@ -31,10 +33,15 @@ export class AddContactComponent implements OnInit {
       surname: new FormControl('', Validators.required),
       birthday: new FormControl(""),
       contactEmergency: new FormControl("false"),
-      telephoneList: new FormArray([this.createTelephone()])
+      telephoneList: new FormArray([this.createTelephone()]),
+      emailList: new FormArray([this.createEmail()]),
+      addressList: new FormArray([this.createAddress()])
     }
   );
 
+/**
+  TELEPHONE
+  */
   createTelephone(): FormGroup {
     return new FormGroup(
       {
@@ -57,6 +64,9 @@ export class AddContactComponent implements OnInit {
     return this.addContactForm.get('telephoneList') as FormArray;
   }
 
+/**
+  EMAIL
+  */
   createEmail(): FormGroup {
     return new FormGroup(
       {
@@ -66,6 +76,18 @@ export class AddContactComponent implements OnInit {
     );
   }
 
+addEmail() {
+    const email = this.addContactForm.get('emailList') as FormArray;
+    email.push(this.createEmail());
+  }
+
+  get emails() {
+    return this.addContactForm.get('emailList') as FormArray;
+  }
+
+  /**
+  ADDRESS
+  */
   createAddress(): FormGroup {
     return new FormGroup(
       {
@@ -73,6 +95,15 @@ export class AddContactComponent implements OnInit {
         type: new FormControl('')
       }
     );
+  }
+
+addAddress() {
+    const address = this.addContactForm.get('addressList') as FormArray;
+    address.push(this.createAddress());
+  }
+
+  get address() {
+    return this.addContactForm.get('addressList') as FormArray;
   }
 
   constructor(private contactService: ContactService, private route: ActivatedRoute) {
@@ -109,6 +140,30 @@ export class AddContactComponent implements OnInit {
           }
         }
       }
+
+    // Check if there's a email because if not then does not iterate
+          if (this.addContactForm.value.emailList) {
+            for (const email of this.addContactForm.value.emailList) {
+              if (email.email !== "" && email.type !== "") {
+                let newEmail = new NewEmailRequest();
+                newEmail.email = email.email;
+                newEmail.type = email.type;
+                this.contact.emailList.push(newEmail);
+              }
+            }
+          }
+
+        // Check if there's a telephone because if not then does not iterate
+              if (this.addContactForm.value.addressList) {
+                for (const address of this.addContactForm.value.addressList) {
+                  if (address.address !== "" && address.type !== "") {
+                    let newAddress = new NewAddressRequest();
+                    newAddress.address = address.address;
+                    newAddress.type = address.type;
+                    this.contact.addressesList.push(newAddress);
+                  }
+                }
+              }
 
       this.contactService.addContact(this.listId, this.contact).subscribe(
         {

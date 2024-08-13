@@ -67,6 +67,7 @@
           </div>
         </div>
 
+        <!-- Add telephone -->
         <div class="field" formArrayName="telephoneList" id="telephoneList">
           <div *ngFor="let telephone of telephones.controls; let i=index" [formGroupName]="i">
             <label class="label">Telephone number</label>
@@ -79,6 +80,34 @@
         </div>
 
         <button type="button" class="mb-5" (click)="addTelephone()">Add phone</button>
+
+        <!-- Add email -->
+        <div class="field" formArrayName="emailList" id="emailList">
+          <div *ngFor="let email of emails.controls; let i=index" [formGroupName]="i">
+            <label class="label">Email</label>
+            <input class="input"
+                   type="text" formControlName="email">
+            <label class="label mt-2">Type</label>
+            <input class="input mb-2"
+                   type="text" formControlName="type">
+          </div>
+        </div>
+
+        <button type="button" class="mb-5" (click)="addEmail()">Add email</button>
+
+        <!-- Add address -->
+        <div class="field" formArrayName="addressList" id="addressList">
+          <div *ngFor="let address of address.controls; let i=index" [formGroupName]="i">
+            <label class="label">Address</label>
+            <input class="input"
+                   type="text" formControlName="address">
+            <label class="label mt-2">Type</label>
+            <input class="input mb-2"
+                   type="text" formControlName="type">
+          </div>
+        </div>
+
+        <button type="button" class="mb-5" (click)="addAddress()">Add address</button>
 
         <div class="field is-grouped">
           <div class="control">
