@@ -205,7 +205,7 @@ export class ListingComponent implements OnInit {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Something went wrong!",
+              text: error.error.message,
             }).then(
               () => {
                 this.isModalActive = false;

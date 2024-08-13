@@ -4,9 +4,9 @@ import com.example.backend.dto.createDto.CreateListingDto;
 import com.example.backend.dtoConverter.ListingDtoConverter;
 import com.example.backend.entity.Listing;
 import com.example.backend.entity.User;
+import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.repository.ListingRepository;
-import com.example.backend.repository.UserRepository;
 import com.example.backend.service.ListingService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,6 @@ import java.util.List;
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
-    private final UserRepository userRepository;
     private final ListingDtoConverter listingDtoConverter;
 
     /**
@@ -96,7 +95,13 @@ public class ListingServiceImpl implements ListingService {
     public void deleteList(int id) {
 
         listingRepository.findById(id).ifPresentOrElse(
-                list -> listingRepository.deleteById(id),
+                list -> {
+                    if (!list.getName().equals("Default")) {
+                        listingRepository.deleteById(id);
+                    } else {
+                        throw new GenericException("Default list can't be deleted");
+                    }
+                },
                 () -> {
                     throw new NotFoundException("List not found", id);
                 }

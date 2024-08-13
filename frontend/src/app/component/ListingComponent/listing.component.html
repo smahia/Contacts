@@ -49,11 +49,12 @@
               </span>
               </button>
 
-              <button class="button is-dark is-inverted" (click)="deleteList(list.id!, list.name!)">
+              <button *ngIf="list.name !== 'Default'" class="button is-dark is-inverted" (click)="deleteList(list.id!, list.name!)">
               <span class="icon">
                 <i class="fa-solid fa-trash"></i>
               </span>
               </button>
+
             </div>
           </div>
 
