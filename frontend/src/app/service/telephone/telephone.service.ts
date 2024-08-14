@@ -18,6 +18,10 @@ export class TelephoneService {
     return this.http.post(baseUrl + "add/" + idContact, telephone);
   }
 
+  editTelephone(idTelephone: number, editedTelephone: NewTelephoneRequest):Observable<TelephoneResponse> {
+    return this.http.put(baseUrl + "edit/" + idTelephone, editedTelephone);
+  }
+
   deleteTelephone(idTelephone: number):Observable<any> {
     return this.http.delete(baseUrl + "delete/" + idTelephone);
   }

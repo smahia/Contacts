@@ -58,22 +58,78 @@
 
           <ng-container *ngIf="contact.telephoneList!.length > 0; else noTelephone">
 
-            <ng-container *ngFor="let telephone of contact.telephoneList; let last = last">
+            <ng-container *ngFor="let telephone of contact.telephoneList; let i = index; let last = last">
 
               <div class="is-flex is-justify-content-flex-end">
+                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingTelephone(i)">
+            <span class="icon">
+              <i class="fas fa-pencil-alt"></i>
+            </span>
+                </button>
+
                 <button class="button is-dark is-inverted is-small" (click)="deletePhone(telephone)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
                 </button>
+
+              </div>
+
+              <!-- Editing telephone form -->
+              <div class="form-editing-telephone">
+                <form [formGroup]="editingTelephoneForm" (ngSubmit)="saveChangesTelephone()" *ngIf="editingTelephoneIndex === i">
+
+                  <div class="field">
+                    <label class="label">Telephone</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingTelephoneForm.controls.telephoneNumber.hasError('required')
+&& !editingTelephoneForm.controls.telephoneNumber.untouched } "
+                             type="text" formControlName="telephoneNumber">
+                    </div>
+
+                    <div *ngIf="editingTelephoneForm.controls.telephoneNumber.hasError('required')
+&& !editingTelephoneForm.controls.telephoneNumber.untouched">
+
+                      <p class="help is-danger">Number is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Type</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingTelephoneForm.controls.type.hasError('required')
+&& !editingTelephoneForm.controls.type.untouched } "
+                             type="text" formControlName="type">
+                    </div>
+
+                    <div *ngIf="editingTelephoneForm.controls.type.hasError('required')
+&& !editingTelephoneForm.controls.type.untouched">
+
+                      <p class="help is-danger">Type is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped mb-4">
+                    <div class="control">
+                      <button type="submit" class="button is-link mr-2">Save</button>
+                      <button type="button" class="button is-danger" (click)="cancelEditingTelephone()">Cancel</button>
+                    </div>
+                  </div>
+                </form>
               </div>
 
               <p>
-                <b>Number</b>: {{ telephone.telephoneNumber }}
-              </p>
+                <b>Number</b>:
+                {{ telephone.telephoneNumber }}
 
+              </p>
               <p class="mb-0">
-                <b>Type</b>: {{ telephone.type }}
+                <b>Type</b>:
+                {{ telephone.type }}
               </p>
 
               <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
@@ -188,7 +244,7 @@
 
     <!-- Modal for editing a contact -->
     <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
-      <div class="modal-background" (click)="closeModal()" ></div>
+      <div class="modal-background" (click)="closeModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Edit contact</p>

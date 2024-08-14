@@ -6,7 +6,7 @@ import {ContactService} from "../../service/contact/contact.service";
 import moment from "moment";
 import Swal from "sweetalert2";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import { formatDate } from '@angular/common';
+import {formatDate} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AddTelephoneComponent} from "../AddTelephoneComponent/add-telephone.component";
 import {AddEmailComponent} from "../AddEmailComponent/add-email.component";
@@ -47,13 +47,13 @@ export class ContactDetailsComponent implements OnInit {
   editedContact: EditContactRequest = new EditContactRequest();
 
   editContactForm = new FormGroup(
-      {
-        name: new FormControl('', Validators.required),
-        surname: new FormControl('', Validators.required),
-        birthday: new FormControl(''),
-        contactEmergency: new FormControl("false")
-      }
-    );
+    {
+      name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      birthday: new FormControl(''),
+      contactEmergency: new FormControl("false")
+    }
+  );
 
 
   constructor(private route: ActivatedRoute, private titleService: Title,
@@ -72,7 +72,7 @@ export class ContactDetailsComponent implements OnInit {
       {
         next: value => {
           this.contact = value;
-          this.titleService.setTitle(this.contact.name + " " +  this.contact.surname);
+          this.titleService.setTitle(this.contact.name + " " + this.contact.surname);
           console.log(this.contact);
           console.log(this.contact.birthday);
         },
@@ -81,6 +81,80 @@ export class ContactDetailsComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  // Form for editing a telephone
+  editingTelephoneForm = new FormGroup({
+    telephoneNumber: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+  });
+
+  // To control which phone number is being edited
+  editingTelephoneIndex = -1;
+
+  // Editing an specific phone number
+  startEditingTelephone(index: number) {
+    this.editingTelephoneIndex = index;
+    // This fills in the input from the form with the current data
+    if (this.contact.telephoneList != null) {
+      const telephone = this.contact.telephoneList[index];
+      this.editingTelephoneForm.patchValue({
+        telephoneNumber: telephone.telephoneNumber,
+        type: telephone.type,
+      });
+    }
+  }
+
+  // To save changes in the database calling the service if everything is correct
+  saveChangesTelephone() {
+    if (this.editingTelephoneIndex !== -1) {
+      if (this.contact.telephoneList != null) {
+
+        if (this.editingTelephoneForm.valid) {
+
+          const telephone = this.contact.telephoneList[this.editingTelephoneIndex];
+          telephone.telephoneNumber = this.editingTelephoneForm.value.telephoneNumber!;
+          telephone.type = this.editingTelephoneForm.value.type!;
+
+          this.telephoneService.editTelephone(telephone.id!, telephone).subscribe(
+            {
+              next: value => {
+
+                Swal.fire({
+                  title: "Telephone has been changed successfully",
+                  icon: "success"
+                }).then(
+                  () => {
+                    this.editingTelephoneIndex = -1; // Reiniciar el índice de edición
+                  }
+                );
+
+              },
+              error: error => {
+                console.log(error);
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!",
+                }).then(
+                  () => {
+                    window.location.reload();
+                  }
+                )
+
+              }
+            }
+          )
+
+        }
+      }
+    }
+  }
+
+  // To cancel editing a phone
+  cancelEditingTelephone() {
+    this.editingTelephoneIndex = -1;
   }
 
   // For adding a edit contact modal
@@ -92,22 +166,22 @@ export class ContactDetailsComponent implements OnInit {
 
     if (this.contact.birthday != null) {
       // Convert birthday to ISO 8601 so it can be shown in the input from the modal
-       const [day, month, year] = this.contact.birthday.split('/');
-       const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-       this.editContactForm.controls['birthday'].setValue(formattedDate);
+      const [day, month, year] = this.contact.birthday.split('/');
+      const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      this.editContactForm.controls['birthday'].setValue(formattedDate);
     }
 
     console.log(this.contact.birthday!);
 
     this.contact.contactEmergency == true ?
-            this.editContactForm.controls['contactEmergency'].setValue("true")
-            : this.editContactForm.controls['contactEmergency'].setValue("false")
+      this.editContactForm.controls['contactEmergency'].setValue("true")
+      : this.editContactForm.controls['contactEmergency'].setValue("false")
 
   }
 
   closeModal() {
-      this.isModalActive = !this.isModalActive;
-      this.editContactForm.reset();
+    this.isModalActive = !this.isModalActive;
+    this.editContactForm.reset();
   }
 
   /**
@@ -130,32 +204,32 @@ export class ContactDetailsComponent implements OnInit {
 
 
       this.contactService.editContact(this.contactId, this.editedContact).subscribe({
-                next: value => {
+          next: value => {
 
-                  Swal.fire({
-                    title: "Success",
-                    text: "The contact has been saved",
-                    icon: "success"
-                  }).then(() => {
-                    this.isModalActive = false;
-                    window.location.reload();
-                  });
+            Swal.fire({
+              title: "Success",
+              text: "The contact has been saved",
+              icon: "success"
+            }).then(() => {
+              this.isModalActive = false;
+              window.location.reload();
+            });
 
-                },
-                error: error => {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!",
-                  }).then(
-                    () => {
-                      this.isModalActive = false;
-                      window.location.reload();
-                    }
-                  )
-                }
+          },
+          error: error => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            }).then(
+              () => {
+                this.isModalActive = false;
+                window.location.reload();
               }
-            );
+            )
+          }
+        }
+      );
 
     }
 
