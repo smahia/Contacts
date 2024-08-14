@@ -17,6 +17,10 @@ export class EmailService {
     return this.http.post(baseUrl + "add/" + idContact, email);
   }
 
+  editEmail(idEmail: number, editedEmail: NewEmailRequest): Observable<EmailResponse> {
+    return this.http.put(baseUrl + "edit/" + idEmail, editedEmail);
+  }
+
   deleteEmail(idEmail: number): Observable<any> {
     return this.http.delete(baseUrl + "delete/" + idEmail);
   }

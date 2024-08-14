@@ -6,7 +6,6 @@ import {ContactService} from "../../service/contact/contact.service";
 import moment from "moment";
 import Swal from "sweetalert2";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {formatDate} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AddTelephoneComponent} from "../AddTelephoneComponent/add-telephone.component";
 import {AddEmailComponent} from "../AddEmailComponent/add-email.component";
@@ -84,6 +83,10 @@ export class ContactDetailsComponent implements OnInit {
   }
 
 
+  /*
+  #############################################################################
+  EDIT A TELEPHONE
+   */
   // Form for editing a telephone
   editingTelephoneForm = new FormGroup({
     telephoneNumber: new FormControl('', Validators.required),
@@ -122,7 +125,7 @@ export class ContactDetailsComponent implements OnInit {
               next: value => {
 
                 Swal.fire({
-                  title: "Telephone has been changed successfully",
+                  title: "Telephone has been successfully changed",
                   icon: "success"
                 }).then(
                   () => {
@@ -155,6 +158,83 @@ export class ContactDetailsComponent implements OnInit {
   // To cancel editing a phone
   cancelEditingTelephone() {
     this.editingTelephoneIndex = -1;
+  }
+
+  /*
+  #############################################################################
+  EDIT AN EMAIL
+   */
+  // Form for editing an email
+  editingEmailForm = new FormGroup({
+    email: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+  });
+
+  // To control which email is being edited
+  editingEmailIndex = -1;
+
+  // Editing an specific email
+  startEditingEmail(index: number) {
+    this.editingEmailIndex = index;
+    // This fills in the input from the form with the current data
+    if (this.contact.emailList != null) {
+      const email = this.contact.emailList[index];
+      this.editingEmailForm.patchValue({
+        email: email.email,
+        type: email.type,
+      });
+    }
+  }
+
+  // To save changes in the database calling the service if everything is correct
+  saveChangesEmail() {
+    if (this.editingEmailIndex !== -1) {
+      if (this.contact.emailList != null) {
+
+        if (this.editingEmailForm.valid) {
+
+          const email = this.contact.emailList[this.editingEmailIndex];
+          email.email = this.editingEmailForm.value.email!;
+          email.type = this.editingEmailForm.value.type!;
+
+          this.emailService.editEmail(email.id!, email).subscribe(
+            {
+              next: value => {
+
+                Swal.fire({
+                  title: "Email has been successfully changed",
+                  icon: "success"
+                }).then(
+                  () => {
+                    this.editingEmailIndex = -1; // Reiniciar el índice de edición
+                  }
+                );
+
+              },
+              error: error => {
+                console.log(error);
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!",
+                }).then(
+                  () => {
+                    window.location.reload();
+                  }
+                )
+
+              }
+            }
+          )
+
+        }
+      }
+    }
+  }
+
+  // To cancel editing an email
+  cancelEditingEmail() {
+    this.editingEmailIndex = -1;
   }
 
   // For adding a edit contact modal

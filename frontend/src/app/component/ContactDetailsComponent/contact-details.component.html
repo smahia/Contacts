@@ -162,14 +162,69 @@
 
           <ng-container *ngIf="contact.emailList!.length > 0; else noEmail">
 
-            <ng-container *ngFor="let email of contact.emailList; let last = last">
+            <ng-container *ngFor="let email of contact.emailList; let i = index; let last = last">
 
               <div class="is-flex is-justify-content-flex-end">
+
+                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingEmail(i)">
+            <span class="icon">
+              <i class="fas fa-pencil-alt"></i>
+            </span>
+                </button>
+
                 <button class="button is-dark is-inverted is-small" (click)="deleteEmail(email)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
                 </button>
+
+              </div>
+
+              <!-- Editing email form -->
+              <div class="form-editing-telephone">
+                <form [formGroup]="editingEmailForm" (ngSubmit)="saveChangesEmail()" *ngIf="editingEmailIndex === i">
+
+                  <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingEmailForm.controls.email.hasError('required')
+&& !editingEmailForm.controls.email.untouched } "
+                             type="text" formControlName="email">
+                    </div>
+
+                    <div *ngIf="editingEmailForm.controls.email.hasError('required')
+&& !editingEmailForm.controls.email.untouched">
+
+                      <p class="help is-danger">Email is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Type</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingEmailForm.controls.type.hasError('required')
+&& !editingEmailForm.controls.type.untouched } "
+                             type="text" formControlName="type">
+                    </div>
+
+                    <div *ngIf="editingEmailForm.controls.type.hasError('required')
+&& !editingEmailForm.controls.type.untouched">
+
+                      <p class="help is-danger">Type is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped mb-4">
+                    <div class="control">
+                      <button type="submit" class="button is-link mr-2">Save</button>
+                      <button type="button" class="button is-danger" (click)="cancelEditingEmail()">Cancel</button>
+                    </div>
+                  </div>
+                </form>
               </div>
 
               <p>
