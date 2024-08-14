@@ -237,6 +237,83 @@ export class ContactDetailsComponent implements OnInit {
     this.editingEmailIndex = -1;
   }
 
+  /*
+  #############################################################################
+  EDIT AN ADDRESS
+   */
+  // Form for editing an address
+  editingAddressForm = new FormGroup({
+    address: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+  });
+
+  // To control which address is being edited
+  editingAddressIndex = -1;
+
+  // Editing an specific address
+  startEditingAddress(index: number) {
+    this.editingAddressIndex = index;
+    // This fills in the input from the form with the current data
+    if (this.contact.addressesList != null) {
+      const address = this.contact.addressesList[index];
+      this.editingAddressForm.patchValue({
+        address: address.address,
+        type: address.type,
+      });
+    }
+  }
+
+  // To save changes in the database calling the service if everything is correct
+  saveChangesAddress() {
+    if (this.editingAddressIndex !== -1) {
+      if (this.contact.addressesList != null) {
+
+        if (this.editingAddressForm.valid) {
+
+          const address = this.contact.addressesList[this.editingAddressIndex];
+          address.address = this.editingAddressForm.value.address!;
+          address.type = this.editingAddressForm.value.type!;
+
+          this.addressService.editAddress(address.id!, address).subscribe(
+            {
+              next: value => {
+
+                Swal.fire({
+                  title: "Address has been successfully changed",
+                  icon: "success"
+                }).then(
+                  () => {
+                    this.editingAddressIndex = -1; // Reiniciar el índice de edición
+                  }
+                );
+
+              },
+              error: error => {
+                console.log(error);
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!",
+                }).then(
+                  () => {
+                    window.location.reload();
+                  }
+                )
+
+              }
+            }
+          )
+
+        }
+      }
+    }
+  }
+
+  // To cancel editing an email
+  cancelEditingAddress() {
+    this.editingAddressIndex = -1;
+  }
+
   // For adding a edit contact modal
   toggleModal() {
     this.isModalActive = !this.isModalActive;

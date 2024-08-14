@@ -264,14 +264,70 @@
           </div>
 
           <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
-            <ng-container *ngFor="let address of contact.addressesList; let last = last">
+            <ng-container *ngFor="let address of contact.addressesList; let i = index; let last = last">
 
               <div class="is-flex is-justify-content-flex-end">
+
+                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingAddress(i)">
+            <span class="icon">
+              <i class="fas fa-pencil-alt"></i>
+            </span>
+                </button>
+
                 <button class="button is-dark is-inverted is-small" (click)="deleteAddress(address)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
                 </button>
+              </div>
+
+
+              <!-- Editing address form -->
+              <div class="form-editing-telephone">
+                <form [formGroup]="editingAddressForm" (ngSubmit)="saveChangesAddress()"
+                      *ngIf="editingAddressIndex === i">
+
+                  <div class="field">
+                    <label class="label">Address</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingAddressForm.controls.address.hasError('required')
+&& !editingAddressForm.controls.address.untouched } "
+                             type="text" formControlName="address">
+                    </div>
+
+                    <div *ngIf="editingAddressForm.controls.address.hasError('required')
+&& !editingAddressForm.controls.address.untouched">
+
+                      <p class="help is-danger">Address is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Type</label>
+                    <div class="control">
+                      <input class="input"
+                             [ngClass]="{'is-danger' : editingAddressForm.controls.type.hasError('required')
+&& !editingAddressForm.controls.type.untouched } "
+                             type="text" formControlName="type">
+                    </div>
+
+                    <div *ngIf="editingAddressForm.controls.type.hasError('required')
+&& !editingAddressForm.controls.type.untouched">
+
+                      <p class="help is-danger">Type is mandatory</p>
+
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped mb-4">
+                    <div class="control">
+                      <button type="submit" class="button is-link mr-2">Save</button>
+                      <button type="button" class="button is-danger" (click)="cancelEditingAddress()">Cancel</button>
+                    </div>
+                  </div>
+                </form>
               </div>
 
               <p>
