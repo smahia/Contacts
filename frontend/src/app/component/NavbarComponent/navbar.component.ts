@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
-import {NgIf} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import {LoginService} from "../../service/login/login.service";
 
 @Component({
@@ -8,7 +8,8 @@ import {LoginService} from "../../service/login/login.service";
   standalone: true,
   imports: [
     RouterLink,
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
