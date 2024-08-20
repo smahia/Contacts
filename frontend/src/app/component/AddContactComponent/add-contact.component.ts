@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewContactRequest} from "../../request/NewContactRequest";
-import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ContactService} from "../../service/contact/contact.service";
 import {ActivatedRoute} from "@angular/router";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
@@ -9,6 +9,9 @@ import Swal from "sweetalert2";
 import {NewTelephoneRequest} from "../../request/NewTelephoneRequest";
 import {NewAddressRequest} from "../../request/NewAddressRequest";
 import {NewEmailRequest} from "../../request/NewEmailRequest";
+import {ListingService} from "../../service/listing/listing.service";
+import {MyListsResponse} from "../../response/myListsResponse";
+import {GetContactResponse} from "../../response/GetContactResponse";
 
 @Component({
   selector: 'app-add-contact',
@@ -17,7 +20,8 @@ import {NewEmailRequest} from "../../request/NewEmailRequest";
     NgIf,
     ReactiveFormsModule,
     NgClass,
-    NgForOf
+    NgForOf,
+    FormsModule
   ],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss'
@@ -26,6 +30,9 @@ export class AddContactComponent implements OnInit {
 
   contact: NewContactRequest = new NewContactRequest();
   listId: number = 0;
+  lists: MyListsResponse[] | any;
+  contacts: GetContactResponse[] | any;
+
 
   addContactForm = new FormGroup(
     {
@@ -39,9 +46,136 @@ export class AddContactComponent implements OnInit {
     }
   );
 
-/**
-  TELEPHONE
-  */
+  selectedContact: number = 0;
+
+
+  onSelect(contact: number) {
+    this.selectedContact = Number(contact); // Turns the value into a number
+    console.log(this.selectedContact);
+
+    this.contactService.getContact(this.selectedContact).subscribe(
+      {
+        next: value => {
+          // reset the form from the previous selected contact
+          this.addContactForm.reset();
+
+          // TODO: fill in all inputs with the value
+          this.addContactForm.controls['name'].setValue(value.name!);
+          this.addContactForm.controls['surname'].setValue(value.surname!);
+          // TODO: FIX BIRTHDAY
+          //this.addContactForm.controls['birthday'].setValue(value.birthday!);
+
+          value.contactEmergency == true ?
+            this.addContactForm.controls['contactEmergency'].setValue("true") :
+            this.addContactForm.controls['contactEmergency'].setValue("false");
+
+          if (value.telephoneList && value.telephoneList.length > 0) {
+            const telephones = this.addContactForm.get('telephoneList') as FormArray;
+
+            // If an empty form exists...
+            let index = 0;
+            if(telephones.length == 1 && telephones.get('telephoneNumber') === null) {
+              // Get the existent form
+              const existentTelephoneForm = this.telephones.controls.at(index);
+              // Add the telephone
+              existentTelephoneForm!.patchValue({
+                telephoneNumber: value.telephoneList[index].telephoneNumber,
+                type: value.telephoneList[index].type
+              })
+              // Update the index, the next for will use this index to jump the first position if needed.
+              index++;
+            }
+
+            // Add more telephones
+            for (let i = index; i < value.telephoneList.length; i++) {
+              // Create the form
+              const telephoneGroup = this.createTelephone();
+              // Add the telephone
+              telephoneGroup.patchValue({
+                telephoneNumber: value.telephoneList[i].telephoneNumber,
+                type: value.telephoneList[i].type
+              });
+              telephones.push(telephoneGroup);
+            }
+          }
+
+
+          // TODO: call the service to add the contact once all the inputs has been filled
+
+        },
+        error: err => {
+          console.log(err);
+        }
+      }
+    );
+
+  }
+
+  constructor(private contactService: ContactService,
+              private route: ActivatedRoute,
+              private listingService: ListingService) {}
+
+  ngOnInit(): void {
+    // Get the param of the url
+    this.listId = this.route.snapshot.params['listId'];
+
+
+    // Get all lists from the user
+    this.listingService.showMyLists().subscribe(
+      {
+        next: value => {
+
+          this.lists = value;
+
+          // Get all contacts for each list
+          for (let i = 0; i < this.lists.length; i++) {
+            console.log(this.lists[i].id);
+
+            this.contactService.getContactsByList(this.lists[i].id).subscribe(
+              {
+                next: value => {
+
+                  this.contacts = value;
+
+                  for (const contact of this.contacts) {
+                    console.log(contact.name);
+                  }
+
+                },
+                error: error => {
+
+                  console.log(error);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong trying to get all contacts by list!",
+                  })
+
+                }
+              }
+            );
+
+          }
+
+        },
+        error: error => {
+
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong trying to get all lists!",
+          })
+
+        }
+      }
+    );
+
+  }
+
+  /**
+   TELEPHONE
+   */
   createTelephone(): FormGroup {
     return new FormGroup(
       {
@@ -52,8 +186,10 @@ export class AddContactComponent implements OnInit {
   }
 
   addTelephone() {
+
     // Get the FormArray telephoneList from the addContactForm
     const telephones = this.addContactForm.get('telephoneList') as FormArray;
+
     // When clicking on the button, add a new FormGroup from createTelephone(which returns a FormGroup) to the array
     telephones.push(this.createTelephone());
   }
@@ -64,9 +200,9 @@ export class AddContactComponent implements OnInit {
     return this.addContactForm.get('telephoneList') as FormArray;
   }
 
-/**
-  EMAIL
-  */
+  /**
+   EMAIL
+   */
   createEmail(): FormGroup {
     return new FormGroup(
       {
@@ -76,7 +212,7 @@ export class AddContactComponent implements OnInit {
     );
   }
 
-addEmail() {
+  addEmail() {
     const email = this.addContactForm.get('emailList') as FormArray;
     email.push(this.createEmail());
   }
@@ -86,8 +222,8 @@ addEmail() {
   }
 
   /**
-  ADDRESS
-  */
+   ADDRESS
+   */
   createAddress(): FormGroup {
     return new FormGroup(
       {
@@ -97,21 +233,13 @@ addEmail() {
     );
   }
 
-addAddress() {
+  addAddress() {
     const address = this.addContactForm.get('addressList') as FormArray;
     address.push(this.createAddress());
   }
 
   get address() {
     return this.addContactForm.get('addressList') as FormArray;
-  }
-
-  constructor(private contactService: ContactService, private route: ActivatedRoute) {
-  }
-
-  ngOnInit(): void {
-    // Get the param of the url
-    this.listId = this.route.snapshot.params['listId'];
   }
 
   handleSubmit() {
@@ -141,29 +269,29 @@ addAddress() {
         }
       }
 
-    // Check if there's a email because if not then does not iterate
-          if (this.addContactForm.value.emailList) {
-            for (const email of this.addContactForm.value.emailList) {
-              if (email.email !== "" && email.type !== "") {
-                let newEmail = new NewEmailRequest();
-                newEmail.email = email.email;
-                newEmail.type = email.type;
-                this.contact.emailList.push(newEmail);
-              }
-            }
+      // Check if there's a email because if not then does not iterate
+      if (this.addContactForm.value.emailList) {
+        for (const email of this.addContactForm.value.emailList) {
+          if (email.email !== "" && email.type !== "") {
+            let newEmail = new NewEmailRequest();
+            newEmail.email = email.email;
+            newEmail.type = email.type;
+            this.contact.emailList.push(newEmail);
           }
+        }
+      }
 
-        // Check if there's a telephone because if not then does not iterate
-              if (this.addContactForm.value.addressList) {
-                for (const address of this.addContactForm.value.addressList) {
-                  if (address.address !== "" && address.type !== "") {
-                    let newAddress = new NewAddressRequest();
-                    newAddress.address = address.address;
-                    newAddress.type = address.type;
-                    this.contact.addressesList.push(newAddress);
-                  }
-                }
-              }
+      // Check if there's a telephone because if not then does not iterate
+      if (this.addContactForm.value.addressList) {
+        for (const address of this.addContactForm.value.addressList) {
+          if (address.address !== "" && address.type !== "") {
+            let newAddress = new NewAddressRequest();
+            newAddress.address = address.address;
+            newAddress.type = address.type;
+            this.contact.addressesList.push(newAddress);
+          }
+        }
+      }
 
       this.contactService.addContact(this.listId, this.contact).subscribe(
         {

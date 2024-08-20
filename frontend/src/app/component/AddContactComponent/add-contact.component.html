@@ -5,6 +5,30 @@
     <h1 class="title has-text-centered">Create new contact</h1>
 
     <div class="addContactForm">
+
+
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            Do you wish to add an existent contact? Select one from the list below:
+
+
+            <div class="select is-primary mt-5 is-rounded">
+              <select [(ngModel)]="selectedContact" (change)="onSelect(selectedContact)">
+
+                <ng-container *ngFor="let contact of contacts; let i = index">
+                  <option [value]="contact.id" [selected]="i === 1"> {{ contact.name }} {{ contact.surname }}</option>
+                </ng-container>
+
+
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
       <form [formGroup]="addContactForm" (ngSubmit)="handleSubmit()">
 
         <div class="field" id="name">
