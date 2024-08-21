@@ -59,17 +59,33 @@ export class AddContactComponent implements OnInit {
           // reset the form from the previous selected contact
           this.addContactForm.reset();
 
-          // TODO: fill in all inputs with the value
-          this.addContactForm.controls['name'].setValue(value.name!);
-          this.addContactForm.controls['surname'].setValue(value.surname!);
-          // TODO: FIX BIRTHDAY
-          //this.addContactForm.controls['birthday'].setValue(value.birthday!);
+          let newContact: NewContactRequest = new NewContactRequest();
+          newContact.name = value.name;
+          newContact.surname = value.surname;
+          newContact.birthday = value.birthday;
+          newContact.contactEmergency = value.contactEmergency!;
+          newContact.telephoneList = value.telephoneList!;
+          newContact.emailList = value.emailList!;
+          newContact.addressesList = value.addressesList!;
 
-          value.contactEmergency == true ?
+
+          // Fill in all inputs of the form with the values of the selected contact
+          this.addContactForm.controls['name'].setValue(newContact.name!);
+          this.addContactForm.controls['surname'].setValue(newContact.surname!);
+
+          if (newContact.birthday! != null) {
+            // Convert birthday to ISO 8601 so it can be shown in the input from the modal
+            const [day, month, year] = newContact.birthday.split('/');
+            const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            this.addContactForm.controls['birthday'].setValue(formattedDate);
+          }
+
+          newContact.contactEmergency ?
             this.addContactForm.controls['contactEmergency'].setValue("true") :
             this.addContactForm.controls['contactEmergency'].setValue("false");
 
-          if (value.telephoneList && value.telephoneList.length > 0) {
+          // TELEPHONE
+          if (newContact.telephoneList && newContact.telephoneList.length > 0) {
             const telephones = this.addContactForm.get('telephoneList') as FormArray;
 
             // If an empty form exists...
@@ -79,28 +95,87 @@ export class AddContactComponent implements OnInit {
               const existentTelephoneForm = this.telephones.controls.at(index);
               // Add the telephone
               existentTelephoneForm!.patchValue({
-                telephoneNumber: value.telephoneList[index].telephoneNumber,
-                type: value.telephoneList[index].type
+                telephoneNumber: newContact.telephoneList[index].telephoneNumber,
+                type: newContact.telephoneList[index].type
               })
               // Update the index, the next for will use this index to jump the first position if needed.
               index++;
             }
 
             // Add more telephones
-            for (let i = index; i < value.telephoneList.length; i++) {
+            for (let i = index; i < newContact.telephoneList.length; i++) {
               // Create the form
               const telephoneGroup = this.createTelephone();
               // Add the telephone
               telephoneGroup.patchValue({
-                telephoneNumber: value.telephoneList[i].telephoneNumber,
-                type: value.telephoneList[i].type
+                telephoneNumber: newContact.telephoneList[i].telephoneNumber,
+                type: newContact.telephoneList[i].type
               });
               telephones.push(telephoneGroup);
             }
           }
 
+          // EMAIL
+          if (newContact.emailList && newContact.emailList.length > 0) {
+            const email = this.addContactForm.get('emailList') as FormArray;
 
-          // TODO: call the service to add the contact once all the inputs has been filled
+            // If an empty form exists...
+            let indexEmail = 0;
+            if(email.length == 1 && email.get('email') === null) {
+              // Get the existent form
+              const existentEmailForm = this.emails.controls.at(indexEmail);
+              // Add the email
+              existentEmailForm!.patchValue({
+                email: newContact.emailList[indexEmail].email,
+                type: newContact.emailList[indexEmail].type
+              })
+              // Update the index, the next for will use this index to jump the first position if needed.
+              indexEmail++;
+            }
+
+            // Add more emails
+            for (let i = indexEmail; i < newContact.emailList.length; i++) {
+              // Create the form
+              const emailGroup = this.createEmail();
+              // Add the telephone
+              emailGroup.patchValue({
+                email: newContact.emailList[i].email,
+                type: newContact.emailList[i].type
+              });
+              email.push(emailGroup);
+            }
+          }
+
+          // ADDRESS
+          if (newContact.addressesList && newContact.addressesList.length > 0) {
+            const address = this.addContactForm.get('addressList') as FormArray;
+
+            // If an empty form exists...
+            let indexAddress = 0;
+            if(address.length == 1 && address.get('address') === null) {
+              // Get the existent form
+              const existentAddressForm = this.address.controls.at(indexAddress);
+              // Add the address
+              existentAddressForm!.patchValue({
+                address: newContact.addressesList[indexAddress].address,
+                type: newContact.addressesList[indexAddress].type
+              })
+              // Update the index, the next for will use this index to jump the first position if needed.
+              indexAddress++;
+            }
+
+            // Add more addresses
+            for (let i = indexAddress; i < newContact.addressesList.length; i++) {
+              // Create the form
+              const addressGroup = this.createAddress();
+              // Add the address
+              addressGroup.patchValue({
+                address: newContact.addressesList[i].address,
+                type: newContact.addressesList[i].type
+              });
+              address.push(addressGroup);
+            }
+          }
 
         },
         error: err => {

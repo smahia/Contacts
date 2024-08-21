@@ -16,13 +16,14 @@
             </h3>
 
             <div class="buttons">
-              <button class="button is-dark is-inverted" (click)="toggleModal()">
+              <button class="button is-dark is-inverted" title="Edit contact" (click)="toggleModal()">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
               </button>
 
-              <button class="button is-dark is-inverted" (click)="deleteContact(contact.listId!, contact.id!)">
+              <button class="button is-dark is-inverted" title="Delete contact"
+                      (click)="deleteContact(contact.listId!, contact.id!)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
@@ -44,7 +45,7 @@
           <h4 class="title is-4 mb-0 mt-5">
             Telephone
 
-            <button class="button is-dark is-inverted is-small" (click)="showTelephoneForm()">
+            <button class="button is-dark is-inverted is-small" (click)="showTelephoneForm()" title="Add telephone">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -61,13 +62,15 @@
             <ng-container *ngFor="let telephone of contact.telephoneList; let i = index; let last = last">
 
               <div class="is-flex is-justify-content-flex-end">
-                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingTelephone(i)">
+                <button class="button is-dark is-inverted is-small mr-2" title="Edit telephone"
+                        (click)="startEditingTelephone(i)">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
                 </button>
 
-                <button class="button is-dark is-inverted is-small" (click)="deletePhone(telephone)">
+                <button class="button is-dark is-inverted is-small" title="Delete telephone"
+                        (click)="deletePhone(telephone)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
@@ -148,7 +151,7 @@
           <h4 class="title is-4 mb-0">
             Email
 
-            <button class="button is-dark is-inverted is-small" (click)="showEmailForm()">
+            <button class="button is-dark is-inverted is-small" (click)="showEmailForm()" title="Add email">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -166,13 +169,15 @@
 
               <div class="is-flex is-justify-content-flex-end">
 
-                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingEmail(i)">
+                <button class="button is-dark is-inverted is-small mr-2" title="Edit email"
+                        (click)="startEditingEmail(i)">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
                 </button>
 
-                <button class="button is-dark is-inverted is-small" (click)="deleteEmail(email)">
+                <button class="button is-dark is-inverted is-small" title="Delete email"
+                        (click)="deleteEmail(email)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
@@ -251,7 +256,8 @@
           <h4 class="title is-4 mb-0">
             Address
 
-            <button class="button is-dark is-inverted is-small" (click)="showAddressForm()">
+            <button class="button is-dark is-inverted is-small" title="Add address"
+                    (click)="showAddressForm()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -268,13 +274,15 @@
 
               <div class="is-flex is-justify-content-flex-end">
 
-                <button class="button is-dark is-inverted is-small mr-2" (click)="startEditingAddress(i)">
+                <button class="button is-dark is-inverted is-small mr-2" title="Edit address"
+                        (click)="startEditingAddress(i)">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
                 </button>
 
-                <button class="button is-dark is-inverted is-small" (click)="deleteAddress(address)">
+                <button class="button is-dark is-inverted is-small" title="Delete address"
+                        (click)="deleteAddress(address)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>

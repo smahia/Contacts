@@ -9,7 +9,7 @@
         Lists
 
         <button class="button is-dark is-inverted"
-                (click)="toggleModal()">
+                (click)="toggleModal()" title="Add new list">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -43,13 +43,14 @@
           <div class="list-item-controls">
             <div class="buttons">
 
-              <button class="button is-dark is-inverted" (click)="openEditModal(list)">
+              <button class="button is-dark is-inverted" (click)="openEditModal(list)" title="Edit list">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
               </span>
               </button>
 
-              <button *ngIf="list.name !== 'Default'" class="button is-dark is-inverted" (click)="deleteList(list.id!, list.name!)">
+              <button *ngIf="list.name !== 'Default'" class="button is-dark is-inverted"
+                      (click)="deleteList(list.id!, list.name!)" title="Delete list">
               <span class="icon">
                 <i class="fa-solid fa-trash"></i>
               </span>
