@@ -31,7 +31,7 @@ export class AddContactComponent implements OnInit {
   contact: NewContactRequest = new NewContactRequest();
   listId: number = 0;
   lists: MyListsResponse[] | any;
-  contacts: GetContactResponse[] | any;
+  contacts: GetContactResponse[] = [];
 
 
   addContactForm = new FormGroup(
@@ -90,7 +90,7 @@ export class AddContactComponent implements OnInit {
 
             // If an empty form exists...
             let index = 0;
-            if(telephones.length == 1 && telephones.get('telephoneNumber') === null) {
+            if (telephones.length == 1 && telephones.get('telephoneNumber') === null) {
               // Get the existent form
               const existentTelephoneForm = this.telephones.controls.at(index);
               // Add the telephone
@@ -121,7 +121,7 @@ export class AddContactComponent implements OnInit {
 
             // If an empty form exists...
             let indexEmail = 0;
-            if(email.length == 1 && email.get('email') === null) {
+            if (email.length == 1 && email.get('email') === null) {
               // Get the existent form
               const existentEmailForm = this.emails.controls.at(indexEmail);
               // Add the email
@@ -152,7 +152,7 @@ export class AddContactComponent implements OnInit {
 
             // If an empty form exists...
             let indexAddress = 0;
-            if(address.length == 1 && address.get('address') === null) {
+            if (address.length == 1 && address.get('address') === null) {
               // Get the existent form
               const existentAddressForm = this.address.controls.at(indexAddress);
               // Add the address
@@ -188,7 +188,8 @@ export class AddContactComponent implements OnInit {
 
   constructor(private contactService: ContactService,
               private route: ActivatedRoute,
-              private listingService: ListingService) {}
+              private listingService: ListingService) {
+  }
 
   ngOnInit(): void {
     // Get the param of the url
@@ -204,18 +205,14 @@ export class AddContactComponent implements OnInit {
 
           // Get all contacts for each list
           for (let i = 0; i < this.lists.length; i++) {
-            console.log(this.lists[i].id);
 
             this.contactService.getContactsByList(this.lists[i].id).subscribe(
               {
                 next: value => {
-
-                  this.contacts = value;
-
-                  for (const contact of this.contacts) {
-                    console.log(contact.name);
-                  }
-
+                  const contacts = value as GetContactResponse[] // Dynamic Cast
+                  contacts.forEach(contact => {
+                    this.contacts.push(contact);
+                  })
                 },
                 error: error => {
 
@@ -234,7 +231,6 @@ export class AddContactComponent implements OnInit {
 
         },
         error: error => {
-
           console.log(error);
           Swal.fire({
             icon: "error",
