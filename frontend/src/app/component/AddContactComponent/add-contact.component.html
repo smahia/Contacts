@@ -10,10 +10,17 @@
       <div class="card">
         <div class="card-content">
           <div class="content">
-            Do you wish to add an existent contact? Select one from the list below:
+            Do you wish to add an existent contact? You can search for one:
+
+            <input [(ngModel)]="searchSelectedContact"
+                   typeaheadOptionField="name"
+                   [typeahead]="contacts"
+                   (typeaheadOnSelect)="onSelect($event.item)"
+                   placeholder="Type a contact name"
+                   class="input mt-4">
 
 
-            <div class="select is-primary mt-5 is-rounded">
+            <!--<div class="select is-primary mt-5 is-rounded">
               <select [(ngModel)]="selectedContact" (change)="onSelect(selectedContact)">
 
                 <ng-container *ngFor="let contact of contacts; let i = index">
@@ -22,7 +29,7 @@
 
 
               </select>
-            </div>
+            </div>-->
 
           </div>
         </div>
@@ -135,7 +142,7 @@
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link">Create contact</button>
+            <button class="button is-primary">Create contact</button>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ import {NewEmailRequest} from "../../request/NewEmailRequest";
 import {ListingService} from "../../service/listing/listing.service";
 import {MyListsResponse} from "../../response/myListsResponse";
 import {GetContactResponse} from "../../response/GetContactResponse";
+import {TypeaheadMatch, TypeaheadModule} from "ngx-bootstrap/typeahead";
 
 @Component({
   selector: 'app-add-contact',
@@ -21,7 +22,8 @@ import {GetContactResponse} from "../../response/GetContactResponse";
     ReactiveFormsModule,
     NgClass,
     NgForOf,
-    FormsModule
+    FormsModule,
+    TypeaheadModule
   ],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss'
@@ -46,14 +48,17 @@ export class AddContactComponent implements OnInit {
     }
   );
 
-  selectedContact: number = 0;
+  // It's a ? so in the input field of the TypeAhead does not show Object object
+  selectedContact?: GetContactResponse;
+  // The TypeAhead needs a string
+  searchSelectedContact?: string;
 
-
-  onSelect(contact: number) {
-    this.selectedContact = Number(contact); // Turns the value into a number
+  onSelect(contact: GetContactResponse) {
+    this.selectedContact = contact;
+    console.log("contacto seleccionado")
     console.log(this.selectedContact);
 
-    this.contactService.getContact(this.selectedContact).subscribe(
+    this.contactService.getContact(this.selectedContact.id!).subscribe(
       {
         next: value => {
           // reset the form from the previous selected contact
@@ -186,6 +191,14 @@ export class AddContactComponent implements OnInit {
 
   }
 
+  formatContactName(contact: GetContactResponse) {
+    return `${contact.name} ${contact.surname}`;
+  }
+
+  get formattedContacts() {
+    return this.contacts.map(this.formatContactName);
+  }
+
   constructor(private contactService: ContactService,
               private route: ActivatedRoute,
               private listingService: ListingService) {
@@ -226,7 +239,6 @@ export class AddContactComponent implements OnInit {
                 }
               }
             );
-
           }
 
         },
