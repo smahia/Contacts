@@ -2,3 +2,25 @@
   margin: 0 auto;
   max-width: 600px;
 }
+
+::ng-deep .dropdown-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.05);
+}
+
+::ng-deep .dropdown-menu .dropdown-header {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+::ng-deep .dropdown-item {
+  margin-bottom: 10px;
+}
+
+::ng-deep .dropdown-item:hover {
+  background-color: hsl(171, 100%, 41%);
+  color: white;
+}
+

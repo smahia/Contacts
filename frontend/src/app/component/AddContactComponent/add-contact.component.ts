@@ -12,7 +12,7 @@ import {NewEmailRequest} from "../../request/NewEmailRequest";
 import {ListingService} from "../../service/listing/listing.service";
 import {MyListsResponse} from "../../response/myListsResponse";
 import {GetContactResponse} from "../../response/GetContactResponse";
-import {TypeaheadMatch, TypeaheadModule} from "ngx-bootstrap/typeahead";
+import {TypeaheadModule} from "ngx-bootstrap/typeahead";
 
 @Component({
   selector: 'app-add-contact',
@@ -189,14 +189,6 @@ export class AddContactComponent implements OnInit {
       }
     );
 
-  }
-
-  formatContactName(contact: GetContactResponse) {
-    return `${contact.name} ${contact.surname}`;
-  }
-
-  get formattedContacts() {
-    return this.contacts.map(this.formatContactName);
   }
 
   constructor(private contactService: ContactService,
