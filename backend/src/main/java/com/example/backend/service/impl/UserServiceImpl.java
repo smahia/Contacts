@@ -1,8 +1,10 @@
 package com.example.backend.service.impl;
 
 import com.example.backend.dto.createDto.CreateUserDto;
+import com.example.backend.dto.updateDto.UpdatePasswordDto;
 import com.example.backend.entity.User;
 import com.example.backend.exception.DifferentPasswordException;
+import com.example.backend.exception.GenericException;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
@@ -119,6 +121,28 @@ public class UserServiceImpl implements UserService {
                     throw new NotFoundException("User not found", id);
                 }
         );
+
+    }
+
+    /**
+     * Allow the user to change their password
+     * @param user The currently authenticated user
+     * @param updatePasswordDto The request containing the new and old password
+     */
+    @Override
+    public void editPassword(User user, UpdatePasswordDto updatePasswordDto) {
+
+        // Not necessary to use a converter in the Dto because its not going to be converted into a database object
+        if (passwordEncoder.matches(updatePasswordDto.getOldPassword(), user.getPassword())) {
+            if (updatePasswordDto.getNewPassword().contentEquals(updatePasswordDto.getConfirmPassword())) {
+                user.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+                userRepository.save(user);
+            } else {
+                throw new DifferentPasswordException();
+            }
+        } else {
+            throw new GenericException("Your current password is incorrect");
+        }
 
     }
 }

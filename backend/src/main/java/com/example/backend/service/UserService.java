@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.createDto.CreateUserDto;
+import com.example.backend.dto.updateDto.UpdatePasswordDto;
 import com.example.backend.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -22,4 +23,6 @@ public interface UserService {
     User editUser(CreateUserDto editUserDto, int userId);
 
     void deleteUser(int id);
+
+    void editPassword(User user, UpdatePasswordDto updatePasswordDto);
 }

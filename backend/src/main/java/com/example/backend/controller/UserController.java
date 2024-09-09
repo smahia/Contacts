@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.UserDto;
 import com.example.backend.dto.createDto.CreateUserDto;
+import com.example.backend.dto.updateDto.UpdatePasswordDto;
 import com.example.backend.dtoConverter.UserDtoConverter;
 import com.example.backend.entity.User;
 import com.example.backend.error.ApiValidationError;
@@ -118,5 +119,24 @@ public class UserController {
     @GetMapping(path = "/me")
     public UserDto getAuthenticatedUser(@AuthenticationPrincipal User user) {
         return userDtoConverter.convertToDto(user);
+    }
+
+    /**
+     * Allow user to change their password
+     * @param user The current user
+     * @param updatePasswordDto The request containing the new and old password
+     * @return ResponseEntity<?>
+     */
+    @Operation(summary = "Allow user to change their password", responses = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UpdatePasswordDto.class)))
+    })
+    @PutMapping(path = "/changePassword")
+    public ResponseEntity<?> changePassword(@AuthenticationPrincipal User user,
+                                            @Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
+        userService.editPassword(user, updatePasswordDto);
+
+        return ResponseEntity.ok().build();
     }
 }
