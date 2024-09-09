@@ -2,83 +2,85 @@
 
   <section class="section">
 
-    <h1 class="title has-text-centered">Sign up</h1>
+    <div class="formSection">
+      <h1 class="title has-text-centered">Sign up</h1>
 
-    <div class="notification is-danger is-light is-hidden" id="errors">
+      <div class="notification is-danger is-light is-hidden" id="errors">
 
-    </div>
+      </div>
 
-    <div class="registerForm">
-      <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
+      <div class="registerForm">
+        <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
 
-        <div class="field" id="username">
-          <label class="label">Username</label>
-          <div class="control">
-            <input class="input"
-                   [ngClass]="{'is-danger' : registrationForm.controls.username.hasError('required')
+          <div class="field" id="username">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input"
+                     [ngClass]="{'is-danger' : registrationForm.controls.username.hasError('required')
 && !registrationForm.controls.username.untouched }" type="text" formControlName="username">
-          </div>
+            </div>
 
-          <div *ngIf="registrationForm.controls.username.hasError('required')
+            <div *ngIf="registrationForm.controls.username.hasError('required')
 && !registrationForm.controls.username.untouched">
 
-            <p class="help is-danger">Username is mandatory</p>
+              <p class="help is-danger">Username is mandatory</p>
+
+            </div>
 
           </div>
 
-        </div>
-
-        <div class="field" id="password">
-          <label class="label">Password</label>
-          <div class="control">
-            <input class="input"
-                   [ngClass]="{'is-danger' : registrationForm.controls.password.hasError('required')
+          <div class="field" id="password">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input"
+                     [ngClass]="{'is-danger' : registrationForm.controls.password.hasError('required')
 && !registrationForm.controls.password.untouched || (messagePasswordAreNotIdentical)}"
-                   type="password"
-                   formControlName="password">
-          </div>
+                     type="password"
+                     formControlName="password">
+            </div>
 
-          <div *ngIf="registrationForm.controls.password.hasError('required')
+            <div *ngIf="registrationForm.controls.password.hasError('required')
 && !registrationForm.controls.password.untouched">
 
-            <p class="help is-danger">Password is mandatory</p>
+              <p class="help is-danger">Password is mandatory</p>
+
+            </div>
 
           </div>
 
-        </div>
-
-        <div class="field" id="passwordConfirmation">
-          <label class="label">Password confirmation</label>
-          <div class="control">
-            <input class="input"
-                   [ngClass]="{'is-danger' : registrationForm.controls.passwordConfirmation.hasError('required')
+          <div class="field" id="passwordConfirmation">
+            <label class="label">Password confirmation</label>
+            <div class="control">
+              <input class="input"
+                     [ngClass]="{'is-danger' : registrationForm.controls.passwordConfirmation.hasError('required')
 && !registrationForm.controls.passwordConfirmation.untouched || (messagePasswordAreNotIdentical) } "
-                   type="password"
-                   formControlName="passwordConfirmation">
-          </div>
+                     type="password"
+                     formControlName="passwordConfirmation">
+            </div>
 
-          <div *ngIf="registrationForm.controls.passwordConfirmation.hasError('required')
+            <div *ngIf="registrationForm.controls.passwordConfirmation.hasError('required')
 && !registrationForm.controls.passwordConfirmation.untouched">
 
-            <p class="help is-danger">Password is mandatory</p>
+              <p class="help is-danger">Password is mandatory</p>
+
+            </div>
+
+            <div *ngIf="messagePasswordAreNotIdentical">
+
+              <p class="help is-danger">Passwords don't match</p>
+
+            </div>
 
           </div>
 
-          <div *ngIf="messagePasswordAreNotIdentical">
-
-            <p class="help is-danger">Passwords don't match</p>
-
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary">Sign up</button>
+            </div>
           </div>
 
-        </div>
-
-        <div class="field is-grouped">
-          <div class="control">
-            <button class="button is-primary">Sign up</button>
-          </div>
-        </div>
-
-      </form>
+        </form>
+      </div>
     </div>
 
   </section>

@@ -2,58 +2,67 @@
 
   <section class="section">
 
-    <h1 class="title has-text-centered">Log in</h1>
+    <div class="formSection">
 
-    <div class="notification is-danger is-light is-hidden" id="errors">
+      <h1 class="title has-text-centered">Log in</h1>
 
-    </div>
+      <div class="notification is-danger is-light is-hidden" id="errors">
 
-    <div class="loginForm">
-      <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+      </div>
 
-        <div class="field" id="username">
-          <label class="label">Username</label>
-          <div class="control">
-            <input class="input"
-                   [ngClass]="{'is-danger' : loginForm.controls.username.hasError('required')
+      <div class="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+
+          <div class="field" id="username">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input"
+                     [ngClass]="{'is-danger' : loginForm.controls.username.hasError('required')
 && !loginForm.controls.username.untouched }" type="text" formControlName="username">
-          </div>
+            </div>
 
-          <div *ngIf="loginForm.controls.username.hasError('required')
+            <div *ngIf="loginForm.controls.username.hasError('required')
 && !loginForm.controls.username.untouched">
 
-            <p class="help is-danger">Username is mandatory</p>
+              <p class="help is-danger">Username is mandatory</p>
+
+            </div>
 
           </div>
 
-        </div>
-
-        <div class="field" id="password">
-          <label class="label">Password</label>
-          <div class="control">
-            <input class="input"
-                   [ngClass]="{'is-danger' : loginForm.controls.password.hasError('required')
+          <div class="field" id="password">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input"
+                     [ngClass]="{'is-danger' : loginForm.controls.password.hasError('required')
 && !loginForm.controls.password.untouched }"
-                   type="password"
-                   formControlName="password">
-          </div>
+                     type="password"
+                     formControlName="password">
+            </div>
 
-          <div *ngIf="loginForm.controls.password.hasError('required')
+            <div *ngIf="loginForm.controls.password.hasError('required')
 && !loginForm.controls.password.untouched">
 
-            <p class="help is-danger">Password is mandatory</p>
+              <p class="help is-danger">Password is mandatory</p>
+
+            </div>
 
           </div>
 
-        </div>
-
-        <div class="field is-grouped">
-          <div class="control">
-            <button class="button is-primary">Log in</button>
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary">Log in</button>
+            </div>
           </div>
-        </div>
 
-      </form>
+        </form>
+
+        <p class="mt-5 mb-0 is-size-7 has-text-centered">
+          Did you <span class="has-text-weight-bold">forget your password</span>?
+        </p>
+
+      </div>
+
     </div>
 
   </section>
