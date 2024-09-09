@@ -7,6 +7,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {ListDetailsComponent} from "./component/ListDetailsComponent/list-details.component";
 import {ContactDetailsComponent} from "./component/ContactDetailsComponent/contact-details.component";
 import {AddContactComponent} from "./component/AddContactComponent/add-contact.component";
+import {ChangePasswordComponent} from "./component/ChangePassword/change-password.component";
 
 export const routes: Routes = [
   {
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'newContact/:listId', // TODO: check if the id if not a number or doesn't exist with a Guard
     component: AddContactComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'changePassword',
+    component: ChangePasswordComponent,
     canActivate: [AuthGuard]
   }
 ];
