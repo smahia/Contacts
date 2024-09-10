@@ -2,7 +2,8 @@
   <div class="hero-body">
     <p class="title">{{ list.name }}</p>
 
-    <button class="button is-dark is-inverted" routerLink="/newContact/{{listId}}" title="Add new contact">
+    <button class="button has-background-primary is-inverted" routerLink="/newContact/{{listId}}"
+            title="Add new contact">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -14,42 +15,44 @@
 
   <div class="container">
 
-    <ng-container *ngIf="contacts.length > 0; else noContacts">
+    <div class="contentSection">
 
-      <div class="b-table">
-        <div class="table-wrapper has-mobile-cards">
-          <table class="table is-fullwidth is-striped is-hoverable">
-            <thead>
-            <tr>
-              <th class="has-text-centered">Name</th>
-              <th class="has-text-centered">Surname</th>
-            </tr>
-            </thead>
-            <tbody>
+      <ng-container *ngIf="contacts.length > 0; else noContacts">
 
-            <tr *ngFor="let contact of contacts">
-              <td data-label="Name" class="has-text-centered">
-                <a routerLink="/contact/{{ contact.id }}">{{ contact.name }}</a>
-              </td>
-              <td data-label="Surname" class="has-text-centered">
-                {{ contact.surname }}
-              </td>
-            </tr>
+        <div class="b-table">
+          <div class="table-wrapper has-mobile-cards">
+            <table class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+              <tr>
+                <th class="has-text-centered">Name</th>
+                <th class="has-text-centered">Surname</th>
+              </tr>
+              </thead>
+              <tbody>
 
-            </tbody>
-          </table>
+              <tr *ngFor="let contact of contacts">
+                <td data-label="Name" class="has-text-centered">
+                  <a routerLink="/contact/{{ contact.id }}">{{ contact.name }}</a>
+                </td>
+                <td data-label="Surname" class="has-text-centered">
+                  <a routerLink="/contact/{{contact.id}}">{{ contact.surname }}</a>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-    </ng-container>
+      </ng-container>
 
-    <ng-template #noContacts>
-      <div>
-        This list does not have contacts.
-      </div>
-    </ng-template>
+      <ng-template #noContacts>
+        <div>
+          This list does not have contacts.
+        </div>
+      </ng-template>
 
-
+    </div>
 
   </div>
 
