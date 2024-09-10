@@ -18,3 +18,9 @@
 .form-editing-telephone {
   width: 250px;
 }
+
+@media only screen and (max-width: 600px) {
+  .modal {
+    padding: 10px;
+  }
+}
