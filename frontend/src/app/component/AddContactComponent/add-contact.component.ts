@@ -48,7 +48,7 @@ export class AddContactComponent implements OnInit {
     }
   );
 
-  // It's a ? so in the input field of the TypeAhead does not show Object object
+  /*// It's a ? so in the input field of the TypeAhead does not show Object object
   selectedContact?: GetContactResponse;
   // The TypeAhead needs a string
   searchSelectedContact?: string;
@@ -189,7 +189,7 @@ export class AddContactComponent implements OnInit {
       }
     );
 
-  }
+  }*/
 
   constructor(private contactService: ContactService,
               private route: ActivatedRoute,
@@ -201,7 +201,7 @@ export class AddContactComponent implements OnInit {
     this.listId = this.route.snapshot.params['listId'];
 
 
-    // Get all lists from the user
+    /*// Get all lists from the user
     this.listingService.showMyLists().subscribe(
       {
         next: value => {
@@ -244,7 +244,7 @@ export class AddContactComponent implements OnInit {
 
         }
       }
-    );
+    );*/
 
   }
 
