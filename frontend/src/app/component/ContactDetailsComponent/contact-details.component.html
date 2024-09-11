@@ -4,7 +4,7 @@
     <button class="mb-5" title="Back to list contents"
     routerLink="/list/{{contact.listId}}">
             <span class="icon fa-2x">
-              <i class="fa-solid fa-circle-chevron-left"></i>
+              <i class="fa-solid fa-circle-chevron-left" style="color: rgb(0, 209, 178)"></i>
             </span>
     </button>
 
@@ -473,7 +473,7 @@
       <div class="modal-background" (click)="closeCopyContactModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Select the list</p>
+          <p class="modal-card-title">Copy a contact</p>
           <button class="delete" aria-label="close" (click)="closeCopyContactModal()"></button>
         </header>
         <section class="modal-card-body">
@@ -489,10 +489,20 @@
           </p>
 
           <div class="select is-primary">
-            <select [(ngModel)]="selectedList" (ngModelChange)="onSelectedListChanged(selectedList)">
-              <ng-container *ngFor="let list of lists; let i = index">
-                <option [value]="list.id" [selected]="i">{{ list.name }}</option>
-              </ng-container>
+            <select [(ngModel)]="selectedItem" name = "list"
+                    (ngModelChange)="onSelectedListChanged($event)">
+
+              <!--Placeholder Option-->
+              <option
+                [value]="null"
+                [disabled]="true"
+                [selected]>
+                Select a list
+              </option>
+
+                <option *ngFor="let list of lists"
+                        [value]="list.id" >{{ list.name }}</option>
+
             </select>
           </div>
 

@@ -56,6 +56,9 @@ export class ContactDetailsComponent implements OnInit {
   editedContact: EditContactRequest = new EditContactRequest();
 
   selectedList: number = 0;
+  // This variable allows to hold a default value in the select list dropdown
+  // Example: https://angular-ivy-dyexib.stackblitz.io
+  selectedItem = null;
 
   editContactForm = new FormGroup(
     {
