@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GetContactResponse} from "../../response/GetContactResponse";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ContactService} from "../../service/contact/contact.service";
 import moment from "moment";
@@ -32,7 +32,8 @@ import {NewContactRequest} from "../../request/NewContactRequest";
     NgClass,
     AddTelephoneComponent,
     AddEmailComponent,
-    AddAddressComponent
+    AddAddressComponent,
+    RouterLink
   ],
   templateUrl: './contact-details.component.html',
   styleUrl: './contact-details.component.scss'
