@@ -43,13 +43,13 @@
           <div class="list-item-controls">
             <div class="buttons">
 
-              <button class="button is-dark is-inverted" (click)="openEditModal(list)" title="Edit list">
+              <button class="button has-background-primary" (click)="openEditModal(list)" title="Edit list">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
               </span>
               </button>
 
-              <button *ngIf="list.name !== 'Default'" class="button is-dark is-inverted"
+              <button *ngIf="list.name !== 'Default'" class="button has-background-primary"
                       (click)="deleteList(list.id!, list.name!)" title="Delete list">
               <span class="icon">
                 <i class="fa-solid fa-trash"></i>

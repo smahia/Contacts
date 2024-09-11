@@ -22,12 +22,20 @@
             </span>
               </button>
 
+              <button class="button has-background-primary" title="Copy contact to another list"
+                      (click)="toggleCopyContactModal()">
+            <span class="icon">
+              <i class="fa-solid fa-clone"></i>
+            </span>
+              </button>
+
               <button class="button has-background-primary" title="Delete contact"
                       (click)="deleteContact(contact.listId!, contact.id!)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
               </button>
+
             </div>
           </div>
 
@@ -445,6 +453,41 @@
             </div>
 
           </form>
+
+        </section>
+        <footer class="modal-card-foot">
+
+        </footer>
+      </div>
+    </div>
+
+    <!-- Modal for copying a contact -->
+    <div class="modal" [ngClass]="{ 'is-active' : isCopyContactModalActive }">
+      <div class="modal-background" (click)="closeCopyContactModal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Select the list</p>
+          <button class="delete" aria-label="close" (click)="closeCopyContactModal()"></button>
+        </header>
+        <section class="modal-card-body">
+
+          <p class="mb-3">
+            You can add a contact to more than one list. The contact will be copied to the list
+            that you have selected and will remain in the old list, unless you remove it.
+          </p>
+
+
+          <p class="mb-3">
+            To which list do you want to copy the contact?
+          </p>
+
+          <div class="select is-primary">
+            <select [(ngModel)]="selectedList" (ngModelChange)="onSelectedListChanged(selectedList)">
+              <ng-container *ngFor="let list of lists; let i = index">
+                <option [value]="list.id" [selected]="i">{{ list.name }}</option>
+              </ng-container>
+            </select>
+          </div>
 
         </section>
         <footer class="modal-card-foot">

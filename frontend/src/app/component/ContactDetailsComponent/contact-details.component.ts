@@ -17,6 +17,9 @@ import {TelephoneResponse} from "../../response/TelephoneResponse";
 import {EmailResponse} from "../../response/EmailResponse";
 import {AddressResponse} from "../../response/AddressResponse";
 import {EditContactRequest} from "../../request/EditContactRequest";
+import {ListingService} from "../../service/listing/listing.service";
+import {MyListsResponse} from "../../response/myListsResponse";
+import {NewContactRequest} from "../../request/NewContactRequest";
 
 @Component({
   selector: 'app-contact-details, [contact-details]',
@@ -42,8 +45,16 @@ export class ContactDetailsComponent implements OnInit {
   displayEmailForm = false;
   displayAddressForm = false;
   isModalActive: boolean = false;
+  isCopyContactModalActive: boolean = false;
+  // This variable contains the same data of the contact so it can be copied to another list
+  copiedContact: NewContactRequest = new NewContactRequest();
+  // This variable contains all the lists belonging to this user,
+  // except the list in which the current contact is present
+  lists: MyListsResponse[] = [];
   // This variable will hold the new information of the edited contact
   editedContact: EditContactRequest = new EditContactRequest();
+
+  selectedList: number = 0;
 
   editContactForm = new FormGroup(
     {
@@ -58,7 +69,7 @@ export class ContactDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private titleService: Title,
               private contactService: ContactService, private router: Router,
               private telephoneService: TelephoneService, private emailService: EmailService,
-              private addressService: AddressService) {
+              private addressService: AddressService, private listingService: ListingService) {
   }
 
   // TODO: fix birthday
@@ -74,6 +85,28 @@ export class ContactDetailsComponent implements OnInit {
           this.titleService.setTitle(this.contact.name + " " + this.contact.surname);
           console.log(this.contact);
           console.log(this.contact.birthday);
+        },
+        error: err => {
+          console.log(err);
+        }
+      }
+    );
+
+    // 1. Bring all the lists that belong to the contact to show them in the modal for copying a contact
+    this.listingService.showMyLists().subscribe(
+      {
+        next: value => {
+
+          const lists = value as MyListsResponse[] // Dynamic Cast
+          lists.forEach(list => {
+
+            // 2. Do not show the list to which the contact belongs
+            if (this.contact.listId !== list.id) {
+              this.lists.push(list);
+            }
+
+          })
+
         },
         error: err => {
           console.log(err);
@@ -576,6 +609,76 @@ export class ContactDetailsComponent implements OnInit {
       }
     });
 
+  }
+
+  // For adding a copy contact modal
+  toggleCopyContactModal() {
+    this.isCopyContactModalActive = !this.isCopyContactModalActive;
+  }
+
+  onSelectedListChanged(selectedList: number) {
+    this.selectedList = Number(selectedList); // Turns the value into a number
+    console.log('Selected list:', this.selectedList);
+
+    // 3.  When the user selects a list, add the contact to that list
+    this.copiedContact.name = this.contact.name;
+    this.copiedContact.surname = this.contact.surname;
+    this.copiedContact.birthday = this.contact.birthday;
+    this.copiedContact.contactEmergency = this.contact.contactEmergency!;
+    this.copiedContact.telephoneList = this.contact.telephoneList!;
+    this.copiedContact.emailList = this.contact.emailList!;
+    this.copiedContact.addressesList = this.contact.addressesList!;
+
+    let selectedListName: string = "";
+
+    // Iterate over the lists to show the name
+    for (let i = 0; i < this.lists.length; i++) {
+      if (this.lists[i].id == this.selectedList) {
+        selectedListName = this.lists[i].name!;
+      }
+    }
+
+    Swal.fire({
+      title: "Are you sure you want to copy this contact to " + selectedListName + "?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, copy it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.contactService.addContact(this.selectedList, this.copiedContact).subscribe(
+          {
+            next: value => {
+              Swal.fire({
+                icon: "success",
+                title: "The contact was successfully copied",
+              }).then(
+                () => {
+                  window.location.reload();
+                }
+              );
+            },
+            error: err => {
+              console.log(err);
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong! The contact could not be copied",
+              });
+            }
+          }
+        );
+
+      }
+    });
+
+  }
+
+
+  closeCopyContactModal() {
+    this.isCopyContactModalActive = !this.isCopyContactModalActive;
   }
 
 }
