@@ -87,7 +87,7 @@ export class LoginService {
 
     this.loggedInSubject.next(false);
 
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
   }
 
   /**

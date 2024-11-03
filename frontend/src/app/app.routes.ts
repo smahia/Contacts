@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import {RegisterComponent} from "./component/RegisterComponent/register.component";
-import {HomeComponent} from "./component/HomeComponent/home.component";
 import {LoginComponent} from "./component/LoginComponent/login.component";
 import {ListingComponent} from "./component/ListingComponent/listing.component";
 import {AuthGuard} from "./guard/auth.guard";
@@ -12,8 +11,9 @@ import {ChangePasswordComponent} from "./component/ChangePassword/change-passwor
 export const routes: Routes = [
   {
     path: '',
-    title: 'Home',
-    component: HomeComponent
+    title: 'My lists',
+    component: ListingComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'registration',
@@ -24,12 +24,6 @@ export const routes: Routes = [
     path: 'login',
     title: 'Log in',
     component: LoginComponent
-  },
-  {
-    path: 'myLists',
-    title: 'My lists',
-    component: ListingComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'list/:id', // TODO: check if the id if not a number or doesn't exist with a Guard
@@ -43,11 +37,13 @@ export const routes: Routes = [
   },
   {
     path: 'newContact/:listId', // TODO: check if the id if not a number or doesn't exist with a Guard
+    title: 'Create a new contact',
     component: AddContactComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'changePassword',
+    title: 'Change password',
     component: ChangePasswordComponent,
     canActivate: [AuthGuard]
   }
