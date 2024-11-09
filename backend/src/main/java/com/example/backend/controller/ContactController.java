@@ -4,7 +4,6 @@ import com.example.backend.dto.ContactDto;
 import com.example.backend.dto.createDto.CreateContactDto;
 import com.example.backend.dto.updateDto.UpdateContactDto;
 import com.example.backend.dtoConverter.ContactDtoConverter;
-import com.example.backend.entity.Contact;
 import com.example.backend.error.ApiError;
 import com.example.backend.error.ApiValidationError;
 import com.example.backend.service.ContactService;
@@ -21,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,9 +59,9 @@ public class ContactController {
                             schema = @Schema(implementation = ContactDto.class)))
     })
     @GetMapping(path = "/getContactsByList/{listId}")
-    public ResponseEntity<Set<ContactDto>> getContactsByList(@PathVariable int listId) {
+    public ResponseEntity<List<ContactDto>> getContactsByList(@PathVariable int listId) {
 
-        return new ResponseEntity<>(contactDtoConverter.convertToDtoSet(contactService.getAllContactsByList(listId)),
+        return new ResponseEntity<>(contactDtoConverter.convertToDtoList(contactService.getAllContactsByList(listId)),
                 HttpStatus.OK);
     }
 

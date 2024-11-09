@@ -58,7 +58,7 @@ public class ContactServiceImpl implements ContactService {
      * @return List<Contact>
      */
     @Override
-    public Set<Contact> getAllContactsByList(int listId) {
+    public List<Contact> getAllContactsByList(int listId) {
 
         Listing list = listingRepository.findById(listId).orElseThrow(
                 () -> new NotFoundException("List not found", listId)
@@ -70,7 +70,7 @@ public class ContactServiceImpl implements ContactService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         if (userDetails.getUsername().equals(owner.getUsername())) {
-            return list.getContactList();
+            return this.contactRepository.findAllByListOrderByNameAscSurname(list);
         } else {
             throw new CustomAccessDeniedException();
         }
