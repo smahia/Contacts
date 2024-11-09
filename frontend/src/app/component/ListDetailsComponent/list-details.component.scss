@@ -11,3 +11,14 @@ a {
 .title {
   margin-bottom: 0;
 }
+/** Pagination **/
+.mat-mdc-paginator {
+  font-size: 15px;
+  background-color: white !important;
+}
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+  background-color: #00D1B2 !important;
+}
+::ng-deep .mdc-notched-outline > * {
+  border-color: #00D1B2 !important;
+}

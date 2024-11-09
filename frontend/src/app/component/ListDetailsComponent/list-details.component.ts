@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MyListsResponse} from "../../response/myListsResponse";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ListingService} from "../../service/listing/listing.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, SlicePipe} from "@angular/common";
 import {ContactDetailsComponent} from "../ContactDetailsComponent/contact-details.component";
 import {ContactService} from "../../service/contact/contact.service";
 import {GetContactResponse} from "../../response/GetContactResponse";
@@ -19,7 +20,9 @@ import {SearchContactsPipe} from "../../pipe/searchContacts/search-contacts.pipe
     RouterLink,
     NgIf,
     FormsModule,
-    SearchContactsPipe
+    SearchContactsPipe,
+    MatPaginatorModule,
+    SlicePipe
   ],
   templateUrl: './list-details.component.html',
   styleUrl: './list-details.component.scss'
@@ -30,6 +33,13 @@ export class ListDetailsComponent implements OnInit {
   list: MyListsResponse = new MyListsResponse();
   contacts: GetContactResponse[] | any;
   searchContactsFilter = '';
+
+  filteredContactList: GetContactResponse[] | any;
+
+  // Paginator settings
+  pageSize = 5;
+  pageIndex = 0;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(private route: ActivatedRoute, private titleService: Title,
               private listingService: ListingService, private contactService: ContactService) {
@@ -62,8 +72,8 @@ export class ListDetailsComponent implements OnInit {
       {
         next: value => {
           this.contacts = value;
-
-          console.log(this.contacts);
+          // Paginator list
+          this.filteredContactList = value;
         },
         error: err => {
           console.log(err);
@@ -72,5 +82,19 @@ export class ListDetailsComponent implements OnInit {
     );
 
   }
+
+  // Paginator
+  onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+  }
+
+  // Sort buttons
+  /*sortUp() {
+    this.filteredGameList.sort((a, b) => a.game_name.localeCompare(b.game_name));
+  }
+  sortDown() {
+    this.filteredGameList.sort((a, b) => b.game_name.localeCompare(a.game_name));
+  }*/
 
 }

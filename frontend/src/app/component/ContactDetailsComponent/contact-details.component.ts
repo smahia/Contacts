@@ -448,7 +448,7 @@ export class ContactDetailsComponent implements OnInit {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D1B2",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
@@ -492,7 +492,7 @@ export class ContactDetailsComponent implements OnInit {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D1B2",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
@@ -536,7 +536,7 @@ export class ContactDetailsComponent implements OnInit {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D1B2",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
@@ -580,7 +580,7 @@ export class ContactDetailsComponent implements OnInit {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D1B2",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
@@ -646,7 +646,7 @@ export class ContactDetailsComponent implements OnInit {
       title: "Are you sure you want to copy this contact to " + selectedListName + "?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D1B2",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, copy it!"
     }).then((result) => {
@@ -679,7 +679,6 @@ export class ContactDetailsComponent implements OnInit {
     });
 
   }
-
 
   closeCopyContactModal() {
     this.isCopyContactModalActive = !this.isCopyContactModalActive;
