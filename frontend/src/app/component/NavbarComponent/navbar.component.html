@@ -25,14 +25,19 @@
 
       <div class="navbar-item has-dropdown is-hoverable" *ngIf="userIsLoggedIn">
         <a class="navbar-link">
-          <i class="fa-solid fa-circle-user fa-2x"></i>
+          <i class="fa-solid fa-gear"></i>
         </a>
 
         <div class="navbar-dropdown is-right">
           <a class="navbar-item" routerLink="/changePassword">
             Change password
           </a>
-          <a class="navbar-item" (click)="logout()">
+        </div>
+      </div>
+
+      <div class="navbar-item" *ngIf="userIsLoggedIn">
+        <div class="buttons">
+          <a class="button is-primary" (click)="logout()">
             <strong>Logout</strong>
           </a>
         </div>
