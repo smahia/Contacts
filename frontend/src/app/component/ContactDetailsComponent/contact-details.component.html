@@ -100,7 +100,7 @@
                   <div class="field">
                     <label class="label">Telephone</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingTelephoneForm.controls.telephoneNumber.hasError('required')
 && !editingTelephoneForm.controls.telephoneNumber.untouched } "
                              type="text" formControlName="telephoneNumber">
@@ -117,7 +117,7 @@
                   <div class="field">
                     <label class="label">Type</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingTelephoneForm.controls.type.hasError('required')
 && !editingTelephoneForm.controls.type.untouched } "
                              type="text" formControlName="type">
@@ -133,8 +133,8 @@
 
                   <div class="field is-grouped mb-4">
                     <div class="control">
-                      <button type="submit" class="button is-primary mr-2">Save</button>
-                      <button type="button" class="button is-danger" (click)="cancelEditingTelephone()">Cancel</button>
+                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                      <button type="button" class="button is-danger is-small" (click)="cancelEditingTelephone()">Cancel</button>
                     </div>
                   </div>
                 </form>
@@ -207,7 +207,7 @@
                   <div class="field">
                     <label class="label">Email</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingEmailForm.controls.email.hasError('required')
 && !editingEmailForm.controls.email.untouched } "
                              type="text" formControlName="email">
@@ -224,7 +224,7 @@
                   <div class="field">
                     <label class="label">Type</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingEmailForm.controls.type.hasError('required')
 && !editingEmailForm.controls.type.untouched } "
                              type="text" formControlName="type">
@@ -240,8 +240,8 @@
 
                   <div class="field is-grouped mb-4">
                     <div class="control">
-                      <button type="submit" class="button is-primary mr-2">Save</button>
-                      <button type="button" class="button is-danger" (click)="cancelEditingEmail()">Cancel</button>
+                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                      <button type="button" class="button is-danger is-small" (click)="cancelEditingEmail()">Cancel</button>
                     </div>
                   </div>
                 </form>
@@ -313,7 +313,7 @@
                   <div class="field">
                     <label class="label">Address</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingAddressForm.controls.address.hasError('required')
 && !editingAddressForm.controls.address.untouched } "
                              type="text" formControlName="address">
@@ -330,7 +330,7 @@
                   <div class="field">
                     <label class="label">Type</label>
                     <div class="control">
-                      <input class="input"
+                      <input class="input is-small"
                              [ngClass]="{'is-danger' : editingAddressForm.controls.type.hasError('required')
 && !editingAddressForm.controls.type.untouched } "
                              type="text" formControlName="type">
@@ -346,8 +346,8 @@
 
                   <div class="field is-grouped mb-4">
                     <div class="control">
-                      <button type="submit" class="button is-primary mr-2">Save</button>
-                      <button type="button" class="button is-danger" (click)="cancelEditingAddress()">Cancel</button>
+                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                      <button type="button" class="button is-danger is-small" (click)="cancelEditingAddress()">Cancel</button>
                     </div>
                   </div>
                 </form>
