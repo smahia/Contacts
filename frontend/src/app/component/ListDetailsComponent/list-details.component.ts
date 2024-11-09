@@ -7,6 +7,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ContactDetailsComponent} from "../ContactDetailsComponent/contact-details.component";
 import {ContactService} from "../../service/contact/contact.service";
 import {GetContactResponse} from "../../response/GetContactResponse";
+import {FormsModule} from "@angular/forms";
+import {SearchContactsPipe} from "../../pipe/searchContacts/search-contacts.pipe";
 
 @Component({
   selector: 'app-list-details',
@@ -15,7 +17,9 @@ import {GetContactResponse} from "../../response/GetContactResponse";
     NgForOf,
     ContactDetailsComponent,
     RouterLink,
-    NgIf
+    NgIf,
+    FormsModule,
+    SearchContactsPipe
   ],
   templateUrl: './list-details.component.html',
   styleUrl: './list-details.component.scss'
@@ -25,6 +29,7 @@ export class ListDetailsComponent implements OnInit {
   listId: number = 0;
   list: MyListsResponse = new MyListsResponse();
   contacts: GetContactResponse[] | any;
+  searchContactsFilter = '';
 
   constructor(private route: ActivatedRoute, private titleService: Title,
               private listingService: ListingService, private contactService: ContactService) {

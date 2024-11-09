@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ListingService} from "../../service/listing/listing.service";
 import {NgClass, NgFor, NgIf} from "@angular/common";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {SearchListsPipe} from "../../pipe/search-lists.pipe";
+import {SearchListsPipe} from "../../pipe/searchLists/search-lists.pipe";
 import Swal from "sweetalert2";
 import {NewListRequest} from "../../request/NewListRequest";
 import {MyListsResponse} from "../../response/myListsResponse";

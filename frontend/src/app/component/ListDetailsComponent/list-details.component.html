@@ -15,6 +15,18 @@
 
   <div class="container">
 
+    <!-- Search contact bar -->
+    <div class="panel-block">
+      <p class="control has-icons-left">
+        <label for="searchContacts"></label>
+        <input [(ngModel)]="searchContactsFilter" name="searchContacts" id="searchContacts"
+               class="input is-primary" type="text" placeholder="Search contact"/>
+        <span class="icon is-left">
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </span>
+      </p>
+    </div>
+
     <div class="contentSection">
 
       <ng-container *ngIf="contacts.length > 0; else noContacts">
@@ -30,7 +42,7 @@
               </thead>
               <tbody>
 
-              <tr *ngFor="let contact of contacts">
+              <tr *ngFor="let contact of contacts | searchContacts : searchContactsFilter">
                 <td data-label="Name" class="has-text-centered">
                   <a routerLink="/contact/{{ contact.id }}">{{ contact.name }}</a>
                 </td>

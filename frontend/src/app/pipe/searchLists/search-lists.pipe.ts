@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {MyListsResponse} from "../response/myListsResponse";
+import {MyListsResponse} from "../../response/myListsResponse";
 
 @Pipe({
   name: 'searchLists',
