@@ -76,7 +76,6 @@ export class ContactDetailsComponent implements OnInit {
               private addressService: AddressService, private listingService: ListingService) {
   }
 
-  // TODO: fix birthday
   ngOnInit(): void {
 
     // Get the param of the url

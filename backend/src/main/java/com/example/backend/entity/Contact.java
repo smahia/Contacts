@@ -29,7 +29,7 @@ public class Contact {
     /**
      * This annotation saves only the date in the database
      */
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     private Date birthday;
 
     /**

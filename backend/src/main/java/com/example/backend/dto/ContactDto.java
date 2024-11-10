@@ -24,6 +24,7 @@ public class ContactDto {
 
     private String surname;
 
+    // This annotation makes that the front only receives the date (without time) in this specific format
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
 
