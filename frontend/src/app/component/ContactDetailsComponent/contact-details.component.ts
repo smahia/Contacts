@@ -86,8 +86,6 @@ export class ContactDetailsComponent implements OnInit {
         next: value => {
           this.contact = value;
           this.titleService.setTitle(this.contact.name + " " + this.contact.surname);
-          console.log(this.contact);
-          console.log(this.contact.birthday);
         },
         error: err => {
           console.log(err);
