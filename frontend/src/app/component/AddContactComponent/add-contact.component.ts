@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NewContactRequest} from "../../request/NewContactRequest";
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ContactService} from "../../service/contact/contact.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -193,7 +193,7 @@ export class AddContactComponent implements OnInit {
 
   constructor(private contactService: ContactService,
               private route: ActivatedRoute,
-              private listingService: ListingService) {
+              private listingService: ListingService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -387,7 +387,7 @@ export class AddContactComponent implements OnInit {
               confirmButtonColor: "#00D1B2",
             }).then(
               () => {
-                location.reload();
+                this.router.navigate(['/list', this.listId]);
               }
             );
 
