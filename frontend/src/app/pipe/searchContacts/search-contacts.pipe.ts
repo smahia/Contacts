@@ -10,15 +10,22 @@ export class SearchContactsPipe implements PipeTransform {
   transform(contacts: GetContactResponse[], searchFilter: string): GetContactResponse[] {
     const lowerCaseSearch = searchFilter.toLowerCase();
 
-    return contacts.filter(contact => {
-      const nameLower = contact.name?.toLowerCase() || '';
-      const lastNameLower = contact.surname?.toLowerCase() || '';
+    // If the input is empty (the user does not search anything) then return the whole array of contacts
+    // that way the filter of slide for the paginator applies to the contacts array and not to the search
+    if (lowerCaseSearch !== '') {
+      return contacts.filter(contact => {
+        const nameLower = contact.name?.toLowerCase() || '';
+        const lastNameLower = contact.surname?.toLowerCase() || '';
 
-      return (
-        nameLower.includes(lowerCaseSearch) ||
-        lastNameLower.includes(lowerCaseSearch)
-      );
-    });
+        return (
+          nameLower.includes(lowerCaseSearch) ||
+          lastNameLower.includes(lowerCaseSearch)
+        );
+      });
+    } else {
+      return contacts;
+    }
+
   }
 
 

@@ -34,16 +34,13 @@ export class ListDetailsComponent implements OnInit {
   contacts: GetContactResponse[] | any;
   searchContactsFilter = '';
 
-  filteredContactList: GetContactResponse[] | any;
-
   // Paginator settings
   pageSize = 5;
   pageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(private route: ActivatedRoute, private titleService: Title,
-              private listingService: ListingService, private contactService: ContactService) {
-  }
+              private listingService: ListingService, private contactService: ContactService) {}
 
   ngOnInit(): void {
 
@@ -72,8 +69,6 @@ export class ListDetailsComponent implements OnInit {
       {
         next: value => {
           this.contacts = value;
-          // Paginator list
-          this.filteredContactList = value;
         },
         error: err => {
           console.log(err);
@@ -90,11 +85,11 @@ export class ListDetailsComponent implements OnInit {
   }
 
   // Sort buttons
-  /*sortUp() {
-    this.filteredGameList.sort((a, b) => a.game_name.localeCompare(b.game_name));
+  sortUp() {
+    this.contacts.sort((a: GetContactResponse, b: GetContactResponse) => a.name!.localeCompare(b.name!));
   }
   sortDown() {
-    this.filteredGameList.sort((a, b) => b.game_name.localeCompare(a.game_name));
-  }*/
+    this.contacts.sort((a: GetContactResponse, b: GetContactResponse) => b.name!.localeCompare(a.name!));
+  }
 
 }

@@ -60,8 +60,8 @@
                 <tbody>
 
                 <tr
-                  *ngFor="let contact of contacts | searchContacts : searchContactsFilter
-                 | slice: pageIndex * pageSize : (pageIndex + 1) * pageSize">
+                  *ngFor="let contact of contacts | searchContacts: searchContactsFilter
+                  | slice:pageIndex*pageSize:(pageIndex+1)*pageSize">
                   <td data-label="Name" class="has-text-centered">
                     <a routerLink="/contact/{{ contact.id }}">{{ contact.name }}</a>
                   </td>
