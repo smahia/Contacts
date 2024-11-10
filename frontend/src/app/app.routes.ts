@@ -7,6 +7,7 @@ import {ListDetailsComponent} from "./component/ListDetailsComponent/list-detail
 import {ContactDetailsComponent} from "./component/ContactDetailsComponent/contact-details.component";
 import {AddContactComponent} from "./component/AddContactComponent/add-contact.component";
 import {ChangePasswordComponent} from "./component/ChangePassword/change-password.component";
+import {NanGuard} from "./guard/NotANumberGuard/nan.guard";
 
 export const routes: Routes = [
   {
@@ -26,17 +27,17 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'list/:id', // TODO: check if the id if not a number or doesn't exist with a Guard
+    path: 'list/:id',
     component: ListDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NanGuard]
   },
   {
-    path: 'contact/:id', // TODO: check if the id if not a number or doesn't exist with a Guard
+    path: 'contact/:id',
     component: ContactDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NanGuard]
   },
   {
-    path: 'newContact/:listId', // TODO: check if the id if not a number or doesn't exist with a Guard
+    path: 'newContact/:listId',
     title: 'Create a new contact',
     component: AddContactComponent,
     canActivate: [AuthGuard]

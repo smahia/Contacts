@@ -200,6 +200,15 @@ export class AddContactComponent implements OnInit {
     // Get the param of the url
     this.listId = this.route.snapshot.params['listId'];
 
+    this.listingService.getListById(this.listId).subscribe({
+      next: value => {
+        this.lists = value;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+
 
     /*// Get all lists from the user
     this.listingService.showMyLists().subscribe(
@@ -374,7 +383,8 @@ export class AddContactComponent implements OnInit {
 
             Swal.fire({
               title: "The contact has been successfully added to the list",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 location.reload();
@@ -388,6 +398,7 @@ export class AddContactComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();

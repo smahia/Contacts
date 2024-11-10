@@ -1,518 +1,536 @@
 <div class="container">
   <div class="section">
 
-    <button class="mb-5" title="Back to list contents"
-    routerLink="/list/{{contact.listId}}">
+    <ng-container *ngIf="contact.id !== undefined; else noContact">
+      <button class="mb-5" title="Back to list contents"
+              routerLink="/list/{{contact.listId}}">
             <span class="icon fa-2x">
               <i class="fa-solid fa-circle-chevron-left" style="color: rgb(0, 209, 178)"></i>
             </span>
-    </button>
+      </button>
 
-    <div class="card shadow-lg">
-      <div class="card-content">
-        <div class="content">
 
-          <div class="header">
-            <h3 class="name">
+      <div class="card shadow-lg">
+        <div class="card-content">
+          <div class="content">
 
-              <ng-container *ngIf="contact.contactEmergency">
-                <i class="fa-solid fa-circle-exclamation" title="Emergency contact" style="color: #ff0000;"></i>
-              </ng-container>
+            <div class="header">
+              <h3 class="name">
 
-              {{ contact.name }} {{ contact.surname }}
-            </h3>
+                <ng-container *ngIf="contact.contactEmergency">
+                  <i class="fa-solid fa-circle-exclamation" title="Emergency contact" style="color: #ff0000;"></i>
+                </ng-container>
 
-            <div class="buttons">
-              <button class="button has-background-primary" title="Edit contact" (click)="toggleModal()">
+                {{ contact.name }} {{ contact.surname }}
+              </h3>
+
+              <div class="buttons">
+                <button class="button has-background-primary" title="Edit contact" (click)="toggleModal()">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
-              </button>
+                </button>
 
-              <button class="button has-background-primary" title="Copy contact to another list"
-                      (click)="toggleCopyContactModal()">
+                <button class="button has-background-primary" title="Copy contact to another list"
+                        (click)="toggleCopyContactModal()">
             <span class="icon">
               <i class="fa-solid fa-clone"></i>
             </span>
-              </button>
-
-              <button class="button has-background-primary" title="Delete contact"
-                      (click)="deleteContact(contact.listId!, contact.id!)">
-            <span class="icon">
-              <i class="fa-solid fa-trash"></i>
-            </span>
-              </button>
-
-            </div>
-          </div>
-
-          <p *ngIf="contact.birthday; else noBirthday">
-            <i class="fa-solid fa-cake-candles"></i> {{ contact.birthday }}
-          </p>
-
-          <ng-template #noBirthday>
-            <p>
-              <i class="fa-solid fa-cake-candles"></i> No birthday assigned to this contact.
-            </p>
-          </ng-template>
-
-          <!-- Telephone section -->
-          <h4 class="title is-4 mb-0 mt-5">
-            Telephone
-
-            <button class="button has-background-primary is-small" (click)="showTelephoneForm()" title="Add telephone">
-              <span class="icon">
-                <i class="fa-solid fa-plus"></i>
-              </span>
-            </button>
-
-          </h4>
-
-          <div id="comp-render" *ngIf="displayTelephoneForm">
-            <app-add-telephone [idContact]="contact.id!"></app-add-telephone>
-          </div>
-
-          <ng-container *ngIf="contact.telephoneList!.length > 0; else noTelephone">
-
-            <ng-container *ngFor="let telephone of contact.telephoneList; let i = index; let last = last">
-
-              <div class="is-flex is-justify-content-flex-end">
-                <button class="button has-background-primary is-small mr-2" title="Edit telephone"
-                        (click)="startEditingTelephone(i)">
-            <span class="icon">
-              <i class="fas fa-pencil-alt"></i>
-            </span>
                 </button>
 
-                <button class="button has-background-primary is-small" title="Delete telephone"
-                        (click)="deletePhone(telephone)">
+                <button class="button has-background-primary" title="Delete contact"
+                        (click)="deleteContact(contact.listId!, contact.id!)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
                 </button>
 
               </div>
+            </div>
 
-              <!-- Editing telephone form -->
-              <div class="form-editing-telephone">
-                <form [formGroup]="editingTelephoneForm" (ngSubmit)="saveChangesTelephone()" *ngIf="editingTelephoneIndex === i">
+            <p *ngIf="contact.birthday; else noBirthday">
+              <i class="fa-solid fa-cake-candles"></i> {{ contact.birthday }}
+            </p>
 
-                  <div class="field">
-                    <label class="label">Telephone</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingTelephoneForm.controls.telephoneNumber.hasError('required')
+            <ng-template #noBirthday>
+              <p>
+                <i class="fa-solid fa-cake-candles"></i> No birthday assigned to this contact.
+              </p>
+            </ng-template>
+
+            <!-- Telephone section -->
+            <h4 class="title is-4 mb-0 mt-5">
+              Telephone
+
+              <button class="button has-background-primary is-small" (click)="showTelephoneForm()"
+                      title="Add telephone">
+              <span class="icon">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+              </button>
+
+            </h4>
+
+            <div id="comp-render" *ngIf="displayTelephoneForm">
+              <app-add-telephone [idContact]="contact.id!"></app-add-telephone>
+            </div>
+
+            <ng-container *ngIf="contact.telephoneList!.length > 0; else noTelephone">
+
+              <ng-container *ngFor="let telephone of contact.telephoneList; let i = index; let last = last">
+
+                <div class="is-flex is-justify-content-flex-end">
+                  <button class="button has-background-primary is-small mr-2" title="Edit telephone"
+                          (click)="startEditingTelephone(i)">
+            <span class="icon">
+              <i class="fas fa-pencil-alt"></i>
+            </span>
+                  </button>
+
+                  <button class="button has-background-primary is-small" title="Delete telephone"
+                          (click)="deletePhone(telephone)">
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+                  </button>
+
+                </div>
+
+                <!-- Editing telephone form -->
+                <div class="form-editing-telephone">
+                  <form [formGroup]="editingTelephoneForm" (ngSubmit)="saveChangesTelephone()"
+                        *ngIf="editingTelephoneIndex === i">
+
+                    <div class="field">
+                      <label class="label">Telephone</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingTelephoneForm.controls.telephoneNumber.hasError('required')
 && !editingTelephoneForm.controls.telephoneNumber.untouched } "
-                             type="text" formControlName="telephoneNumber">
-                    </div>
+                               type="text" formControlName="telephoneNumber">
+                      </div>
 
-                    <div *ngIf="editingTelephoneForm.controls.telephoneNumber.hasError('required')
+                      <div *ngIf="editingTelephoneForm.controls.telephoneNumber.hasError('required')
 && !editingTelephoneForm.controls.telephoneNumber.untouched">
 
-                      <p class="help is-danger">Number is mandatory</p>
+                        <p class="help is-danger">Number is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Type</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingTelephoneForm.controls.type.hasError('required')
+                    <div class="field">
+                      <label class="label">Type</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingTelephoneForm.controls.type.hasError('required')
 && !editingTelephoneForm.controls.type.untouched } "
-                             type="text" formControlName="type">
-                    </div>
+                               type="text" formControlName="type">
+                      </div>
 
-                    <div *ngIf="editingTelephoneForm.controls.type.hasError('required')
+                      <div *ngIf="editingTelephoneForm.controls.type.hasError('required')
 && !editingTelephoneForm.controls.type.untouched">
 
-                      <p class="help is-danger">Type is mandatory</p>
+                        <p class="help is-danger">Type is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field is-grouped mb-4">
-                    <div class="control">
-                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
-                      <button type="button" class="button is-danger is-small" (click)="cancelEditingTelephone()">Cancel</button>
+                    <div class="field is-grouped mb-4">
+                      <div class="control">
+                        <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                        <button type="button" class="button is-danger is-small" (click)="cancelEditingTelephone()">
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </div>
+                  </form>
+                </div>
 
-              <p>
-                <b>Number</b>:
-                {{ telephone.telephoneNumber }}
+                <p>
+                  <b>Number</b>:
+                  {{ telephone.telephoneNumber }}
 
-              </p>
-              <p class="mb-0">
-                <b>Type</b>:
-                {{ telephone.type }}
-              </p>
+                </p>
+                <p class="mb-0">
+                  <b>Type</b>:
+                  {{ telephone.type }}
+                </p>
 
-              <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+                <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+
+              </ng-container>
 
             </ng-container>
 
-          </ng-container>
+            <ng-template #noTelephone>
+              <p class="mt-3">This contact does not have telephones.</p>
+            </ng-template>
 
-          <ng-template #noTelephone>
-            <p class="mt-3">This contact does not have telephones.</p>
-          </ng-template>
+            <br>
 
-          <br>
+            <!-- Email section -->
+            <h4 class="title is-4 mb-0">
+              Email
 
-          <!-- Email section -->
-          <h4 class="title is-4 mb-0">
-            Email
-
-            <button class="button has-background-primary is-small" (click)="showEmailForm()" title="Add email">
+              <button class="button has-background-primary is-small" (click)="showEmailForm()" title="Add email">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
-            </button>
+              </button>
 
-          </h4>
+            </h4>
 
-          <div id="comp-form-email" *ngIf="displayEmailForm">
-            <app-add-email [idContact]="contact.id!"></app-add-email>
-          </div>
+            <div id="comp-form-email" *ngIf="displayEmailForm">
+              <app-add-email [idContact]="contact.id!"></app-add-email>
+            </div>
 
-          <ng-container *ngIf="contact.emailList!.length > 0; else noEmail">
+            <ng-container *ngIf="contact.emailList!.length > 0; else noEmail">
 
-            <ng-container *ngFor="let email of contact.emailList; let i = index; let last = last">
+              <ng-container *ngFor="let email of contact.emailList; let i = index; let last = last">
 
-              <div class="is-flex is-justify-content-flex-end">
+                <div class="is-flex is-justify-content-flex-end">
 
-                <button class="button has-background-primary is-small mr-2" title="Edit email"
-                        (click)="startEditingEmail(i)">
+                  <button class="button has-background-primary is-small mr-2" title="Edit email"
+                          (click)="startEditingEmail(i)">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
-                </button>
+                  </button>
 
-                <button class="button has-background-primary is-small" title="Delete email"
-                        (click)="deleteEmail(email)">
+                  <button class="button has-background-primary is-small" title="Delete email"
+                          (click)="deleteEmail(email)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
-                </button>
+                  </button>
 
-              </div>
+                </div>
 
-              <!-- Editing email form -->
-              <div class="form-editing-telephone">
-                <form [formGroup]="editingEmailForm" (ngSubmit)="saveChangesEmail()" *ngIf="editingEmailIndex === i">
+                <!-- Editing email form -->
+                <div class="form-editing-telephone">
+                  <form [formGroup]="editingEmailForm" (ngSubmit)="saveChangesEmail()" *ngIf="editingEmailIndex === i">
 
-                  <div class="field">
-                    <label class="label">Email</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingEmailForm.controls.email.hasError('required')
+                    <div class="field">
+                      <label class="label">Email</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingEmailForm.controls.email.hasError('required')
 && !editingEmailForm.controls.email.untouched } "
-                             type="text" formControlName="email">
-                    </div>
+                               type="text" formControlName="email">
+                      </div>
 
-                    <div *ngIf="editingEmailForm.controls.email.hasError('required')
+                      <div *ngIf="editingEmailForm.controls.email.hasError('required')
 && !editingEmailForm.controls.email.untouched">
 
-                      <p class="help is-danger">Email is mandatory</p>
+                        <p class="help is-danger">Email is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Type</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingEmailForm.controls.type.hasError('required')
+                    <div class="field">
+                      <label class="label">Type</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingEmailForm.controls.type.hasError('required')
 && !editingEmailForm.controls.type.untouched } "
-                             type="text" formControlName="type">
-                    </div>
+                               type="text" formControlName="type">
+                      </div>
 
-                    <div *ngIf="editingEmailForm.controls.type.hasError('required')
+                      <div *ngIf="editingEmailForm.controls.type.hasError('required')
 && !editingEmailForm.controls.type.untouched">
 
-                      <p class="help is-danger">Type is mandatory</p>
+                        <p class="help is-danger">Type is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field is-grouped mb-4">
-                    <div class="control">
-                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
-                      <button type="button" class="button is-danger is-small" (click)="cancelEditingEmail()">Cancel</button>
+                    <div class="field is-grouped mb-4">
+                      <div class="control">
+                        <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                        <button type="button" class="button is-danger is-small" (click)="cancelEditingEmail()">Cancel
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </div>
+                  </form>
+                </div>
 
-              <p>
-                <b>Email</b>: {{ email.email }}
-              </p>
+                <p>
+                  <b>Email</b>: {{ email.email }}
+                </p>
 
-              <p class="mb-0">
-                <b>Type</b>: {{ email.type }}
-              </p>
+                <p class="mb-0">
+                  <b>Type</b>: {{ email.type }}
+                </p>
 
-              <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+                <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+
+              </ng-container>
 
             </ng-container>
 
-          </ng-container>
+            <ng-template #noEmail>
+              <p class="mt-3">This contact does not have emails.</p>
+            </ng-template>
 
-          <ng-template #noEmail>
-            <p class="mt-3">This contact does not have emails.</p>
-          </ng-template>
+            <br>
 
-          <br>
+            <!-- Address section -->
+            <h4 class="title is-4 mb-0">
+              Address
 
-          <!-- Address section -->
-          <h4 class="title is-4 mb-0">
-            Address
-
-            <button class="button has-background-primary is-small" title="Add address"
-                    (click)="showAddressForm()">
+              <button class="button has-background-primary is-small" title="Add address"
+                      (click)="showAddressForm()">
               <span class="icon">
                 <i class="fa-solid fa-plus"></i>
               </span>
-            </button>
+              </button>
 
-          </h4>
+            </h4>
 
-          <div id="comp-form-address" *ngIf="displayAddressForm">
-            <app-add-address [idContact]="contact.id!"></app-add-address>
-          </div>
+            <div id="comp-form-address" *ngIf="displayAddressForm">
+              <app-add-address [idContact]="contact.id!"></app-add-address>
+            </div>
 
-          <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
-            <ng-container *ngFor="let address of contact.addressesList; let i = index; let last = last">
+            <ng-container *ngIf="contact.addressesList!.length > 0; else noAddress">
+              <ng-container *ngFor="let address of contact.addressesList; let i = index; let last = last">
 
-              <div class="is-flex is-justify-content-flex-end">
+                <div class="is-flex is-justify-content-flex-end">
 
-                <button class="button has-background-primary is-small mr-2" title="Edit address"
-                        (click)="startEditingAddress(i)">
+                  <button class="button has-background-primary is-small mr-2" title="Edit address"
+                          (click)="startEditingAddress(i)">
             <span class="icon">
               <i class="fas fa-pencil-alt"></i>
             </span>
-                </button>
+                  </button>
 
-                <button class="button has-background-primary is-small" title="Delete address"
-                        (click)="deleteAddress(address)">
+                  <button class="button has-background-primary is-small" title="Delete address"
+                          (click)="deleteAddress(address)">
             <span class="icon">
               <i class="fa-solid fa-trash"></i>
             </span>
-                </button>
-              </div>
+                  </button>
+                </div>
 
 
-              <!-- Editing address form -->
-              <div class="form-editing-telephone">
-                <form [formGroup]="editingAddressForm" (ngSubmit)="saveChangesAddress()"
-                      *ngIf="editingAddressIndex === i">
+                <!-- Editing address form -->
+                <div class="form-editing-telephone">
+                  <form [formGroup]="editingAddressForm" (ngSubmit)="saveChangesAddress()"
+                        *ngIf="editingAddressIndex === i">
 
-                  <div class="field">
-                    <label class="label">Address</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingAddressForm.controls.address.hasError('required')
+                    <div class="field">
+                      <label class="label">Address</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingAddressForm.controls.address.hasError('required')
 && !editingAddressForm.controls.address.untouched } "
-                             type="text" formControlName="address">
-                    </div>
+                               type="text" formControlName="address">
+                      </div>
 
-                    <div *ngIf="editingAddressForm.controls.address.hasError('required')
+                      <div *ngIf="editingAddressForm.controls.address.hasError('required')
 && !editingAddressForm.controls.address.untouched">
 
-                      <p class="help is-danger">Address is mandatory</p>
+                        <p class="help is-danger">Address is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Type</label>
-                    <div class="control">
-                      <input class="input is-small"
-                             [ngClass]="{'is-danger' : editingAddressForm.controls.type.hasError('required')
+                    <div class="field">
+                      <label class="label">Type</label>
+                      <div class="control">
+                        <input class="input is-small"
+                               [ngClass]="{'is-danger' : editingAddressForm.controls.type.hasError('required')
 && !editingAddressForm.controls.type.untouched } "
-                             type="text" formControlName="type">
-                    </div>
+                               type="text" formControlName="type">
+                      </div>
 
-                    <div *ngIf="editingAddressForm.controls.type.hasError('required')
+                      <div *ngIf="editingAddressForm.controls.type.hasError('required')
 && !editingAddressForm.controls.type.untouched">
 
-                      <p class="help is-danger">Type is mandatory</p>
+                        <p class="help is-danger">Type is mandatory</p>
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="field is-grouped mb-4">
-                    <div class="control">
-                      <button type="submit" class="button is-primary mr-2 is-small">Save</button>
-                      <button type="button" class="button is-danger is-small" (click)="cancelEditingAddress()">Cancel</button>
+                    <div class="field is-grouped mb-4">
+                      <div class="control">
+                        <button type="submit" class="button is-primary mr-2 is-small">Save</button>
+                        <button type="button" class="button is-danger is-small" (click)="cancelEditingAddress()">
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </div>
+                  </form>
+                </div>
 
-              <p>
-                <b>Address</b>: {{ address.address }}
-              </p>
+                <p>
+                  <b>Address</b>: {{ address.address }}
+                </p>
 
-              <p class="mb-0">
-                <b>Type</b>: {{ address.type }}
-              </p>
+                <p class="mb-0">
+                  <b>Type</b>: {{ address.type }}
+                </p>
 
-              <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+                <h6 class="is-6 mb-0 mt-4" *ngIf="!last">####</h6>
+
+              </ng-container>
 
             </ng-container>
 
-          </ng-container>
+            <ng-template #noAddress>
+              <p class="mt-3">This contact does not have addresses.</p>
+            </ng-template>
 
-          <ng-template #noAddress>
-            <p class="mt-3">This contact does not have addresses.</p>
-          </ng-template>
-
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <!-- Modal for editing a contact -->
-    <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
-      <div class="modal-background" (click)="closeModal()"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Edit contact</p>
-          <button class="delete" aria-label="close" (click)="closeModal()"></button>
-        </header>
-        <section class="modal-card-body">
+      <!-- Modal for editing a contact -->
+      <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+        <div class="modal-background" (click)="closeModal()"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Edit contact</p>
+            <button class="delete" aria-label="close" (click)="closeModal()"></button>
+          </header>
+          <section class="modal-card-body">
 
 
-          <form [formGroup]="editContactForm" (ngSubmit)="handleSubmitEditingContact()">
+            <form [formGroup]="editContactForm" (ngSubmit)="handleSubmitEditingContact()">
 
-            <div class="field" id="name">
-              <label class="label">Name</label>
-              <div class="control">
-                <input class="input"
-                       [ngClass]="{'is-danger' : editContactForm.controls.name.hasError('required')
+              <div class="field" id="name">
+                <label class="label">Name</label>
+                <div class="control">
+                  <input class="input"
+                         [ngClass]="{'is-danger' : editContactForm.controls.name.hasError('required')
 && !editContactForm.controls.name.untouched }" type="text" formControlName="name">
-              </div>
+                </div>
 
-              <div *ngIf="editContactForm.controls.name.hasError('required')
+                <div *ngIf="editContactForm.controls.name.hasError('required')
 && !editContactForm.controls.name.untouched">
 
-                <p class="help is-danger">Name is mandatory</p>
+                  <p class="help is-danger">Name is mandatory</p>
+
+                </div>
 
               </div>
 
-            </div>
-
-            <div class="field" id="surname">
-              <label class="label">Surname</label>
-              <div class="control">
-                <input class="input"
-                       [ngClass]="{'is-danger' : editContactForm.controls.surname.hasError('required')
+              <div class="field" id="surname">
+                <label class="label">Surname</label>
+                <div class="control">
+                  <input class="input"
+                         [ngClass]="{'is-danger' : editContactForm.controls.surname.hasError('required')
 && !editContactForm.controls.surname.untouched }" type="text" formControlName="surname">
-              </div>
+                </div>
 
-              <div *ngIf="editContactForm.controls.surname.hasError('required')
+                <div *ngIf="editContactForm.controls.surname.hasError('required')
 && !editContactForm.controls.surname.untouched">
 
-                <p class="help is-danger">Surname is mandatory</p>
+                  <p class="help is-danger">Surname is mandatory</p>
+
+                </div>
 
               </div>
 
-            </div>
+              <div class="field" id="birthday">
+                <label class="label">Birthday</label>
+                <div class="control">
+                  <input class="input"
+                         type="date" formControlName="birthday">
+                </div>
 
-            <div class="field" id="birthday">
-              <label class="label">Birthday</label>
-              <div class="control">
-                <input class="input"
-                       type="date" formControlName="birthday">
               </div>
 
-            </div>
-
-            <div class="field" id="contactEmergency">
-              <label for="contactEmergency" class="label">Contact emergency</label>
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" id="yes" name="contactEmergency" value="true" formControlName="contactEmergency">
-                  Yes
-                </label>
-                <label class="radio">
-                  <input type="radio" id="no" name="contactEmergency" value="false" formControlName="contactEmergency">
-                  No
-                </label>
+              <div class="field" id="contactEmergency">
+                <label for="contactEmergency" class="label">Contact emergency</label>
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" id="yes" name="contactEmergency" value="true"
+                           formControlName="contactEmergency">
+                    Yes
+                  </label>
+                  <label class="radio">
+                    <input type="radio" id="no" name="contactEmergency" value="false"
+                           formControlName="contactEmergency">
+                    No
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <div class="field is-grouped">
-              <div class="control">
-                <div class="columns is-mobile">
-                  <div class="column is-5">
-                    <button class="button is-primary">Save</button>
-                  </div>
-                  <div class="column">
-                    <button class="button is-danger" type="button" (click)="closeModal()">Cancel</button>
+              <div class="field is-grouped">
+                <div class="control">
+                  <div class="columns is-mobile">
+                    <div class="column is-5">
+                      <button class="button is-primary">Save</button>
+                    </div>
+                    <div class="column">
+                      <button class="button is-danger" type="button" (click)="closeModal()">Cancel</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </form>
+            </form>
 
-        </section>
-        <footer class="modal-card-foot">
+          </section>
+          <footer class="modal-card-foot">
 
-        </footer>
+          </footer>
+        </div>
       </div>
-    </div>
 
-    <!-- Modal for copying a contact -->
-    <div class="modal" [ngClass]="{ 'is-active' : isCopyContactModalActive }">
-      <div class="modal-background" (click)="closeCopyContactModal()"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Copy a contact</p>
-          <button class="delete" aria-label="close" (click)="closeCopyContactModal()"></button>
-        </header>
-        <section class="modal-card-body">
+      <!-- Modal for copying a contact -->
+      <div class="modal" [ngClass]="{ 'is-active' : isCopyContactModalActive }">
+        <div class="modal-background" (click)="closeCopyContactModal()"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Copy a contact</p>
+            <button class="delete" aria-label="close" (click)="closeCopyContactModal()"></button>
+          </header>
+          <section class="modal-card-body">
 
-          <p class="mb-3">
-            You can add a contact to more than one list. The contact will be copied to the list
-            that you have selected and will remain in the old list, unless you remove it.
-          </p>
+            <p class="mb-3">
+              You can add a contact to more than one list. The contact will be copied to the list
+              that you have selected and will remain in the old list, unless you remove it.
+            </p>
 
 
-          <p class="mb-3">
-            To which list do you want to copy the contact?
-          </p>
+            <p class="mb-3">
+              To which list do you want to copy the contact?
+            </p>
 
-          <div class="select is-primary">
-            <select [(ngModel)]="selectedItem" name = "list"
-                    (ngModelChange)="onSelectedListChanged($event)">
+            <div class="select is-primary">
+              <select [(ngModel)]="selectedItem" name="list"
+                      (ngModelChange)="onSelectedListChanged($event)">
 
-              <!--Placeholder Option-->
-              <option
-                [value]="null"
-                [disabled]="true"
-                [selected]>
-                Select a list
-              </option>
+                <!--Placeholder Option-->
+                <option
+                  [value]="null"
+                  [disabled]="true"
+                  [selected]>
+                  Select a list
+                </option>
 
                 <option *ngFor="let list of lists"
-                        [value]="list.id" >{{ list.name }}</option>
+                        [value]="list.id">{{ list.name }}
+                </option>
 
-            </select>
-          </div>
+              </select>
+            </div>
 
-        </section>
-        <footer class="modal-card-foot">
+          </section>
+          <footer class="modal-card-foot">
 
-        </footer>
+          </footer>
+        </div>
       </div>
-    </div>
+    </ng-container>
 
+    <ng-template #noContact>
+      <div>
+        This contact does not exists.
+      </div>
+    </ng-template>
 
   </div>
 </div>
