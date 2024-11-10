@@ -1,7 +1,7 @@
 # Tasks:
 - [ ] Endpoint for downloading contacts as JSON (all fields except the list id of the contact)
 - [ ] Endpoint for uploading a JSON of contacts in a list (ask the user to which list they want to upload it)
-- [ ] Fix date of birth in front
+- [x] Fix date of birth in front
 - [ ] Recovery password feature
 - [x] Paginator in contacts page
 - [x] Sorting contacts feature
