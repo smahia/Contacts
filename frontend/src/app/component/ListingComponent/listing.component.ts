@@ -6,7 +6,8 @@ import {SearchListsPipe} from "../../pipe/searchLists/search-lists.pipe";
 import Swal from "sweetalert2";
 import {NewListRequest} from "../../request/NewListRequest";
 import {MyListsResponse} from "../../response/myListsResponse";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {LoginService} from "../../service/login/login.service";
 
 @Component({
   selector: 'app-listing',
@@ -46,7 +47,7 @@ export class ListingComponent implements OnInit {
     }
   );
 
-  constructor(private listingService: ListingService) {
+  constructor(private listingService: ListingService, private loginService: LoginService) {
   }
 
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class ListingComponent implements OnInit {
 
         }
       });
+
   }
 
   // For adding a new list modal
@@ -110,6 +112,7 @@ export class ListingComponent implements OnInit {
             Swal.fire({
               title: "Success",
               text: "The list has been saved",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(() => {
               this.isModalActive = false;
@@ -122,6 +125,7 @@ export class ListingComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 this.isModalActive = false;
@@ -150,6 +154,7 @@ export class ListingComponent implements OnInit {
             Swal.fire({
               title: "Success",
               text: "The list has been saved",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(() => {
               this.isEditingModalActive = false;
@@ -162,6 +167,7 @@ export class ListingComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 this.isModalActive = false;
@@ -205,6 +211,7 @@ export class ListingComponent implements OnInit {
             Swal.fire({
               icon: "error",
               title: "Oops...",
+              confirmButtonColor: "#00D1B2",
               text: error.error.message,
             }).then(
               () => {

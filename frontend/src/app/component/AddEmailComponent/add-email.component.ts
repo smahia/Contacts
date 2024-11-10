@@ -48,7 +48,8 @@ export class AddEmailComponent {
           next: value => {
             Swal.fire({
               title: "Email has been successfully added",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -61,6 +62,7 @@ export class AddEmailComponent {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();

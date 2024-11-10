@@ -45,7 +45,8 @@ export class AddTelephoneComponent {
           next: value => {
             Swal.fire({
               title: "Phone has been successfully added",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -58,6 +59,7 @@ export class AddTelephoneComponent {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();

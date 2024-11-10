@@ -45,7 +45,8 @@ export class AddAddressComponent {
           next: value => {
             Swal.fire({
               title: "Address has been successfully added",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -58,6 +59,7 @@ export class AddAddressComponent {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();

@@ -71,7 +71,8 @@ export class RegisterComponent {
 
             Swal.fire({
               title: "You have been successfully registered",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 this.registrationForm.reset();

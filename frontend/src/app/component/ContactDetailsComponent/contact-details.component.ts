@@ -177,6 +177,7 @@ export class ContactDetailsComponent implements OnInit {
                   icon: "error",
                   title: "Oops...",
                   text: "Something went wrong!",
+                  confirmButtonColor: "#00D1B2",
                 }).then(
                   () => {
                     window.location.reload();
@@ -240,7 +241,8 @@ export class ContactDetailsComponent implements OnInit {
 
                 Swal.fire({
                   title: "Email has been successfully changed",
-                  icon: "success"
+                  icon: "success",
+                  confirmButtonColor: "#00D1B2",
                 }).then(
                   () => {
                     this.editingEmailIndex = -1; // Reiniciar el índice de edición
@@ -254,6 +256,7 @@ export class ContactDetailsComponent implements OnInit {
                   icon: "error",
                   title: "Oops...",
                   text: "Something went wrong!",
+                  confirmButtonColor: "#00D1B2",
                 }).then(
                   () => {
                     window.location.reload();
@@ -317,7 +320,8 @@ export class ContactDetailsComponent implements OnInit {
 
                 Swal.fire({
                   title: "Address has been successfully changed",
-                  icon: "success"
+                  icon: "success",
+                  confirmButtonColor: "#00D1B2",
                 }).then(
                   () => {
                     this.editingAddressIndex = -1; // Reiniciar el índice de edición
@@ -331,6 +335,7 @@ export class ContactDetailsComponent implements OnInit {
                   icon: "error",
                   title: "Oops...",
                   text: "Something went wrong!",
+                  confirmButtonColor: "#00D1B2",
                 }).then(
                   () => {
                     window.location.reload();
@@ -403,6 +408,7 @@ export class ContactDetailsComponent implements OnInit {
             Swal.fire({
               title: "Success",
               text: "The contact has been saved",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(() => {
               this.isModalActive = false;
@@ -415,6 +421,7 @@ export class ContactDetailsComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 this.isModalActive = false;
@@ -458,6 +465,7 @@ export class ContactDetailsComponent implements OnInit {
             Swal.fire({
               title: "Deleted!",
               text: "The contact has been deleted.",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(
               () => {
@@ -471,6 +479,7 @@ export class ContactDetailsComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -502,6 +511,7 @@ export class ContactDetailsComponent implements OnInit {
             Swal.fire({
               title: "Deleted!",
               text: "The phone has been deleted.",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(
               () => {
@@ -515,6 +525,7 @@ export class ContactDetailsComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -546,6 +557,7 @@ export class ContactDetailsComponent implements OnInit {
             Swal.fire({
               title: "Deleted!",
               text: "The email has been deleted.",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(
               () => {
@@ -559,6 +571,7 @@ export class ContactDetailsComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -590,6 +603,7 @@ export class ContactDetailsComponent implements OnInit {
             Swal.fire({
               title: "Deleted!",
               text: "The address has been deleted.",
+              confirmButtonColor: "#00D1B2",
               icon: "success"
             }).then(
               () => {
@@ -603,6 +617,7 @@ export class ContactDetailsComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
@@ -658,6 +673,7 @@ export class ContactDetailsComponent implements OnInit {
               Swal.fire({
                 icon: "success",
                 title: "The contact was successfully copied",
+                confirmButtonColor: "#00D1B2",
               }).then(
                 () => {
                   window.location.reload();

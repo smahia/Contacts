@@ -48,7 +48,8 @@ export class ChangePasswordComponent {
 
             Swal.fire({
               title: "Your password has been successfully changed",
-              icon: "success"
+              icon: "success",
+              confirmButtonColor: "#00D1B2",
             }).then(
               () => {
                 window.location.reload();
